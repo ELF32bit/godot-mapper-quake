@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.map.resource"
+type="Resource"
+uid="uid://c6y3yw7ebnei3"
+path="res://.godot/imported/e1m7.map-3e146ef7c0764486b362aaad18195f48.res"
+
+[deps]
+
+source_file="res://mapping/quake/maps/e1m7.map"
+dest_files=["res://.godot/imported/e1m7.map-3e146ef7c0764486b362aaad18195f48.res"]
+
+[params]
+
+wads=[]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://bo5qkntv7wff0"
+path="res://.godot/imported/h_zombie.mdl-c32653d3c5e48aae03a4d4527ad9ad0e.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/h_zombie.mdl"
+dest_files=["res://.godot/imported/h_zombie.mdl-c32653d3c5e48aae03a4d4527ad9ad0e.res"]
+
+[params]
+
+palette=""

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://cnk1is4sofp7x"
+path="res://.godot/imported/tarbaby.mdl-edea6cc99303dd919e7e43190fef68a7.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/pak1/tarbaby.mdl"
+dest_files=["res://.godot/imported/tarbaby.mdl-edea6cc99303dd919e7e43190fef68a7.res"]
+
+[params]
+
+palette=""

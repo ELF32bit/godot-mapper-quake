@@ -10,8 +10,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var root := Node3D.new()
 	root.set_script(preload("../scripts/func_plat.gd"))
 	root.transform = node.transform
-	if map.settings.brush_aabb_metadata_property_enabled: # only for size
-		root.set_meta(map.settings.brush_aabb_metadata_property, entity.aabb)
+	#if map.settings.brush_aabb_metadata_property_enabled: # only for size
+	#	root.set_meta(map.settings.brush_aabb_metadata_property, entity.aabb)
 
 	var area := Area3D.new()
 	area.body_entered.connect(Callable(root, "_on_body_entered"), CONNECT_PERSIST)
@@ -160,11 +160,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	else:
 		collision_shape_retract_position = inverse_transform * (entity.aabb.get_center() + up_vector * (entity.aabb.size[up_axis_index] + extra_platform_height - height) / 2.0)
 		collision_shape_retract_size[up_axis_index] = height + extra_platform_height
-	if map.settings.brush_aabb_metadata_property_enabled:
-		var retract_area_aabb := AABB(collision_shape_retract_position, collision_shape_retract_size)
-		var extend_area_aabb := AABB(collision_shape_extend_position, collision_shape_extend_size)
-		area.set_meta(map.settings.brush_aabb_metadata_property + "_retracted", retract_area_aabb)
-		area.set_meta(map.settings.brush_aabb_metadata_property + "_extended", extend_area_aabb)
+	#if map.settings.brush_aabb_metadata_property_enabled:
+	#	var retract_area_aabb := AABB(collision_shape_retract_position, collision_shape_retract_size)
+	#	var extend_area_aabb := AABB(collision_shape_extend_position, collision_shape_extend_size)
+	#	area.set_meta(map.settings.brush_aabb_metadata_property + "_retracted", retract_area_aabb)
+	#	area.set_meta(map.settings.brush_aabb_metadata_property + "_extended", extend_area_aabb)
 	var frames := [0.0, animation_delay, offset / speed + animation_delay, offset / speed + 2.0 * animation_delay]
 
 	reset_animation.length = 0.0

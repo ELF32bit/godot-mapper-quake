@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://bvmu6nqw2ck46"
+path="res://.godot/imported/teleport.mdl-0ad40152d8e9085da0d881dd5d892f4b.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/pak1/teleport.mdl"
+dest_files=["res://.godot/imported/teleport.mdl-0ad40152d8e9085da0d881dd5d892f4b.res"]
+
+[params]
+
+palette=""

@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.wad.resource"
+type="Resource"
+uid="uid://crlr6558mq24f"
+path="res://.godot/imported/metal.wad-d5ef5a0e996fad8966a88b0e16597e3b.res"
+
+[deps]
+
+source_file="res://mapping/quake/wads/gfx/metal.wad"
+dest_files=["res://.godot/imported/metal.wad-d5ef5a0e996fad8966a88b0e16597e3b.res"]
+
+[params]
+
+palette=""
+use_threads=false

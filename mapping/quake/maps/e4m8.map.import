@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.map.resource"
+type="Resource"
+uid="uid://binyay8boytdk"
+path="res://.godot/imported/e4m8.map-c1cad1a0fc104b74050a2dc35d7bb85e.res"
+
+[deps]
+
+source_file="res://mapping/quake/maps/e4m8.map"
+dest_files=["res://.godot/imported/e4m8.map-c1cad1a0fc104b74050a2dc35d7bb85e.res"]
+
+[params]
+
+wads=[]

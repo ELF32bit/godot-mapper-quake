@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.wad.resource"
+type="Resource"
+uid="uid://b2txtvbgwjfrd"
+path="res://.godot/imported/base.wad-b07aee0c958e277c31afe7f98d774006.res"
+
+[deps]
+
+source_file="res://mapping/quake/wads/gfx/base.wad"
+dest_files=["res://.godot/imported/base.wad-b07aee0c958e277c31afe7f98d774006.res"]
+
+[params]
+
+palette=""
+use_threads=false

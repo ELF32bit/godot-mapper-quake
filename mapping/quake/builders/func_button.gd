@@ -10,8 +10,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var root := Node3D.new()
 	root.set_script(preload("../scripts/func_button.gd"))
 	root.transform = node.transform
-	if map.settings.brush_aabb_metadata_property_enabled: # only for size
-		root.set_meta(map.settings.brush_aabb_metadata_property, entity.aabb)
+	#if map.settings.brush_aabb_metadata_property_enabled: # only for size
+	#	root.set_meta(map.settings.brush_aabb_metadata_property, entity.aabb)
 
 	var area := Area3D.new()
 	area.body_entered.connect(Callable(root, "_on_body_entered"), CONNECT_PERSIST)
@@ -27,8 +27,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	collision_shape.shape = BoxShape3D.new()
 	var grow_units: float = 16.0 / map.settings.unit_size
 	collision_shape.shape.size = entity.aabb.grow(grow_units).size
-	if map.settings.brush_aabb_metadata_property_enabled:
-		area.set_meta(map.settings.brush_aabb_metadata_property, entity.aabb.grow(grow_units))
+	#if map.settings.brush_aabb_metadata_property_enabled:
+	#	area.set_meta(map.settings.brush_aabb_metadata_property, entity.aabb.grow(grow_units))
 
 	var entity_health: int = entity.get_int_property("health", 0)
 	if entity_health > 0:

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://biswcrw5vntpw"
+path="res://.godot/imported/g_rock.mdl-ee47b3298ff98c7537383657fa8b3965.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/g_rock.mdl"
+dest_files=["res://.godot/imported/g_rock.mdl-ee47b3298ff98c7537383657fa8b3965.res"]
+
+[params]
+
+palette=""

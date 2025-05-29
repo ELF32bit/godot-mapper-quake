@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.map.resource"
+type="Resource"
+uid="uid://esm3dbdro6fq"
+path="res://.godot/imported/b_batt0.map-eda28dd477ef4c75bf66302cfe924faf.res"
+
+[deps]
+
+source_file="res://mapping/quake/maps/items/b_batt0.map"
+dest_files=["res://.godot/imported/b_batt0.map-eda28dd477ef4c75bf66302cfe924faf.res"]
+
+[params]
+
+wads=[]

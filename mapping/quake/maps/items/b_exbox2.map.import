@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.map.resource"
+type="Resource"
+uid="uid://cglxoiuxarhbe"
+path="res://.godot/imported/b_exbox2.map-5e809d6e1532c380c858f46f26de2f0c.res"
+
+[deps]
+
+source_file="res://mapping/quake/maps/items/b_exbox2.map"
+dest_files=["res://.godot/imported/b_exbox2.map-5e809d6e1532c380c858f46f26de2f0c.res"]
+
+[params]
+
+wads=[]

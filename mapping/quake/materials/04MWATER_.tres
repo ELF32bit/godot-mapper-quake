@@ -9,6 +9,7 @@ shader_parameter/flow_intensity = 0.15
 shader_parameter/flow_speed = 2.0
 shader_parameter/emission_enabled = false
 shader_parameter/emission_energy_multiplier = 4.0
+shader_parameter/quake_water = false
 metadata/liquid = 1
 metadata/mesh_disabled = true
 metadata/collision_disabled = true

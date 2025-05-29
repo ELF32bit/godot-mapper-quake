@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://b8g0dw04eu4gw"
+path="res://.godot/imported/demon.mdl-9b058c8d52e74c15ce9e7fcdeadaf40b.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/demon.mdl"
+dest_files=["res://.godot/imported/demon.mdl-9b058c8d52e74c15ce9e7fcdeadaf40b.res"]
+
+[params]
+
+palette=""

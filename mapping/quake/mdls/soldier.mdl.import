@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://bqifdvvobyksc"
+path="res://.godot/imported/soldier.mdl-f23db86f85f356281c0f83bc8a5f3e5a.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/soldier.mdl"
+dest_files=["res://.godot/imported/soldier.mdl-f23db86f85f356281c0f83bc8a5f3e5a.res"]
+
+[params]
+
+palette=""

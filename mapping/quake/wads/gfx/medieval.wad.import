@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.wad.resource"
+type="Resource"
+uid="uid://454epupdrep1"
+path="res://.godot/imported/medieval.wad-5b8d510c5a8baf2b23d959d5ad0c5d35.res"
+
+[deps]
+
+source_file="res://mapping/quake/wads/gfx/medieval.wad"
+dest_files=["res://.godot/imported/medieval.wad-5b8d510c5a8baf2b23d959d5ad0c5d35.res"]
+
+[params]
+
+palette=""
+use_threads=false

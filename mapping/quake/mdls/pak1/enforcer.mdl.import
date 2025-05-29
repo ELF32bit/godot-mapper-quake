@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dipaksq71q7u4"
+path="res://.godot/imported/enforcer.mdl-b89b197f157e67cdfa0b4c2fac705b46.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/pak1/enforcer.mdl"
+dest_files=["res://.godot/imported/enforcer.mdl-b89b197f157e67cdfa0b4c2fac705b46.res"]
+
+[params]
+
+palette=""

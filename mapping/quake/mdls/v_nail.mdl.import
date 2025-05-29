@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dsxgifciklg0e"
+path="res://.godot/imported/v_nail.mdl-bbb14a322ddc3ecf6bfa9de291a2ab0c.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/v_nail.mdl"
+dest_files=["res://.godot/imported/v_nail.mdl-bbb14a322ddc3ecf6bfa9de291a2ab0c.res"]
+
+[params]
+
+palette=""

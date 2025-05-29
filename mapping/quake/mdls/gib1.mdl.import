@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://00mqyfnxewnd"
+path="res://.godot/imported/gib1.mdl-c590fc5d1ebb15622988e7af15fb968f.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/gib1.mdl"
+dest_files=["res://.godot/imported/gib1.mdl-c590fc5d1ebb15622988e7af15fb968f.res"]
+
+[params]
+
+palette=""

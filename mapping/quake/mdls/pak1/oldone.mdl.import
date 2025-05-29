@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://ecf23pok8vty"
+path="res://.godot/imported/oldone.mdl-e94cad9f9569c76a000fb9566424663a.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/pak1/oldone.mdl"
+dest_files=["res://.godot/imported/oldone.mdl-e94cad9f9569c76a000fb9566424663a.res"]
+
+[params]
+
+palette=""

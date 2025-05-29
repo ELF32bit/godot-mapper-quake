@@ -116,9 +116,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	collision_shape.shape = BoxShape3D.new()
 	collision_shape.shape.size = area_aabb.grow(grow_units).size
-	if map.settings.brush_aabb_metadata_property_enabled:
-		area.set_meta(map.settings.brush_aabb_metadata_property, area_aabb.grow(grow_units))
-		root.set_meta(map.settings.brush_aabb_metadata_property, area_aabb)
+	#if map.settings.brush_aabb_metadata_property_enabled:
+	#	area.set_meta(map.settings.brush_aabb_metadata_property, area_aabb.grow(grow_units))
+	#	root.set_meta(map.settings.brush_aabb_metadata_property, area_aabb)
 
 	var animation_player := AnimationPlayer.new()
 	animation_player.playback_process_mode = AnimationPlayer.ANIMATION_PROCESS_PHYSICS

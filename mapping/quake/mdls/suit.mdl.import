@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://bpw4n61l1n5kp"
+path="res://.godot/imported/suit.mdl-ab853e1eee439ec9d3cf07a6eb34ff2c.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/suit.mdl"
+dest_files=["res://.godot/imported/suit.mdl-ab853e1eee439ec9d3cf07a6eb34ff2c.res"]
+
+[params]
+
+palette=""

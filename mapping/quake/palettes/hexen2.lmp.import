@@ -1,0 +1,14 @@
+[remap]
+
+importer="mapper.palette.resource"
+type="Resource"
+uid="uid://dlxyqnp1uryye"
+path="res://.godot/imported/hexen2.lmp-b78a6f445fc9a95517a0ec4585553f7f.res"
+
+[deps]
+
+source_file="res://mapping/quake/palettes/hexen2.lmp"
+dest_files=["res://.godot/imported/hexen2.lmp-b78a6f445fc9a95517a0ec4585553f7f.res"]
+
+[params]
+
