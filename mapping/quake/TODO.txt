@@ -1,0 +1,39 @@
+func_door_secret # uses different from door flags
+
+info_player_start2
+info_player_deathmatch
+info_player_coop
+
+# implement generic trigger
+item_*
+weapon_*
+
+light
+light_fluoro
+light_fluorospark
+light_globe
+light_flame_large_yellow
+light_flame_small_yellow
+light_flame_small_white
+light_torch_small_walltorch
+
+# misc entities
+air_bubbles
+event_lightning
+misc_explobox # exploding barrel
+misc_explobox2 # exploding barrel
+misc_fireball
+misc_noisemaker
+testplayerstart
+trap_shooter
+trap_spikeshooter
+viewthing
+
+trigger_changelevel
+trigger_once # implement health version
+trigger_multiple
+trigger_onlyregistered
+trigger_secret
+trigger_setskill
+trigger_monsterjump
+trigger_hurt

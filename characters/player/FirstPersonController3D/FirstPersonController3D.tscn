@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://qyjgwsd55mck"]
+
+[ext_resource type="Script" path="res://characters/player/FirstPersonController3D/FirstPersonController3D.gd" id="1_fk0n8"]
+[ext_resource type="PackedScene" uid="uid://dp4ir50jt2kwu" path="res://characters/player/RayCastCamera3D/RayCastCamera3D.tscn" id="2_47ucn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wk1yp"]
+radius = 0.25
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wjibo"]
+height = 1.8
+
+[node name="FirstPersonController3D" type="CharacterBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+floor_constant_speed = true
+floor_max_angle = 0.802851
+floor_snap_length = 2.0
+script = ExtResource("1_fk0n8")
+
+[node name="Camera3D" parent="." instance=ExtResource("2_47ucn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+top_level = true
+select_distance = 2.0
+
+[node name="SpringArm3D" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+shape = SubResource("SphereShape3D_wk1yp")
+spring_length = 0.0
+
+[node name="Camera3D" type="Node3D" parent="SpringArm3D/SpringArm3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_wjibo")
