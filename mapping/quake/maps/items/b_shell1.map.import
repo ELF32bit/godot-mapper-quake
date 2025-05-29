@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.map.resource"
+type="Resource"
+uid="uid://deejsddxy4fbw"
+path="res://.godot/imported/b_shell1.map-5463d1a4068811268396215ab21a5a66.res"
+
+[deps]
+
+source_file="res://mapping/quake/maps/items/b_shell1.map"
+dest_files=["res://.godot/imported/b_shell1.map-5463d1a4068811268396215ab21a5a66.res"]
+
+[params]
+
+wads=[]

@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.wad.resource"
+type="Resource"
+uid="uid://dg2ogvhydunlw"
+path="res://.godot/imported/jr_med.wad-067f7d8ba3e8217af65fb7658af9006b.res"
+
+[deps]
+
+source_file="res://mapping/quake/wads/gfx/jr_med.wad"
+dest_files=["res://.godot/imported/jr_med.wad-067f7d8ba3e8217af65fb7658af9006b.res"]
+
+[params]
+
+palette=""
+use_threads=false

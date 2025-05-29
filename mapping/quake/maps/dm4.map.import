@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.map.resource"
+type="Resource"
+uid="uid://c031eb66y32qt"
+path="res://.godot/imported/dm4.map-15c4b91c169d403e4d2216b3686dd2dc.res"
+
+[deps]
+
+source_file="res://mapping/quake/maps/dm4.map"
+dest_files=["res://.godot/imported/dm4.map-15c4b91c169d403e4d2216b3686dd2dc.res"]
+
+[params]
+
+wads=[]

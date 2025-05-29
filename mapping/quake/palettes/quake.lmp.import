@@ -1,0 +1,14 @@
+[remap]
+
+importer="mapper.palette.resource"
+type="Resource"
+uid="uid://dkokugkuytotq"
+path="res://.godot/imported/quake.lmp-2569a86d49a64701e3de9720175eefb8.res"
+
+[deps]
+
+source_file="res://mapping/quake/palettes/quake.lmp"
+dest_files=["res://.godot/imported/quake.lmp-2569a86d49a64701e3de9720175eefb8.res"]
+
+[params]
+
