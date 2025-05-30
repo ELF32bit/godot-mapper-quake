@@ -3,8 +3,7 @@ extends Node3D
 
 func _ready() -> void:
 	var map_resource: MapperMapResource = null
-	#map_resource = load("res://mapping/quake/maps/e1m%s.map" % str(randi() % 8 + 1))
-	map_resource = load("res://mapping/quake/maps/e1m1.map")
+	map_resource = MapperMapResource.load_from_file("res://mapping/quake/maps/e3m6.map")
 
 	var map_options := {}
 	map_options["game_directory"] = "res://mapping/quake"
