@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://dcvuj711d0ssx"
-path="res://.godot/imported/missile.mdl-d9a77a5dba3162ce7ba44aeac85a868b.res"
+path="res://.godot/imported/missile.mdl-d9a77a5dba3162ce7ba44aeac85a868b.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/misc/missile.mdl"
-dest_files=["res://.godot/imported/missile.mdl-d9a77a5dba3162ce7ba44aeac85a868b.res"]
+dest_files=["res://.godot/imported/missile.mdl-d9a77a5dba3162ce7ba44aeac85a868b.scn"]
 
 [params]
 
 palette=""
+options={}

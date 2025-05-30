@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://b8elr17os0gcd"
-path="res://.godot/imported/boss.mdl-9adb621247e3a09d5e22e5ecc3652687.res"
+path="res://.godot/imported/boss.mdl-9adb621247e3a09d5e22e5ecc3652687.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/boss.mdl"
-dest_files=["res://.godot/imported/boss.mdl-9adb621247e3a09d5e22e5ecc3652687.res"]
+dest_files=["res://.godot/imported/boss.mdl-9adb621247e3a09d5e22e5ecc3652687.scn"]
 
 [params]
 
 palette=""
+options={}

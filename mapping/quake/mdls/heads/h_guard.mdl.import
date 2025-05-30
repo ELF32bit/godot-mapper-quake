@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://d2xqqws8go8ov"
-path="res://.godot/imported/h_guard.mdl-1ed472328a0488b1424ab120e69d3cc2.res"
+path="res://.godot/imported/h_guard.mdl-1ed472328a0488b1424ab120e69d3cc2.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/heads/h_guard.mdl"
-dest_files=["res://.godot/imported/h_guard.mdl-1ed472328a0488b1424ab120e69d3cc2.res"]
+dest_files=["res://.godot/imported/h_guard.mdl-1ed472328a0488b1424ab120e69d3cc2.scn"]
 
 [params]
 
 palette=""
+options={}

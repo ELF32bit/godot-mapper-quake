@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://b8g0dw04eu4gw"
-path="res://.godot/imported/demon.mdl-5c1b4aa721035587742997ad1b734f52.res"
+path="res://.godot/imported/demon.mdl-5c1b4aa721035587742997ad1b734f52.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/demon.mdl"
-dest_files=["res://.godot/imported/demon.mdl-5c1b4aa721035587742997ad1b734f52.res"]
+dest_files=["res://.godot/imported/demon.mdl-5c1b4aa721035587742997ad1b734f52.scn"]
 
 [params]
 
 palette=""
+options={}

@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://dbi7mkbspxywm"
-path="res://.godot/imported/dog.mdl-7366a8316fe6788228baaaf8d8b34cb9.res"
+path="res://.godot/imported/dog.mdl-7366a8316fe6788228baaaf8d8b34cb9.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/dog.mdl"
-dest_files=["res://.godot/imported/dog.mdl-7366a8316fe6788228baaaf8d8b34cb9.res"]
+dest_files=["res://.godot/imported/dog.mdl-7366a8316fe6788228baaaf8d8b34cb9.scn"]
 
 [params]
 
 palette=""
+options={}

@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://bf6uc85uf83s7"
-path="res://.godot/imported/h_knight.mdl-2aff4ed5994d50b5ea599e1b4dc52512.res"
+path="res://.godot/imported/h_knight.mdl-2aff4ed5994d50b5ea599e1b4dc52512.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/heads/h_knight.mdl"
-dest_files=["res://.godot/imported/h_knight.mdl-2aff4ed5994d50b5ea599e1b4dc52512.res"]
+dest_files=["res://.godot/imported/h_knight.mdl-2aff4ed5994d50b5ea599e1b4dc52512.scn"]
 
 [params]
 
 palette=""
+options={}

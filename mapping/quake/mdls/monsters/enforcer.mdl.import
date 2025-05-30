@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://dipaksq71q7u4"
-path="res://.godot/imported/enforcer.mdl-bb7949974f6aae6e46d96d53a1f8dcc1.res"
+path="res://.godot/imported/enforcer.mdl-bb7949974f6aae6e46d96d53a1f8dcc1.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/enforcer.mdl"
-dest_files=["res://.godot/imported/enforcer.mdl-bb7949974f6aae6e46d96d53a1f8dcc1.res"]
+dest_files=["res://.godot/imported/enforcer.mdl-bb7949974f6aae6e46d96d53a1f8dcc1.scn"]
 
 [params]
 
 palette=""
+options={}

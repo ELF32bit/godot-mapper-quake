@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://cnk1is4sofp7x"
-path="res://.godot/imported/tarbaby.mdl-39891b4bb33e4dd1d5b587f953ddb349.res"
+path="res://.godot/imported/tarbaby.mdl-39891b4bb33e4dd1d5b587f953ddb349.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/tarbaby.mdl"
-dest_files=["res://.godot/imported/tarbaby.mdl-39891b4bb33e4dd1d5b587f953ddb349.res"]
+dest_files=["res://.godot/imported/tarbaby.mdl-39891b4bb33e4dd1d5b587f953ddb349.scn"]
 
 [params]
 
 palette=""
+options={}

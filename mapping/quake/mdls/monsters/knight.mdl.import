@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://chanbq3u56bc2"
-path="res://.godot/imported/knight.mdl-d23dca737946ea6ba87da31c1cdd0868.res"
+path="res://.godot/imported/knight.mdl-d23dca737946ea6ba87da31c1cdd0868.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/knight.mdl"
-dest_files=["res://.godot/imported/knight.mdl-d23dca737946ea6ba87da31c1cdd0868.res"]
+dest_files=["res://.godot/imported/knight.mdl-d23dca737946ea6ba87da31c1cdd0868.scn"]
 
 [params]
 
 palette=""
+options={}

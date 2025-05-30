@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://bln2r3xdwjox8"
-path="res://.godot/imported/shambler.mdl-d637320d7d980097e4fd8bf946a58835.res"
+path="res://.godot/imported/shambler.mdl-d637320d7d980097e4fd8bf946a58835.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/shambler.mdl"
-dest_files=["res://.godot/imported/shambler.mdl-d637320d7d980097e4fd8bf946a58835.res"]
+dest_files=["res://.godot/imported/shambler.mdl-d637320d7d980097e4fd8bf946a58835.scn"]
 
 [params]
 
 palette=""
+options={}

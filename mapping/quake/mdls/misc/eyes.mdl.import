@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://buk5jfer6idvu"
-path="res://.godot/imported/eyes.mdl-27c06e209c0a1832c1a678fb6e998515.res"
+path="res://.godot/imported/eyes.mdl-27c06e209c0a1832c1a678fb6e998515.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/misc/eyes.mdl"
-dest_files=["res://.godot/imported/eyes.mdl-27c06e209c0a1832c1a678fb6e998515.res"]
+dest_files=["res://.godot/imported/eyes.mdl-27c06e209c0a1832c1a678fb6e998515.scn"]
 
 [params]
 
 palette=""
+options={}

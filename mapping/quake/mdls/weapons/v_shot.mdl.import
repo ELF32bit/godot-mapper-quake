@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://d20wc4kf73yyn"
-path="res://.godot/imported/v_shot.mdl-f4c63d59a66bfa036a141b01a7bf08be.res"
+path="res://.godot/imported/v_shot.mdl-f4c63d59a66bfa036a141b01a7bf08be.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/weapons/v_shot.mdl"
-dest_files=["res://.godot/imported/v_shot.mdl-f4c63d59a66bfa036a141b01a7bf08be.res"]
+dest_files=["res://.godot/imported/v_shot.mdl-f4c63d59a66bfa036a141b01a7bf08be.scn"]
 
 [params]
 
 palette=""
+options={}

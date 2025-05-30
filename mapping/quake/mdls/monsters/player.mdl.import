@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://ctynhovgk0kjq"
-path="res://.godot/imported/player.mdl-c01f7392d1e351d2279f5cd9865105ac.res"
+path="res://.godot/imported/player.mdl-c01f7392d1e351d2279f5cd9865105ac.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/player.mdl"
-dest_files=["res://.godot/imported/player.mdl-c01f7392d1e351d2279f5cd9865105ac.res"]
+dest_files=["res://.godot/imported/player.mdl-c01f7392d1e351d2279f5cd9865105ac.scn"]
 
 [params]
 
 palette=""
+options={}

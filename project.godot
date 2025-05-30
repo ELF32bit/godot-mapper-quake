@@ -16,6 +16,7 @@ config/features=PackedStringArray("4.2", "Mobile")
 
 [editor]
 
+naming/node_name_num_separator=3
 import/use_multiple_threads=false
 
 [editor_plugins]

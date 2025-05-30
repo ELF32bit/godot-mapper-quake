@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://i0go225png2p"
-path="res://.godot/imported/h_dog.mdl-add3e45372a5ac3fcb43fffb032aa29f.res"
+path="res://.godot/imported/h_dog.mdl-add3e45372a5ac3fcb43fffb032aa29f.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/heads/h_dog.mdl"
-dest_files=["res://.godot/imported/h_dog.mdl-add3e45372a5ac3fcb43fffb032aa29f.res"]
+dest_files=["res://.godot/imported/h_dog.mdl-add3e45372a5ac3fcb43fffb032aa29f.scn"]
 
 [params]
 
 palette=""
+options={}

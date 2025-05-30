@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://dq1krcfbce1jr"
-path="res://.godot/imported/backpack.mdl-389f1368cef9d22adf307da926149ae5.res"
+path="res://.godot/imported/backpack.mdl-389f1368cef9d22adf307da926149ae5.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/items/backpack.mdl"
-dest_files=["res://.godot/imported/backpack.mdl-389f1368cef9d22adf307da926149ae5.res"]
+dest_files=["res://.godot/imported/backpack.mdl-389f1368cef9d22adf307da926149ae5.scn"]
 
 [params]
 
 palette=""
+options={}

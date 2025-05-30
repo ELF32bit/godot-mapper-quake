@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://dsxgifciklg0e"
-path="res://.godot/imported/v_nail.mdl-6fd1224519490574e9eea05c5b9c6b01.res"
+path="res://.godot/imported/v_nail.mdl-6fd1224519490574e9eea05c5b9c6b01.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/weapons/v_nail.mdl"
-dest_files=["res://.godot/imported/v_nail.mdl-6fd1224519490574e9eea05c5b9c6b01.res"]
+dest_files=["res://.godot/imported/v_nail.mdl-6fd1224519490574e9eea05c5b9c6b01.scn"]
 
 [params]
 
 palette=""
+options={}

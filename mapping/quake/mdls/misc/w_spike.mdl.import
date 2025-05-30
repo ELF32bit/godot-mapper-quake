@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://ctcliknlrx0o0"
-path="res://.godot/imported/w_spike.mdl-e0dc8fc8a7dc9af5c8db67f077ba8802.res"
+path="res://.godot/imported/w_spike.mdl-e0dc8fc8a7dc9af5c8db67f077ba8802.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/misc/w_spike.mdl"
-dest_files=["res://.godot/imported/w_spike.mdl-e0dc8fc8a7dc9af5c8db67f077ba8802.res"]
+dest_files=["res://.godot/imported/w_spike.mdl-e0dc8fc8a7dc9af5c8db67f077ba8802.scn"]
 
 [params]
 
 palette=""
+options={}

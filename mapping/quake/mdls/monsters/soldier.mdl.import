@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://bqifdvvobyksc"
-path="res://.godot/imported/soldier.mdl-d36882586dd5f8c0e11bbc8dedf3e1cf.res"
+path="res://.godot/imported/soldier.mdl-d36882586dd5f8c0e11bbc8dedf3e1cf.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/monsters/soldier.mdl"
-dest_files=["res://.godot/imported/soldier.mdl-d36882586dd5f8c0e11bbc8dedf3e1cf.res"]
+dest_files=["res://.godot/imported/soldier.mdl-d36882586dd5f8c0e11bbc8dedf3e1cf.scn"]
 
 [params]
 
 palette=""
+options={}

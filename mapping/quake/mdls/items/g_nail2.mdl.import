@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://1yi2tt0yxrid"
-path="res://.godot/imported/g_nail2.mdl-11c5328d76ebfa3aff3df0cba1876b61.res"
+path="res://.godot/imported/g_nail2.mdl-11c5328d76ebfa3aff3df0cba1876b61.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/items/g_nail2.mdl"
-dest_files=["res://.godot/imported/g_nail2.mdl-11c5328d76ebfa3aff3df0cba1876b61.res"]
+dest_files=["res://.godot/imported/g_nail2.mdl-11c5328d76ebfa3aff3df0cba1876b61.scn"]
 
 [params]
 
 palette=""
+options={}

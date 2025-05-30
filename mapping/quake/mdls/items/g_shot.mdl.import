@@ -1,15 +1,16 @@
 [remap]
 
-importer="mapper.mdl.resource"
-type="Resource"
+importer="mapper.mdl.scene"
+type="PackedScene"
 uid="uid://5ic2rmuhnss6"
-path="res://.godot/imported/g_shot.mdl-b2e33e7253c8be9f70c6afe1ec39703c.res"
+path="res://.godot/imported/g_shot.mdl-b2e33e7253c8be9f70c6afe1ec39703c.scn"
 
 [deps]
 
 source_file="res://mapping/quake/mdls/items/g_shot.mdl"
-dest_files=["res://.godot/imported/g_shot.mdl-b2e33e7253c8be9f70c6afe1ec39703c.res"]
+dest_files=["res://.godot/imported/g_shot.mdl-b2e33e7253c8be9f70c6afe1ec39703c.scn"]
 
 [params]
 
 palette=""
+options={}
