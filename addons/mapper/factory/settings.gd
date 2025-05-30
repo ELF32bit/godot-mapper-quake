@@ -75,7 +75,7 @@ var options: Dictionary
 @export var store_barycentric_coordinates := true # instead of vertex colors
 @export var use_advanced_barycentric_coordinates := true # with alpha values
 @export var prefer_static_lighting := true # preference for build scripts
-@export var max_populate_density: float = 4.0 # for a single axis
+@export var max_distribution_density: float = 4.0 # per axis
 
 @export var store_base_materials := true
 @export var base_materials_texture_filter := BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
@@ -215,7 +215,7 @@ var options: Dictionary
 
 @export var post_build_script_enabled := true
 @export var post_build_script_name: StringName = "__post"
-@export var post_build_faces_colors_enabled := false # requires barycentric coordinates disabled
+@export var post_build_faces_colors_enabled := true
 @export var post_build_faces_colors_method: StringName = "__build_faces_colors"
 
 @export var warn_about_degenerate_brushes := true
