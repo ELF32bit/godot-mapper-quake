@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://b3x2ypw5k7e8x"
+path="res://.godot/imported/end2.mdl-b447715cec149aa07398f25f46765bdf.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/items/end2.mdl"
+dest_files=["res://.godot/imported/end2.mdl-b447715cec149aa07398f25f46765bdf.res"]
+
+[params]
+
+palette=""

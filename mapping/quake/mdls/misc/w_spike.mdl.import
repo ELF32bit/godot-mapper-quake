@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://ctcliknlrx0o0"
+path="res://.godot/imported/w_spike.mdl-e0dc8fc8a7dc9af5c8db67f077ba8802.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/w_spike.mdl"
+dest_files=["res://.godot/imported/w_spike.mdl-e0dc8fc8a7dc9af5c8db67f077ba8802.res"]
+
+[params]
+
+palette=""

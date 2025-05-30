@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://buk5jfer6idvu"
+path="res://.godot/imported/eyes.mdl-27c06e209c0a1832c1a678fb6e998515.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/eyes.mdl"
+dest_files=["res://.godot/imported/eyes.mdl-27c06e209c0a1832c1a678fb6e998515.res"]
+
+[params]
+
+palette=""

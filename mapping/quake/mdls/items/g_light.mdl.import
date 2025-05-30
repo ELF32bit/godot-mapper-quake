@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dbquqfgahcf5y"
+path="res://.godot/imported/g_light.mdl-40171c5826227f4e840eb757286816ac.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/items/g_light.mdl"
+dest_files=["res://.godot/imported/g_light.mdl-40171c5826227f4e840eb757286816ac.res"]
+
+[params]
+
+palette=""

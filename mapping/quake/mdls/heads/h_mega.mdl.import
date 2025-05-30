@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://cdea26acfgjcf"
+path="res://.godot/imported/h_mega.mdl-6ce32a237849dd87e7779b23019774c6.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/heads/h_mega.mdl"
+dest_files=["res://.godot/imported/h_mega.mdl-6ce32a237849dd87e7779b23019774c6.res"]
+
+[params]
+
+palette=""

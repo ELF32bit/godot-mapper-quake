@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dfsa72f0mstn5"
+path="res://.godot/imported/invulner.mdl-830a555098953cb4e0c6cbd35e2ae83e.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/items/invulner.mdl"
+dest_files=["res://.godot/imported/invulner.mdl-830a555098953cb4e0c6cbd35e2ae83e.res"]
+
+[params]
+
+palette=""

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dd48jjcpivlao"
+path="res://.godot/imported/quaddama.mdl-07e9879a0bcb4f556c809965f069e100.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/items/quaddama.mdl"
+dest_files=["res://.godot/imported/quaddama.mdl-07e9879a0bcb4f556c809965f069e100.res"]
+
+[params]
+
+palette=""

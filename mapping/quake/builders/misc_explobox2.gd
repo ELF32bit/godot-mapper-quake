@@ -17,7 +17,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			var c_mesh_instance := mesh_instance.duplicate()
 			c_mesh_instance.transform = node.transform * MapperUtilities.get_tree_transform(mesh_instance)
 			MapperUtilities.add_global_child(c_mesh_instance, body, map.settings)
-		scene_instance.queue_free()
+		scene_instance.free()
 
 	var collision_shape = CollisionShape3D.new()
 	collision_shape.shape = BoxShape3D.new()

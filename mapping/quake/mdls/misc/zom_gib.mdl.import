@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dhsnoktb3bqj8"
+path="res://.godot/imported/zom_gib.mdl-ceadc8af85a4306fb714746ea4e9f856.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/zom_gib.mdl"
+dest_files=["res://.godot/imported/zom_gib.mdl-ceadc8af85a4306fb714746ea4e9f856.res"]
+
+[params]
+
+palette=""

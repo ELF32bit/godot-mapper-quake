@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://ctynhovgk0kjq"
+path="res://.godot/imported/player.mdl-c01f7392d1e351d2279f5cd9865105ac.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/player.mdl"
+dest_files=["res://.godot/imported/player.mdl-c01f7392d1e351d2279f5cd9865105ac.res"]
+
+[params]
+
+palette=""

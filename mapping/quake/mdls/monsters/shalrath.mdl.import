@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dd46bw2cmta43"
+path="res://.godot/imported/shalrath.mdl-ca757131a11acf6060691f9974096f49.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/shalrath.mdl"
+dest_files=["res://.godot/imported/shalrath.mdl-ca757131a11acf6060691f9974096f49.res"]
+
+[params]
+
+palette=""

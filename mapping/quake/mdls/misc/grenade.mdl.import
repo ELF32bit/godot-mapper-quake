@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://c87yp55gkfk57"
+path="res://.godot/imported/grenade.mdl-a11364bc48d375c5c3594024fde34a49.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/grenade.mdl"
+dest_files=["res://.godot/imported/grenade.mdl-a11364bc48d375c5c3594024fde34a49.res"]
+
+[params]
+
+palette=""

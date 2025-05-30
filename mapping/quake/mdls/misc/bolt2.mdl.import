@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://b4ftsq7m1a0up"
+path="res://.godot/imported/bolt2.mdl-d89f71a1fcd55535203f5c92374d6812.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/bolt2.mdl"
+dest_files=["res://.godot/imported/bolt2.mdl-d89f71a1fcd55535203f5c92374d6812.res"]
+
+[params]
+
+palette=""

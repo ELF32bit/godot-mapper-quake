@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://jahoam7im7ey"
+path="res://.godot/imported/flame.mdl-90c794bd82de0928e499e9614c1280b8.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/flame.mdl"
+dest_files=["res://.godot/imported/flame.mdl-90c794bd82de0928e499e9614c1280b8.res"]
+
+[params]
+
+palette=""

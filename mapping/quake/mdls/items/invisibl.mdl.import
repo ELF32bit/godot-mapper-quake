@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://b0ngfmoxgp0xa"
+path="res://.godot/imported/invisibl.mdl-4785e45836c45fb2df673d4e681fb092.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/items/invisibl.mdl"
+dest_files=["res://.godot/imported/invisibl.mdl-4785e45836c45fb2df673d4e681fb092.res"]
+
+[params]
+
+palette=""

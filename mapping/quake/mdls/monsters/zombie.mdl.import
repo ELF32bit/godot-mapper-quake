@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://b1t7e3xakog5a"
+path="res://.godot/imported/zombie.mdl-2e053bd31d1f4c551711bea3085a5a61.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/zombie.mdl"
+dest_files=["res://.godot/imported/zombie.mdl-2e053bd31d1f4c551711bea3085a5a61.res"]
+
+[params]
+
+palette=""

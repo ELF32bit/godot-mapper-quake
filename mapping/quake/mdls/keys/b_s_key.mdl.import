@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://b8wi06itmcj2i"
+path="res://.godot/imported/b_s_key.mdl-4acbddfa834fc00970e257728621f460.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/keys/b_s_key.mdl"
+dest_files=["res://.godot/imported/b_s_key.mdl-4acbddfa834fc00970e257728621f460.res"]
+
+[params]
+
+palette=""

@@ -2,7 +2,7 @@
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := AudioStreamPlayer3D.new()
 
-	match entity.properties.get("classname"):
+	match entity.get_classname_property(""):
 		"ambient_drip":
 			node.stream = preload("../sounds/ambience/drip1.wav")
 		"ambient_drone":

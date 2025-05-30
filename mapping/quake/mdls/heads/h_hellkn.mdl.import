@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dc7p3dm6jbdu0"
+path="res://.godot/imported/h_hellkn.mdl-0a25b41ba5ac034bfd7e2474af19b645.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/heads/h_hellkn.mdl"
+dest_files=["res://.godot/imported/h_hellkn.mdl-0a25b41ba5ac034bfd7e2474af19b645.res"]
+
+[params]
+
+palette=""

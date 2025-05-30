@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://ciaucvgjel1ca"
+path="res://.godot/imported/fish.mdl-757ca09ba71a2249f3c05bd8c76278f0.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/fish.mdl"
+dest_files=["res://.godot/imported/fish.mdl-757ca09ba71a2249f3c05bd8c76278f0.res"]
+
+[params]
+
+palette=""

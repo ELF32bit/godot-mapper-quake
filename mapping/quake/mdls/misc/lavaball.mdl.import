@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://bjq3qti3u0xtk"
+path="res://.godot/imported/lavaball.mdl-919661feddcc8e323594fb3de774bafa.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/lavaball.mdl"
+dest_files=["res://.godot/imported/lavaball.mdl-919661feddcc8e323594fb3de774bafa.res"]
+
+[params]
+
+palette=""

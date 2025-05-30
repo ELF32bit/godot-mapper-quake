@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://ct2i5kgsbvkbm"
+path="res://.godot/imported/h_player.mdl-53bb5302742348511b970839361e1128.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/heads/h_player.mdl"
+dest_files=["res://.godot/imported/h_player.mdl-53bb5302742348511b970839361e1128.res"]
+
+[params]
+
+palette=""

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dxrwe4r7xvecx"
+path="res://.godot/imported/hknight.mdl-8de7549fa7df4bda91e7df820e0a7c4b.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/hknight.mdl"
+dest_files=["res://.godot/imported/hknight.mdl-8de7549fa7df4bda91e7df820e0a7c4b.res"]
+
+[params]
+
+palette=""

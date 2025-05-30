@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://g33uspfrw0od"
+path="res://.godot/imported/v_shot2.mdl-cab174a48afadbc9f1c590f6c0f58d0a.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/weapons/v_shot2.mdl"
+dest_files=["res://.godot/imported/v_shot2.mdl-cab174a48afadbc9f1c590f6c0f58d0a.res"]
+
+[params]
+
+palette=""

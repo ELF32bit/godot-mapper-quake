@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dnbgq8ohad18n"
+path="res://.godot/imported/armor.mdl-b6c05a4df0f93c2a6696ce4d09a2dd88.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/items/armor.mdl"
+dest_files=["res://.godot/imported/armor.mdl-b6c05a4df0f93c2a6696ce4d09a2dd88.res"]
+
+[params]
+
+palette=""

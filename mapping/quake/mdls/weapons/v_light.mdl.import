@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://c80ge2pxmcjyu"
+path="res://.godot/imported/v_light.mdl-442ea5594e2051e5b14cdef6d4da2c79.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/weapons/v_light.mdl"
+dest_files=["res://.godot/imported/v_light.mdl-442ea5594e2051e5b14cdef6d4da2c79.res"]
+
+[params]
+
+palette=""

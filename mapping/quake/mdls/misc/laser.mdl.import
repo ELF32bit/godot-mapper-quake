@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://bwbiim0e5b6mb"
+path="res://.godot/imported/laser.mdl-f4c5eb462308e14c0e9489d0ed45b74d.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/misc/laser.mdl"
+dest_files=["res://.godot/imported/laser.mdl-f4c5eb462308e14c0e9489d0ed45b74d.res"]
+
+[params]
+
+palette=""

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://chanbq3u56bc2"
+path="res://.godot/imported/knight.mdl-d23dca737946ea6ba87da31c1cdd0868.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/knight.mdl"
+dest_files=["res://.godot/imported/knight.mdl-d23dca737946ea6ba87da31c1cdd0868.res"]
+
+[params]
+
+palette=""

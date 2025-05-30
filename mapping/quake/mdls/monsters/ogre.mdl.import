@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://ojwmd4optr3o"
+path="res://.godot/imported/ogre.mdl-b281aaa4c83786f2a32744ad42271a7e.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/ogre.mdl"
+dest_files=["res://.godot/imported/ogre.mdl-b281aaa4c83786f2a32744ad42271a7e.res"]
+
+[params]
+
+palette=""

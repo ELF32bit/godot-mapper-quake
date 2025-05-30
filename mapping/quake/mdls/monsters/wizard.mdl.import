@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://cr1dy7y4yv1ba"
+path="res://.godot/imported/wizard.mdl-dee2fcd33ec792ead3f250724373b4de.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/wizard.mdl"
+dest_files=["res://.godot/imported/wizard.mdl-dee2fcd33ec792ead3f250724373b4de.res"]
+
+[params]
+
+palette=""

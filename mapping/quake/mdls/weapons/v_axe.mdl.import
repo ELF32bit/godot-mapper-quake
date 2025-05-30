@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://bb838lh3i61w6"
+path="res://.godot/imported/v_axe.mdl-fc09eb830bc66d4b48f875934ce21f16.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/weapons/v_axe.mdl"
+dest_files=["res://.godot/imported/v_axe.mdl-fc09eb830bc66d4b48f875934ce21f16.res"]
+
+[params]
+
+palette=""

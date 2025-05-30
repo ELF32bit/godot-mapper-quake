@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://ecf23pok8vty"
+path="res://.godot/imported/oldone.mdl-f0650a9517a0f549a435350aa9e060f8.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/oldone.mdl"
+dest_files=["res://.godot/imported/oldone.mdl-f0650a9517a0f549a435350aa9e060f8.res"]
+
+[params]
+
+palette=""

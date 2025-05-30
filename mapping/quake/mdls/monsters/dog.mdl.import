@@ -1,0 +1,15 @@
+[remap]
+
+importer="mapper.mdl.resource"
+type="Resource"
+uid="uid://dbi7mkbspxywm"
+path="res://.godot/imported/dog.mdl-7366a8316fe6788228baaaf8d8b34cb9.res"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/monsters/dog.mdl"
+dest_files=["res://.godot/imported/dog.mdl-7366a8316fe6788228baaaf8d8b34cb9.res"]
+
+[params]
+
+palette=""
