@@ -48,8 +48,8 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 			for index in range(elements):
 				action.call(index)
 
-	game_loader.source_file = map.source_file
 	game_loader.custom_wads.assign(wads)
+	game_loader.random_number_generator.state = 0
 	random_number_generator.state = 0
 	progress = 0.0
 	build_time = 0
@@ -57,7 +57,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 	if not settings:
 		push_error("Error building map %s, factory settings are missing." % [map.name])
 		return null
+	game_loader.random_number_generator.seed = settings.random_number_generator_seed
 	random_number_generator.seed = settings.random_number_generator_seed
+	var inverse_basis := settings.basis.inverse()
 
 	# creating scene root and map structures from resources
 	var packed_scene := PackedScene.new()
@@ -65,6 +67,8 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 	scene_root.name = map.name
 
 	var map_structure := MapperMap.new()
+	map_structure.name = map.name
+	map_structure.source_file = map.source_file
 	map_structure.wads.append_array(wads)
 	map_structure.factory = self
 	map_structure.settings = settings
@@ -317,19 +321,11 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 					continue
 
 				var face_center2 := face2.center
-				if not absf(face_center1.x - face_center2.x) < epsilon:
-					continue
-				if not absf(face_center1.y - face_center2.y) < epsilon:
-					continue
-				if not absf(face_center1.z - face_center2.z) < epsilon:
+				if not MapperUtilities.is_equal_approximately(face_center1, face_center2, epsilon):
 					continue
 
 				var plane_center2 := face2.plane.get_center()
-				if not absf(plane_center1.x - plane_center2.x) < epsilon:
-					continue
-				if not absf(plane_center1.y - plane_center2.y) < epsilon:
-					continue
-				if not absf(plane_center1.z - plane_center2.z) < epsilon:
+				if not MapperUtilities.is_equal_approximately(plane_center1, plane_center2, epsilon):
 					continue
 
 				var is_different_face := false
@@ -337,13 +333,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 				for vertex1 in face1_vertices:
 					var is_different_vertex := true
 					for vertex2 in face2_vertices:
-						if not absf(vertex1.x - vertex2.x) < epsilon:
-							continue
-						if not absf(vertex1.y - vertex2.y) < epsilon:
-							continue
-						if not absf(vertex1.z - vertex2.z) < epsilon:
-							continue
-						is_different_vertex = false
+						if MapperUtilities.is_equal_approximately(vertex1, vertex2, epsilon):
+							is_different_vertex = false
+							break
 					if is_different_vertex:
 						is_different_face = true
 						break
@@ -370,18 +362,11 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 
 				for index2 in range(vertices.size()):
 					var unique_vertex := vertices[index2]
-
-					if not absf(vertex.x - unique_vertex.x) < epsilon:
-						continue
-					if not absf(vertex.y - unique_vertex.y) < epsilon:
-						continue
-					if not absf(vertex.z - unique_vertex.z) < epsilon:
-						continue
-
-					indices[index2].append(index1)
-					faces[index2].append(face)
-					is_unique_vertex = false
-					break
+					if MapperUtilities.is_equal_approximately(vertex, unique_vertex, epsilon):
+						indices[index2].append(index1)
+						faces[index2].append(face)
+						is_unique_vertex = false
+						break
 
 				if is_unique_vertex:
 					vertices.append(vertex)
@@ -412,6 +397,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 					faces12.is_smooth_shaded = true
 
 	var load_world_entity_wads := func() -> void:
+		var wad_palette: MapperPaletteResource = null
+		if settings.options.get("wad_palette", null) is MapperPaletteResource:
+			wad_palette = settings.options.get("wad_palette", null)
 		for entity in map_structure.classnames.get(settings.world_entity_classname, []):
 			if entity.properties.has(settings.world_entity_wad_property):
 				for path in entity.properties.get(settings.world_entity_wad_property, "").split(";", false):
@@ -424,7 +412,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 					else:
 						continue
 
-					var wad := game_loader.load_wad(wad_path)
+					var wad := game_loader.load_wad_raw(wad_path, wad_palette)
 					if wad:
 						map_structure.wads.append(wad)
 
@@ -566,13 +554,13 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 			var uvs := PackedVector2Array()
 			uvs.resize(vertices.size())
 			if vertices.size() != face_vertices.size():
-				uvs[0] = face.get_uv(vertices[0] + brush.center, texture_size)
+				uvs[0] = face.get_uv(vertices[0] + brush.center, texture_size, inverse_basis)
 				for index in range(1, vertices.size() - 1):
-					uvs[index] = face.get_uv(face_vertices[index - 1], texture_size)
+					uvs[index] = face.get_uv(face_vertices[index - 1], texture_size, inverse_basis)
 				uvs[vertices.size() - 1] = uvs[1]
 			else:
 				for index in range(vertices.size()):
-					uvs[index] = face.get_uv(face_vertices[index], texture_size)
+					uvs[index] = face.get_uv(face_vertices[index], texture_size, inverse_basis)
 
 			var colors := PackedColorArray()
 			colors.resize(vertices.size())
@@ -1060,7 +1048,6 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = [], prin
 		print("Finished building map %s in %.3fs" % [map.name, (build_time / 1000.0)])
 
 	# clearing out some leftover data
-	game_loader.source_file = ""
 	game_loader.custom_wads.clear()
 	game_loader.animated_texture_cache.clear()
 	game_loader.wad_cache.clear()
@@ -1085,7 +1072,9 @@ func build_mdl(mdl: MapperMdlResource) -> PackedScene:
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.metallic_specular = 0.0
 
-	var mdl_frame_rate: float = settings.options.get("mdl_frame_rate", 10.0)
+	var mdl_frame_rate: float = 10.0
+	if settings.options.get("mdl_frame_duration", 0.1) is float:
+		mdl_frame_rate = 1.0 / settings.options.get("mdl_frame_duration", 0.1)
 	var animation_nodes: Array[Node3D] = []
 	var animations: Dictionary = {}
 

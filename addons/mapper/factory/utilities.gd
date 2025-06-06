@@ -1,6 +1,16 @@
 class_name MapperUtilities
 
 
+static func is_equal_approximately(a: Vector3, b: Vector3, epsilon: float) -> bool:
+	if not absf(a.x - b.x) < epsilon:
+		return false
+	if not absf(a.y - b.y) < epsilon:
+		return false
+	if not absf(a.z - b.z) < epsilon:
+		return false
+	return true
+
+
 static func get_up_vector(settings: MapperSettings) -> Vector3:
 	return (settings.basis * Vector3(0.0, 0.0, 1.0)).normalized()
 
@@ -70,6 +80,18 @@ static func spread_transform_array(transform_array: PackedVector3Array, spread: 
 	return spread_transform_array
 
 
+static func get_transform_array_positions(transform_array: PackedVector3Array, up_offset: float = 0.0) -> PackedVector3Array:
+	if transform_array.size() % 4 != 0:
+		return PackedVector3Array()
+	var positions_array := PackedVector3Array()
+	positions_array.resize(transform_array.size() / 4)
+	for index in range(0, transform_array.size(), 4):
+		var y_axis := transform_array[index + 1]
+		var offset_direction := y_axis.normalized() * up_offset
+		positions_array[index / 4] = transform_array[index + 3] + offset_direction
+	return positions_array
+
+
 static func change_node_type(node: Node, classname: StringName) -> Node:
 	if not ClassDB.is_parent_class(classname, "Node"):
 		return null
@@ -117,12 +139,12 @@ static func add_global_child(child: Node, parent: Node, settings: MapperSettings
 	parent.add_child(child, settings.readable_node_names)
 
 
-static func create_navigation_region(entity: MapperEntity, parent: Node, automatic: bool = false) -> NavigationRegion3D:
+static func create_navigation_region(map: MapperMap, parent: Node, automatic: bool = false) -> NavigationRegion3D:
 	var navigation_region := NavigationRegion3D.new()
-	add_global_child(navigation_region, parent, entity.factory.settings)
+	parent.add_child(navigation_region, map.settings.readable_node_names)
 
 	var navigation_mesh := NavigationMesh.new()
-	var navigation_group_id := entity.factory.random_number_generator.randi()
+	var navigation_group_id := map.factory.random_number_generator.randi()
 	navigation_mesh.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_BOTH
 	navigation_mesh.geometry_source_geometry_mode = NavigationMesh.SOURCE_GEOMETRY_GROUPS_EXPLICIT
 	navigation_mesh.geometry_source_group_name = "navigation-%s" % navigation_group_id
@@ -131,11 +153,10 @@ static func create_navigation_region(entity: MapperEntity, parent: Node, automat
 		navigation_region.navmesh = navigation_mesh
 		navigation_region.ready.connect(navigation_region.bake_navigation_mesh, CONNECT_PERSIST | CONNECT_DEFERRED)
 	else:
-		var map_source_file := entity.factory.game_loader.source_file
-		var map_data_directory := entity.factory.settings.game_directory.path_join(entity.factory.settings.game_map_data_directory)
+		var map_data_directory := map.settings.game_directory.path_join(map.settings.game_map_data_directory)
 		var navigation_mesh_path := map_data_directory.path_join("%s-%s-%s.NavigationMesh.res" % [
-			map_source_file.get_file().get_basename(),
-			map_source_file.hash(),
+			map.source_file.get_file().get_basename(),
+			map.source_file.hash(),
 			navigation_group_id])
 		if ResourceSaver.save(navigation_mesh, navigation_mesh_path) == OK:
 			navigation_region.navmesh = ResourceLoader.load(navigation_mesh_path, "NavigationMesh")
@@ -168,11 +189,10 @@ static func create_voxel_gi(map: MapperMap, parent: Node, aabb: AABB, scale: flo
 	if automatic:
 		voxel_gi.ready.connect(voxel_gi.bake, CONNECT_PERSIST)
 	else:
-		var map_source_file := map.factory.game_loader.source_file
 		var map_data_directory := map.settings.game_directory.path_join(map.settings.game_map_data_directory)
 		var voxel_gi_data_path := map_data_directory.path_join("%s-%s-%s.VoxelGIData.res" % [
-			map_source_file.get_file().get_basename(),
-			map_source_file.hash(),
+			map.source_file.get_file().get_basename(),
+			map.source_file.hash(),
 			map.factory.random_number_generator.randi()])
 		if ResourceSaver.save(VoxelGIData.new(), voxel_gi_data_path) == OK:
 			voxel_gi.data = ResourceLoader.load(voxel_gi_data_path, "VoxelGIData")
@@ -182,11 +202,10 @@ static func create_voxel_gi(map: MapperMap, parent: Node, aabb: AABB, scale: flo
 static func create_lightmap_gi(map: MapperMap, parent: Node, as_first_child: bool = true) -> LightmapGI:
 	var lightmap_gi := LightmapGI.new()
 	parent.add_child(lightmap_gi, map.settings.readable_node_names)
-	var map_source_file := map.factory.game_loader.source_file
 	var map_data_directory := map.settings.game_directory.path_join(map.settings.game_map_data_directory)
 	var lightmap_gi_data_path := map_data_directory.path_join("%s-%s-%s.LightmapGIData.lmbake" % [
-		map_source_file.get_file().get_basename(),
-		map_source_file.hash(),
+		map.source_file.get_file().get_basename(),
+		map.source_file.hash(),
 		map.factory.random_number_generator.randi()])
 	if ResourceSaver.save(LightmapGIData.new(), lightmap_gi_data_path) == OK:
 		lightmap_gi.light_data = ResourceLoader.load(lightmap_gi_data_path, "LightmapGIData")
@@ -219,7 +238,7 @@ static func create_multimesh_instance(entity: MapperEntity, parent: Node, multim
 	return multimesh_instance
 
 
-static func create_multimesh_mesh_instance(entity: MapperEntity, parent: Node, multimesh: MultiMesh, transform_array: PackedVector3Array) -> MeshInstance3D: # TODO: BUG: workaround for baking light on multimeshes
+static func create_multimesh_mesh_instance(entity: MapperEntity, parent: Node, multimesh: MultiMesh, transform_array: PackedVector3Array) -> MeshInstance3D: # BUG: workaround for baking light on multimeshes
 	var mesh_instance := MeshInstance3D.new()
 	mesh_instance.position = entity.center
 	add_global_child(mesh_instance, parent, entity.factory.settings)
@@ -284,7 +303,7 @@ static func create_multimesh_mesh_instance(entity: MapperEntity, parent: Node, m
 								array[index * 4 + 0] = tangent.x
 								array[index * 4 + 1] = tangent.y
 								array[index * 4 + 2] = tangent.z
-								# TODO: array[index * 4 + 3] tangent transform ???
+								# array[index * 4 + 3] tangent transform ???
 							array_mesh_arrays[array_index].append_array(array)
 					ArrayMesh.ARRAY_INDEX:
 						var max_index: int = 0

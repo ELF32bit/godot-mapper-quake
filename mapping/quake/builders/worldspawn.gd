@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	root.transform = node.transform
 	MapperUtilities.add_global_child(node, root, map.settings)
 
-	var navigation_region := MapperUtilities.create_navigation_region(entity, node)
+	var navigation_region := MapperUtilities.create_navigation_region(map, node)
 	MapperUtilities.add_to_navigation_region(node, navigation_region)
 	node.move_child(navigation_region, 1)
 

@@ -3,22 +3,22 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	match entity.get_classname_property("").trim_prefix("weapon_"):
 		"supershotgun":
-			var scene := map.loader.load_mdl("mdls/items/g_shot.mdl", true)
+			var scene := map.loader.load_mdl("mdls/items/g_shot.mdl")
 			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 		"nailgun":
-			var scene := map.loader.load_mdl("mdls/items/g_nail.mdl", true)
+			var scene := map.loader.load_mdl("mdls/items/g_nail.mdl")
 			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 		"supernailgun":
-			var scene := map.loader.load_mdl("mdls/items/g_nail2.mdl", true)
+			var scene := map.loader.load_mdl("mdls/items/g_nail2.mdl")
 			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 		"grenadelauncher":
-			var scene := map.loader.load_mdl("mdls/items/g_rock.mdl", true)
+			var scene := map.loader.load_mdl("mdls/items/g_rock.mdl")
 			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 		"rocketlauncher":
-			var scene := map.loader.load_mdl("mdls/items/g_rock2.mdl", true)
+			var scene := map.loader.load_mdl("mdls/items/g_rock2.mdl")
 			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 		"lightning":
-			var scene := map.loader.load_mdl("mdls/items/g_light.mdl", true)
+			var scene := map.loader.load_mdl("mdls/items/g_light.mdl")
 			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 
 	return scene_instance

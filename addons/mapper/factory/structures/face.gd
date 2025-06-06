@@ -26,21 +26,15 @@ var factory: MapperFactory
 func has_vertex(vertex: Vector3) -> bool:
 	var epsilon := factory.settings.epsilon
 	for face_vertex in vertices:
-		if not absf(vertex.x - face_vertex.x) < epsilon:
-			continue
-		if not absf(vertex.y - face_vertex.y) < epsilon:
-			continue
-		if not absf(vertex.z - face_vertex.z) < epsilon:
-			continue
-		return true
+		if MapperUtilities.is_equal_approximately(vertex, face_vertex, epsilon):
+			return true
 	return false
 
 
-func get_uv(global_vertex: Vector3, texture_size: Vector2) -> Vector2:
+func get_uv(global_vertex: Vector3, texture_size: Vector2, inverse_basis: Basis) -> Vector2:
 	if uv_valve:
 		return (Vector2(u_axis.dot(global_vertex), v_axis.dot(global_vertex)) / scale + uv_shift) / texture_size
 
-	var inverse_basis := factory.settings.basis.inverse()
 	var vertex := inverse_basis * global_vertex
 	var normal := (inverse_basis * plane.normal).abs()
 	var uv := Vector2.ZERO
