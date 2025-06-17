@@ -23,10 +23,4 @@ void fragment() {
 	if (emission_enabled) {
 		EMISSION = ALBEDO * emission_energy_multiplier;
 	}
-
-	if (quake_water) {
-		//vec3 world_position = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
-		vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
-		ALPHA = float(abs(dot(world_normal, vec3(0.0, 1.0, 0.0))) > 0.90);
-	}
 }

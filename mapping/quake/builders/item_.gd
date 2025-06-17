@@ -52,6 +52,12 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			var scene := map.loader.load_map_raw("maps/items/b_bh25.map")
 			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 	if scene_instance:
+		for child in scene_instance.find_children("*", "LightmapGI", true, false):
+			child.free()
+		for child in scene_instance.find_children("*", "CollisionShape3D", true, false):
+			child.disabled = true
+		for child in scene_instance.find_children("*", "NavigationRegion3D", true, false):
+			child.free()
 		return scene_instance
 
 	return null
