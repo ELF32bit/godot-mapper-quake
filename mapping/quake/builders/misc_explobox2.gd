@@ -9,7 +9,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	body.position = node.position
 	MapperUtilities.add_global_child(body, node, map.settings)
 
-	var scene := map.loader.load_map("maps/items/b_exbox2.map")
+	var scene := map.loader.load_map_raw("maps/items/b_exbox2.map")
 	if scene:
 		var scene_instance := scene.instantiate()
 		var mesh_instances := scene_instance.find_children("*", "MeshInstance3D", true)
