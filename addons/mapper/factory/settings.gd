@@ -49,18 +49,17 @@ const TEXTURE_SUFFIXES := {
 }
 
 const MAX_ENTITY_GROUP_DEPTH: int = 256
-const MAX_ENTITY_TARGET_DEPTH: int = 1024
-const MAX_ENTITY_PARENT_DEPTH: int = 1024
+const MAX_ENTITY_TARGET_DEPTH: int = 4096
+const MAX_ENTITY_PARENT_DEPTH: int = 256
 const MAX_MATERIAL_TEXTURES: int = 1024
+const MAX_MAP_LOADING_DEPTH: int = 8
 
 var options: Dictionary
 
 @export var use_threads := false
 @export var force_deterministic := true
 
-@export var basis := Basis(Vector3(0.0, 0.0, -1.0), Vector3(-1.0, 0.0, 0.0), Vector3(0.0, 1.0, 0.0)):
-	set(value):
-		basis = value.orthonormalized()
+@export var basis := Basis(Vector3(0.0, 0.0, -1.0), Vector3(-1.0, 0.0, 0.0), Vector3(0.0, 1.0, 0.0))
 
 @export var unit_size: float = 32.0
 @export var epsilon: float = 1e-03

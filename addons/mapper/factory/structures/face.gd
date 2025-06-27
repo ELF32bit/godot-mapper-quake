@@ -10,7 +10,7 @@ var uv_shift: Vector2
 var uv_valve: bool
 var rotation: float
 var scale: Vector2
-var parameters: PackedInt64Array
+var parameters: PackedStringArray
 
 var plane: Plane
 var material: MapperMaterial
@@ -23,8 +23,7 @@ var skip := false
 var factory: MapperFactory
 
 
-func has_vertex(vertex: Vector3) -> bool:
-	var epsilon := factory.settings.epsilon
+func has_vertex(vertex: Vector3, epsilon: float) -> bool:
 	for face_vertex in vertices:
 		if MapperUtilities.is_equal_approximately(vertex, face_vertex, epsilon):
 			return true
@@ -36,7 +35,7 @@ func get_uv(global_vertex: Vector3, texture_size: Vector2, inverse_basis: Basis)
 		return (Vector2(u_axis.dot(global_vertex), v_axis.dot(global_vertex)) / scale + uv_shift) / texture_size
 
 	var vertex := inverse_basis * global_vertex
-	var normal := (inverse_basis * plane.normal).abs()
+	var normal := (inverse_basis * plane.normal).normalized().abs()
 	var uv := Vector2.ZERO
 
 	if normal.z >= normal.y and normal.z >= normal.x:

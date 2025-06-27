@@ -66,15 +66,15 @@ func bind_signal_property(property: StringName, target_source_property: StringNa
 
 
 func bind_node_path_property(property: StringName, target_source_property: StringName, node_property: StringName, classname: String = "*") -> void:
-	var parameters: Array[Variant] = [property, target_source_property, node_property, classname]
+	var parameters: Array[Variant] = [property, target_source_property, node_property, classname, true]
 	if not parameters in node_paths:
-		node_paths.append([property, target_source_property, node_property, classname, true])
+		node_paths.append(parameters)
 
 
 func bind_node_path_array_property(property: StringName, target_source_property: StringName, node_property: StringName, classname: String = "*") -> void:
-	var parameters: Array[Variant] = [property, target_source_property, node_property, classname]
+	var parameters: Array[Variant] = [property, target_source_property, node_property, classname, false]
 	if not parameters in node_paths:
-		node_paths.append([property, target_source_property, node_property, classname, false])
+		node_paths.append(parameters)
 
 
 func get_string_property(property: StringName, default: Variant = null) -> Variant:
@@ -116,7 +116,7 @@ func get_unit_property(property: StringName, default: Variant = null, convert_de
 
 
 func get_direction_property(property: StringName, default: Variant = null) -> Variant:
-	return get_property("convert_direction", property, default)
+	return get_property("convert_origin", property, default)
 
 
 func get_color_property(property: StringName, default: Variant = null) -> Variant:
@@ -188,7 +188,7 @@ func bind_unit_property(property: StringName, node_property: StringName) -> void
 
 
 func bind_direction_property(property: StringName, node_property: StringName) -> void:
-	bind_property("convert_direction", property, node_property)
+	bind_property("convert_origin", property, node_property)
 
 
 func bind_color_property(property: StringName, node_property: StringName) -> void:
@@ -235,25 +235,41 @@ func bind_mdl_property(property: StringName, node_property: StringName) -> void:
 	bind_property("convert_mdl", property, node_property)
 
 
+func get_lightmap_scale_property(default: Variant = null) -> Variant:
+	if factory.settings.lightmap_scale_property_enabled:
+		var lightmap_scale: Variant = get_float_property(factory.settings.lightmap_scale_property, null)
+		if lightmap_scale != null:
+			return clampf(lightmap_scale, 0.0625, 16.0)
+		elif typeof(default) in [TYPE_FLOAT, TYPE_INT]:
+			return clampf(float(default), 0.0625, 16.0)
+		else:
+			return default
+	return default
+
+
 func is_smooth_shaded() -> bool:
-	return bool(get_float_property(factory.settings.smooth_shading_property, false) and factory.settings.smooth_shading_property_enabled)
+	if factory.settings.smooth_shading_property_enabled:
+		return bool(get_float_property(factory.settings.smooth_shading_property, false))
+	return false
 
 
 func is_casting_shadow() -> bool:
-	return bool(get_float_property(factory.settings.cast_shadow_property, true) and factory.settings.cast_shadow_property_enabled)
+	if factory.settings.cast_shadow_property_enabled:
+		return bool(get_float_property(factory.settings.cast_shadow_property, true))
+	return false
 
 
 func is_decal() -> bool:
 	return bool(aabb.has_volume() and brushes.size() == 1 and brushes[0].is_uniform())
 
 
-func generate_surface_distribution(surfaces: PackedStringArray, density: float, spread: float = 0.0, min_scale: float = 1.0, max_scale: float = 1.0, min_floor_angle: float = 0.0, max_floor_angle: float = 45.0, even_distribution: bool = false, random_rotation: bool = true, world_space: bool = false, seed: int = 0) -> PackedVector3Array:
+func generate_surface_distribution(surfaces: PackedStringArray, density: float, min_floor_angle: float = 0.0, max_floor_angle: float = 45.0, even_distribution: bool = false, world_space: bool = false, seed: int = 0, use_map_basis: bool = true) -> PackedVector3Array:
 	var transform_array := PackedVector3Array()
 	var mutex := Mutex.new()
 
 	var populate_brushes := func(thread_index: int) -> void:
 		var brush := brushes[thread_index]
-		var brush_transform_array := brush.generate_surface_distribution(surfaces, density, 0.0, min_scale, max_scale, min_floor_angle, max_floor_angle, even_distribution, random_rotation, world_space, seed + thread_index)
+		var brush_transform_array := brush.generate_surface_distribution(surfaces, density, min_floor_angle, max_floor_angle, even_distribution, world_space, seed + thread_index, use_map_basis)
 		if not world_space:
 			for index in range(3, brush_transform_array.size(), 4):
 				brush_transform_array[index] += brush.center - center
@@ -262,25 +278,22 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 		mutex.unlock()
 
 	if not factory.settings.force_deterministic and factory.settings.use_threads:
-		var group_task := WorkerThreadPool.add_group_task(populate_brushes, brushes.size(), -1, true)
+		var group_task := WorkerThreadPool.add_group_task(populate_brushes, brushes.size(), 4, true)
 		WorkerThreadPool.wait_for_group_task_completion(group_task)
 	else:
 		for index in range(brushes.size()):
 			populate_brushes.call(index)
-
-	if spread > 0.0:
-		return MapperUtilities.spread_transform_array(transform_array, spread)
 
 	return transform_array
 
 
-func generate_volume_distribution(density: float, spread: float = 0.0, min_scale: float = 1.0, max_scale: float = 1.0, min_penetration: float = 0.0, max_penetration: float = INF, random_rotation: bool = true, world_space: bool = false, seed: int = 0) -> PackedVector3Array:
+func generate_volume_distribution(density: float, min_penetration: float = 0.0, max_penetration: float = INF, basis: Basis = Basis.IDENTITY, world_space: bool = false, seed: int = 0, use_map_basis: bool = true) -> PackedVector3Array:
 	var transform_array := PackedVector3Array()
 	var mutex := Mutex.new()
 
 	var populate_brushes := func(thread_index: int) -> void:
 		var brush := brushes[thread_index]
-		var brush_transform_array := brush.generate_volume_distribution(density, 0.0, min_scale, max_scale, min_penetration, max_penetration, random_rotation, world_space, seed + thread_index)
+		var brush_transform_array := brush.generate_volume_distribution(density, min_penetration, max_penetration, basis, world_space, seed + thread_index, use_map_basis)
 		if not world_space:
 			for index in range(3, brush_transform_array.size(), 4):
 				brush_transform_array[index] += brush.center - center
@@ -289,13 +302,10 @@ func generate_volume_distribution(density: float, spread: float = 0.0, min_scale
 		mutex.unlock()
 
 	if not factory.settings.force_deterministic and factory.settings.use_threads:
-		var group_task := WorkerThreadPool.add_group_task(populate_brushes, brushes.size(), -1, true)
+		var group_task := WorkerThreadPool.add_group_task(populate_brushes, brushes.size(), 4, true)
 		WorkerThreadPool.wait_for_group_task_completion(group_task)
 	else:
 		for index in range(brushes.size()):
 			populate_brushes.call(index)
-
-	if spread > 0.0:
-		return MapperUtilities.spread_transform_array(transform_array, spread)
 
 	return transform_array

@@ -40,9 +40,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 		if settings.print_progress:
 			print("(%.2f) %s: %.3fs" % [self.progress, comment, time / 1000.0])
 
-	var parallel_task := func(action: Callable, elements: int, use_threads: bool = true) -> void:
-		if use_threads and settings.use_threads:
-			var group_task := WorkerThreadPool.add_group_task(action, elements, -1, true)
+	var parallel_task := func(action: Callable, elements: int, tasks_needed: int = -1) -> void:
+		if tasks_needed != 0 and settings.use_threads:
+			var group_task := WorkerThreadPool.add_group_task(action, elements, tasks_needed, true)
 			WorkerThreadPool.wait_for_group_task_completion(group_task)
 		else:
 			for index in range(elements):
@@ -53,14 +53,11 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 		return null
 
 	game_loader.custom_wads.assign(wads)
-	game_loader.random_number_generator.state = 0
-	random_number_generator.state = 0
-	progress = 0.0
-	build_time = 0
-
 	game_loader.random_number_generator.seed = settings.random_number_generator_seed
 	random_number_generator.seed = settings.random_number_generator_seed
 	var inverse_basis := settings.basis.inverse()
+	progress = 0.0
+	build_time = 0
 
 	# creating scene root and map structures from resources
 	var packed_scene := PackedScene.new()
@@ -79,8 +76,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 	var face_structures: Array[MapperFace] = []
 	var brush_structures: Array[MapperBrush] = []
 	var entity_structures: Array[MapperEntity] = map_structure.entities
-	var smooth_entities: Array[MapperEntity] = []
+	var smooth_entity_structures: Array[MapperEntity] = []
 
+	# preloading post build script
 	var post_build_script: GDScript = null
 	if settings.post_build_script_enabled:
 		var path := settings.game_builders_directory.path_join(settings.post_build_script_name)
@@ -88,8 +86,11 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 	var generate_structures := func() -> void:
 		var world_entity_extra_brushes: Array[MapperBrush] = []
-		var forward_rotation := Quaternion(Vector3.FORWARD, settings.basis.x)
+		var forward := MapperUtilities.get_forward_vector(settings)
+		var forward_rotation := Quaternion(Vector3.FORWARD, forward)
 		var forward_rotation_euler := forward_rotation.get_euler()
+		var tb_first_world_entity_structure: MapperEntity = null
+		var tb_default_layer_omit_from_export := false
 
 		# creating all entity structures
 		var all_entity_structures: Array[MapperEntity] = []
@@ -97,9 +98,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 		for entity_index in range(map.entities.size()):
 			var entity := map.entities[entity_index]
 			var entity_structure := MapperEntity.new()
+			all_entity_structures[entity_index] = entity_structure
 			entity_structure.properties = entity.properties.duplicate()
 			entity_structure.factory = self
-			all_entity_structures[entity_index] = entity_structure
 
 		# creating map structure groups dictionary
 		if settings.group_entity_enabled:
@@ -110,6 +111,15 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				var entity_classname := entity_structure.get_classname_property(null)
 				if entity_classname == null:
 					continue
+
+				# also getting tb default layer omit from export from any world entity
+				if settings.tb_layer_omit_from_export_enabled:
+					if entity_classname == settings.world_entity_classname:
+						if entity_structure.get_int_property(settings.tb_layer_omit_from_export_property, 0) != 0:
+							if tb_first_world_entity_structure == null:
+								tb_first_world_entity_structure = entity_structure
+							tb_default_layer_omit_from_export = true
+
 				if not entity_classname == settings.group_entity_classname:
 					continue
 				if not settings.group_entity_type_property in entity_structure.properties:
@@ -121,27 +131,46 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				if type_index != -1 and id != null:
 					map_structure.groups[settings.group_entity_types[type_index]][id] = entity_structure
 
+		# preparing to skip entities from tb layers
+		var tb_omit_from_export_entities: Array[bool] = []
+		if settings.group_entity_enabled and settings.tb_layer_omit_from_export_enabled:
+			tb_omit_from_export_entities.resize(all_entity_structures.size())
+			tb_omit_from_export_entities.fill(tb_default_layer_omit_from_export)
+			for entity_index in range(all_entity_structures.size()):
+				var entity_structure := all_entity_structures[entity_index]
+				if tb_first_world_entity_structure:
+					if entity_structure == tb_first_world_entity_structure:
+						continue
+
+				var property := settings.tb_layer_omit_from_export_property
+				if map_structure.is_group_entity(entity_structure, "_tb_layer"):
+					var omit := bool(entity_structure.get_int_property(property, 0) != 0)
+					tb_omit_from_export_entities[entity_index] = omit
+					continue
+
+				var entity_layer := map_structure.get_entity_group(entity_structure, "_tb_layer")
+				if entity_layer:
+					var omit := bool(entity_layer.get_int_property(property, 0) != 0)
+					tb_omit_from_export_entities[entity_index] = omit
+					continue
+
+				var entity_groups := map_structure.get_entity_group_recursively(entity_structure, "_tb_group", true)
+				if entity_groups.size() > 0:
+					var entity_group_layer := map_structure.get_entity_group(entity_groups[0], "_tb_layer")
+					if entity_group_layer:
+						var omit := bool(entity_group_layer.get_int_property(property, 0) != 0)
+						tb_omit_from_export_entities[entity_index] = omit
+						continue
+
 		for entity_index in range(map.entities.size()):
 			var entity := map.entities[entity_index]
 			var entity_structure := all_entity_structures[entity_index]
 			var is_world_entity_extra_brush_entity := false
 
-			# skipping entities from certain layers
+			# skipping entities from tb layers
 			if settings.group_entity_enabled and settings.tb_layer_omit_from_export_enabled:
-				var property := settings.tb_layer_omit_from_export_property
-				if map_structure.is_group_entity(entity_structure, "_tb_layer"):
-					if entity_structure.get_int_property(property, 0) != 0:
-						continue
-				else:
-					var entity_layer := map_structure.get_entity_group(entity_structure, "_tb_layer")
-					if entity_layer and entity_layer.get_int_property(property, 0) != 0:
-						continue
-					else:
-						var entity_groups := map_structure.get_entity_group_recursively(entity_structure, "_tb_group", true)
-						if entity_groups.size() > 0:
-							var entity_group_layer := map_structure.get_entity_group(entity_groups[0], "_tb_layer")
-							if entity_group_layer and entity_group_layer.get_int_property(property, 0) != 0:
-								continue
+				if tb_omit_from_export_entities[entity_index]:
+					continue
 
 			var entity_classname := entity_structure.get_classname_property(null)
 			if entity_classname != null:
@@ -173,7 +202,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 			# binding common entity properties
 			entity_structure.bind_origin_property("position")
-			entity_structure.node_properties[StringName("rotation")] = forward_rotation_euler
+			entity_structure.node_properties["rotation"] = forward_rotation_euler
 			entity_structure.bind_angle_property("rotation")
 			entity_structure.bind_angles_property("rotation")
 			entity_structure.bind_mangle_property("rotation")
@@ -205,15 +234,41 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 					face_structure.factory = self
 
 		# adding extra world entity brushes to first world entity entity without modifying source entities
-		if settings.world_entity_extra_brush_entities_enabled:
-			var world_entity: MapperEntity = map_structure.classnames.get(settings.world_entity_classname, [null])[0]
-			if world_entity:
-				world_entity.brushes.append_array(world_entity_extra_brushes)
+		if settings.world_entity_extra_brush_entities_enabled and world_entity_extra_brushes.size() > 0:
+			var world_entity_structure: MapperEntity = null
+			var classname := settings.world_entity_classname
+			var is_skip_entity := false
+			if settings.skip_entities_enabled:
+				for skip_classname in settings.skip_entities_classnames:
+					if classname.match(skip_classname):
+						is_skip_entity = true
+						break
+
+			if tb_first_world_entity_structure and not is_skip_entity:
+				world_entity_structure = MapperEntity.new()
+				world_entity_structure.properties = tb_first_world_entity_structure.properties.duplicate()
+				world_entity_structure.brushes.append_array(world_entity_extra_brushes)
+				world_entity_structure.factory = self
+
+				world_entity_structure.bind_origin_property("position")
+				world_entity_structure.node_properties["rotation"] = forward_rotation_euler
+				world_entity_structure.bind_angle_property("rotation")
+				world_entity_structure.bind_angles_property("rotation")
+				world_entity_structure.bind_mangle_property("rotation")
+
+				if not classname in map_structure.classnames:
+					map_structure.classnames[classname] = []
+				map_structure.classnames[classname].append(world_entity_structure)
+				entity_structures.append(world_entity_structure)
+			else:
+				world_entity_structure = map_structure.classnames.get(classname, [null])[0]
+				if world_entity_structure:
+					world_entity_structure.brushes.append_array(world_entity_extra_brushes)
 
 		if settings.smooth_shading_property_enabled:
 			for entity_structure in entity_structures:
 				if entity_structure.is_smooth_shaded():
-					smooth_entities.append(entity_structure)
+					smooth_entity_structures.append(entity_structure)
 
 	var generate_faces := func(thread_index: int) -> void:
 		var face := face_structures[thread_index]
@@ -225,7 +280,17 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 		if face.uv_valve:
 			face.u_axis = settings.basis * face.u_axis
+			face.scale.x *= face.u_axis.length()
+			face.u_axis = face.u_axis.normalized()
+
 			face.v_axis = settings.basis * face.v_axis
+			face.scale.y *= face.v_axis.length()
+			face.v_axis = face.v_axis.normalized()
+
+		if is_zero_approx(face.scale.x):
+			face.scale.x = 1.0
+		if is_zero_approx(face.scale.y):
+			face.scale.y = 1.0
 
 		# removing texture suffixes from material names
 		for suffix in settings.texture_suffixes.values():
@@ -251,6 +316,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 	var generate_brushes := func(thread_index: int) -> void:
 		var brush := brush_structures[thread_index]
+		var epsilon := settings.epsilon
 
 		# finding face vertices forming convex hull by intersecting face planes
 		for face1 in brush.faces:
@@ -258,8 +324,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				for face3 in brush.faces:
 					var vertex: Variant = face1.plane.intersect_3(face2.plane, face3.plane)
 					if vertex != null:
-						if brush.has_point(vertex) and not face1.has_vertex(vertex):
-							face1.vertices.append(vertex)
+						if brush.has_point(vertex, epsilon):
+							if not face1.has_vertex(vertex, epsilon):
+								face1.vertices.append(vertex)
 
 		# removing brush faces that failed to form triangles
 		for index in range(brush.faces.size() - 1, -1, -1):
@@ -330,12 +397,12 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 		brush.center *= scale
 
 	var generate_smooth_entity_normals := func(thread_index: int) -> void:
-		var entity := smooth_entities[thread_index]
+		var entity := smooth_entity_structures[thread_index]
+		var epsilon := settings.epsilon / settings.unit_size
 
 		var split_angle_property := settings.smooth_shading_split_angle_property
 		var split_angle: float = entity.get_float_property(split_angle_property, 89.0)
 		split_angle = deg_to_rad(clampf(split_angle, 0.0, 180.0))
-		var epsilon := settings.epsilon
 
 		# collecting entity faces
 		var entity_faces: Array[MapperFace] = []
@@ -450,11 +517,12 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			if entity.properties.has(settings.world_entity_wads_property):
 				for path in entity.properties.get(settings.world_entity_wads_property, "").split(";", false):
 					var wad_path := settings.game_wads_directory
+					var path_strip: String = path.strip_edges()
 
-					if path.is_absolute_path():
-						wad_path = wad_path.path_join(path.get_file())
-					elif path.is_relative_path():
-						wad_path = wad_path.path_join(path.trim_prefix("/"))
+					if path_strip.is_absolute_path():
+						wad_path = wad_path.path_join(path_strip.get_file())
+					elif path_strip.is_relative_path():
+						wad_path = wad_path.path_join(path_strip.trim_prefix("/"))
 					else:
 						continue
 
@@ -594,7 +662,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 			# face base material always exists storing albedo texture
 			var texture := face_material.base.get_texture(BaseMaterial3D.TEXTURE_ALBEDO)
-			var texture_size := texture.get_size() if texture else Vector2.ZERO
+			var texture_size := texture.get_size() if texture else Vector2.ONE
 			texture_size *= (1.0 / settings.unit_size)
 
 			var uvs := PackedVector2Array()
@@ -765,7 +833,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			surface_names.set(surface_index, mesh.surface_get_name(surface_index))
 		# BUG: lightmap unwrap creates new mesh without surface names
 		# BUG: sometimes throws invalid index count errors when epsilon is too small
-		mesh.lightmap_unwrap(transform, settings.lightmap_texel_size * (1.0 / lightmap_scale))
+		mesh.lightmap_unwrap(transform, settings.lightmap_texel_size / lightmap_scale)
 		for surface_index in range(mesh.get_surface_count()):
 			mesh.surface_set_name(surface_index, surface_names[surface_index])
 
@@ -906,14 +974,15 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 	var generate_entity_lightmap_uvs := func(thread_index: int) -> void:
 		var entity := entity_structures[thread_index]
 		var transform := Transform3D.IDENTITY.translated(entity.center)
-		var lightmap_scale: float = 1.0
-		if settings.lightmap_scale_property_enabled:
-			lightmap_scale = entity.get_float_property(settings.lightmap_scale_property, 1.0)
-			lightmap_scale = clampf(lightmap_scale, 0.0625, 16.0)
+		var lightmap_scale: float = entity.get_lightmap_scale_property(1.0)
 		generate_lightmap_uv.call(entity.mesh, transform, lightmap_scale)
 
 	var generate_entity_nodes := func() -> void:
 		for classname in map_structure.classnames:
+			if settings.post_build_script_enabled:
+				if classname == settings.post_build_script_name:
+					continue
+
 			var class_builder: GDScript = null
 			var path := settings.game_builders_directory.path_join(classname)
 			class_builder = game_loader.load_script(path)
@@ -1049,9 +1118,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 	if settings.print_progress:
 		print("Starting building map %s" % [map.name])
 	factory.call(generate_structures, 1, "Generating structures")
-	factory.call(parallel_task.bind(generate_faces, face_structures.size()), 2, "Generating faces")
+	factory.call(parallel_task.bind(generate_faces, face_structures.size(), 2), 2, "Generating faces")
 	factory.call(generate_materials, 3, "Generating materials")
-	factory.call(parallel_task.bind(generate_brushes, brush_structures.size()), 4, "Generating brushes")
+	factory.call(parallel_task.bind(generate_brushes, brush_structures.size(), 4), 4, "Generating brushes")
 
 	if settings.warn_about_degenerate_brushes:
 		var degenerate_brush_structure_amount: int = 0
@@ -1062,27 +1131,27 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			push_warning("Found %s degenerate brushes, consider adjusting epsilon." % [degenerate_brush_structure_amount])
 
 	if settings.smooth_shading_property_enabled:
-		factory.call(parallel_task.bind(generate_smooth_entity_normals, smooth_entities.size()), 5, "Generating smooth entity normals")
+		factory.call(parallel_task.bind(generate_smooth_entity_normals, smooth_entity_structures.size(), 4), 5, "Generating smooth entity normals")
 
 	if settings.world_entity_wads_property_enabled:
 		factory.call(load_world_entity_wads, 6, "Loading world entity wads")
 
 	factory.call(load_materials_and_textures, 7, "Loading materials and textures")
-	factory.call(parallel_task.bind(generate_brush_geometry, brush_structures.size()), 8, "Generating brush geometry")
-	factory.call(parallel_task.bind(generate_entity_bounds, entity_structures.size()), 9, "Generating entity bounds")
-	factory.call(parallel_task.bind(generate_entity_meshes, entity_structures.size(), false), 10, "Generating entity meshes")
-	factory.call(parallel_task.bind(generate_entity_shapes, entity_structures.size()), 11, "Generating entity shapes")
+	factory.call(parallel_task.bind(generate_brush_geometry, brush_structures.size(), 4), 8, "Generating brush geometry")
+	factory.call(parallel_task.bind(generate_entity_bounds, entity_structures.size(), 0), 9, "Generating entity bounds")
+	factory.call(parallel_task.bind(generate_entity_meshes, entity_structures.size(), 0), 10, "Generating entity meshes")
+	factory.call(parallel_task.bind(generate_entity_shapes, entity_structures.size(), 2), 11, "Generating entity shapes")
 
 	# BUG: creating array occluders is not thread safe
 	if settings.occlusion_culling:
-		factory.call(parallel_task.bind(generate_brush_occluders, brush_structures.size(), false), 12, "Generating brush occluders")
+		factory.call(parallel_task.bind(generate_brush_occluders, brush_structures.size(), 0), 12, "Generating brush occluders")
 		# BUG: creating array occluders here should be thread safe, but memory errors are thrown
-		factory.call(parallel_task.bind(generate_entity_occluders, entity_structures.size(), false), 13, "Generating entity occluders")
+		factory.call(parallel_task.bind(generate_entity_occluders, entity_structures.size(), 0), 13, "Generating entity occluders")
 
 	# BUG: unwrapping array meshes for lightmaps is not thread safe
 	if settings.lightmap_unwrap:
-		factory.call(parallel_task.bind(generate_brush_lightmap_uvs, brush_structures.size(), false), 14, "Unwrapping brushes for lightmaps")
-		factory.call(parallel_task.bind(generate_entity_lightmap_uvs, entity_structures.size(), false), 15, "Unwrapping entities for lightmaps")
+		factory.call(parallel_task.bind(generate_brush_lightmap_uvs, brush_structures.size(), 0), 14, "Unwrapping brushes for lightmaps")
+		factory.call(parallel_task.bind(generate_entity_lightmap_uvs, entity_structures.size(), 0), 15, "Unwrapping entities for lightmaps")
 
 	factory.call(generate_entity_nodes, 16, "Generating entity nodes")
 	factory.call(generate_scene_tree, 17, "Generating scene tree")

@@ -11,41 +11,18 @@ var concave_shape: ConcavePolygonShape3D
 var convex_shape: ConvexPolygonShape3D
 var shape: Shape3D
 var occluder: ArrayOccluder3D
-
 var center: Vector3
 var aabb: AABB
 
 var factory: MapperFactory
 
 
-func has_point(point: Vector3) -> bool:
+func has_point(point: Vector3, epsilon: float) -> bool:
 	for face in faces:
 		if face.plane.is_point_over(point):
-			if not face.plane.has_point(point, factory.settings.epsilon):
+			if not face.plane.has_point(point, epsilon):
 				return false
 	return true
-
-
-func get_point_penetration(point: Vector3) -> Array[float]:
-	var min_distance: float = INF
-	var max_distance: float = -INF
-	for face in faces:
-		var distance_to_plane := face.plane.distance_to(point)
-		if distance_to_plane > factory.settings.epsilon:
-			return []
-		distance_to_plane = absf(distance_to_plane)
-		min_distance = minf(distance_to_plane, min_distance)
-		max_distance = maxf(distance_to_plane, max_distance)
-	return [min_distance, max_distance]
-
-
-func get_relative_point_penetration(point: Vector3) -> float:
-	var point_penetration := get_point_penetration(point)
-	if point_penetration.size():
-		var min_distance := point_penetration[0]
-		var max_distance := point_penetration[1]
-		return min_distance / max_distance # can return NAN which is safe
-	return NAN
 
 
 func get_planes(from_mesh: bool = true) -> Array[Plane]:
@@ -86,13 +63,53 @@ func get_uniform_property_list() -> PackedStringArray:
 	return override_material.get_meta_list()
 
 
-func generate_surface_distribution(surfaces: PackedStringArray, density: float, spread: float = 0.0, min_scale: float = 1.0, max_scale: float = 1.0, min_floor_angle: float = 0.0, max_floor_angle: float = 45.0, even_distribution: bool = false, random_rotation: bool = true, world_space: bool = false, seed: int = 0) -> PackedVector3Array:
+func get_min_point_penetration(point: Vector3, epsilon: float) -> Variant:
+	var min_distance: float = INF
+	for face in faces:
+		var distance_to_plane := face.plane.distance_to(point)
+		if distance_to_plane > epsilon:
+			return null
+		distance_to_plane = absf(clampf(distance_to_plane, -INF, 0.0))
+		min_distance = minf(distance_to_plane, min_distance)
+	return (null if is_nan(min_distance) else min_distance)
+
+
+func get_max_point_penetration(point: Vector3, epsilon: float) -> Variant:
+	var max_distance: float = INF
+	for face in faces:
+		var distance_to_plane := face.plane.distance_to(point)
+		if distance_to_plane > epsilon:
+			return null
+		distance_to_plane = absf(clampf(distance_to_plane, -INF, 0.0))
+		max_distance = maxf(distance_to_plane, max_distance)
+	return (null if is_nan(max_distance) else max_distance)
+
+
+func get_relative_point_penetration(point: Vector3, epsilon: float) -> Variant:
+	var min_distance := get_min_point_penetration(point, epsilon)
+	if min_distance == null:
+		return null
+	var max_distance := get_max_point_penetration(point, epsilon)
+	if max_distance == null:
+		return null
+	return min_distance / max_distance
+
+
+func generate_surface_distribution(surfaces: PackedStringArray, density: float, min_floor_angle: float = 0.0, max_floor_angle: float = 45.0, even_distribution: bool = false, world_space: bool = false, seed: int = 0, use_map_basis: bool = true) -> PackedVector3Array:
 	var triangles := PackedVector3Array()
 	var normals := PackedVector3Array()
 	var distribution := PackedFloat32Array([0.0])
 
 	# clamping input values and converting angles to radians
-	density = clampf(density, 0.0, pow(factory.settings.max_distribution_density, 2.0))
+	var max_density := factory.settings.max_distribution_density
+	if max_density >= 1.0:
+		density = clampf(density, 0.0, pow(max_density, 2.0))
+	elif max_density > 0.0:
+		density = clampf(density, 0.0, pow(max_density, 1.0 / 2.0))
+	else:
+		density = 0.0
+	if density == 0.0: # allowing small density values a chance
+		return PackedVector3Array()
 
 	min_floor_angle = deg_to_rad(clampf(min_floor_angle, 0.0, 180.0))
 	max_floor_angle = deg_to_rad(clampf(max_floor_angle, 0.0, 180.0))
@@ -101,16 +118,18 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 	min_floor_angle = actual_min_floor_angle
 	max_floor_angle = actual_max_floor_angle
 
-	var actual_min_scale := minf(min_scale, max_scale)
-	var actual_max_scale := maxf(min_scale, max_scale)
-	min_scale = actual_min_scale
-	max_scale = actual_max_scale
-
-	var rotation_range := 2.0 * PI
-	var scale_range := max_scale - min_scale
-	var has_scale_range := (scale_range != 0.0)
 	var floor_angle_range := max_floor_angle - min_floor_angle
 	var offset := -center * float(not world_space)
+
+	var up := Vector3.UP
+	var forward := Vector3.FORWARD
+	var inverse_basis := Basis.IDENTITY
+	if use_map_basis:
+		up = MapperUtilities.get_up_vector(factory.settings)
+		forward = MapperUtilities.get_forward_vector(factory.settings)
+		var forward_rotation := Quaternion(Vector3.FORWARD, forward)
+		inverse_basis = Basis(forward_rotation).inverse()
+	var up_plane := Plane(up, 0.0)
 
 	var get_triangle_area := func(a: Vector3, b: Vector3) -> float:
 		return a.length() * b.length() * sin(a.angle_to(b)) / 2.0
@@ -121,7 +140,7 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 			if brush_surface.matchn(surface):
 				for face in self.surfaces[brush_surface]:
 					# calculating face normal angle to up vector
-					var angle: float = face.plane.normal.angle_to(Vector3.UP)
+					var angle: float = face.plane.normal.angle_to(up)
 					# discarding some brush faces by angle to up vector
 					if not is_equal_approx(angle, min_floor_angle):
 						if not is_equal_approx(angle, max_floor_angle):
@@ -183,28 +202,17 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 		if not is_equal_approx(area1 + area2 + area3, area):
 			p = (a + b) - p
 
-		# preparing to create basis
-		var undefined_rotation := normals[index].is_equal_approx(Vector3.DOWN)
-		var rotation_axis: Vector3 = (Vector3.DOWN if undefined_rotation else Vector3.UP)
-
 		# creating basis with up axis equal to triangle normal
-		var basis := Basis.IDENTITY
-		if undefined_rotation:
-			basis = basis.scaled(Vector3(1.0, -1.0, 1.0))
-		else:
-			basis = Basis(Quaternion(normals[index], Vector3.UP))
-
-		# rotating basis around up axis by a random angle
-		if random_rotation:
-			var r4 := random_number_generator.randf()
-			basis = basis.rotated(rotation_axis, rotation_range * r4)
-
-		# scaling basis by a realitve random scale
-		if has_scale_range:
-			var r5 := random_number_generator.randf()
-			basis = basis.scaled(Vector3.ONE * (min_scale + scale_range * r5))
-		else:
-			basis = basis.scaled(Vector3.ONE * min_scale)
+		var basis := inverse_basis
+		if normals[index].is_equal_approx(-up):
+			basis *= Basis(forward, PI)
+		elif not normals[index].is_equal_approx(up):
+			var up_rotation := Quaternion(normals[index], up)
+			var direction := up_plane.project(normals[index]).normalized()
+			if not direction.is_equal_approx(-forward):
+				basis *= Basis(Quaternion(direction, forward) * up_rotation)
+			else:
+				basis *= Basis(Quaternion(up, PI) * up_rotation)
 
 		# calculating origin
 		var origin := (triangles[index * 3] + p)
@@ -215,18 +223,22 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 		transform_array[transform_index * 4 + 2] = basis.z
 		transform_array[transform_index * 4 + 3] = origin + offset
 
-	if spread > 0.0:
-		return MapperUtilities.spread_transform_array(transform_array, spread)
-
 	return transform_array
 
 
-func generate_volume_distribution(density: float, spread: float = 0.0, min_scale: float = 1.0, max_scale: float = 1.0, min_penetration: float = 0.0, max_penetration: float = INF, random_rotation: bool = true, world_space: bool = false, seed: int = 0) -> PackedVector3Array:
+func generate_volume_distribution(density: float, min_penetration: float = 0.0, max_penetration: float = INF, basis: Basis = Basis.IDENTITY, world_space: bool = false, seed: int = 0, use_map_basis: bool = true) -> PackedVector3Array:
 	if not aabb.has_volume():
 		return PackedVector3Array()
+	var epsilon := factory.settings.epsilon / factory.settings.unit_size
 
-	# clamping density and depth range values
-	density = clampf(density, 0.0, pow(factory.settings.max_distribution_density, 3.0))
+	# clamping density and penetration range values
+	var max_density := factory.settings.max_distribution_density
+	if max_density >= 1.0:
+		density = clampf(density, 0.0, pow(max_density, 3.0))
+	elif max_density > 0.0:
+		density = clampf(density, 0.0, pow(max_density, 1.0 / 3.0))
+	else:
+		density = 0.0
 
 	min_penetration = clampf(min_penetration, 0.0, INF)
 	max_penetration = clampf(max_penetration, 0.0, INF)
@@ -235,16 +247,15 @@ func generate_volume_distribution(density: float, spread: float = 0.0, min_scale
 	min_penetration = actual_min_penetration
 	max_penetration = actual_max_penetration
 
-	var actual_min_scale := minf(min_scale, max_scale)
-	var actual_max_scale := maxf(min_scale, max_scale)
-	min_scale = actual_min_scale
-	max_scale = actual_max_scale
-
-	var rotation_range := 2.0 * PI
-	var scale_range := max_scale - min_scale
-	var has_scale_range := (scale_range != 0.0)
 	var has_penetration_range := bool(min_penetration != max_penetration)
 	var offset := -center * float(not world_space)
+
+	var inverse_basis := basis
+	if use_map_basis:
+		var forward := MapperUtilities.get_forward_vector(factory.settings)
+		var forward_rotation := Quaternion(Vector3.FORWARD, forward)
+		inverse_basis = Basis(forward_rotation).inverse()
+		inverse_basis = basis * inverse_basis
 
 	# creating random number generator with specified seed
 	var random_number_generator := RandomNumberGenerator.new()
@@ -261,34 +272,18 @@ func generate_volume_distribution(density: float, spread: float = 0.0, min_scale
 
 		var brush_has_point := false
 		if has_penetration_range:
-			var point_penetration := get_point_penetration(point)
-			if point_penetration.size():
-				var min_point_penetration := point_penetration[0]
+			var min_point_penetration := get_min_point_penetration(point, epsilon)
+			if min_point_penetration != null:
 				if min_point_penetration >= min_penetration:
 					if min_point_penetration <= max_penetration:
 						brush_has_point = true
 		else:
-			brush_has_point = has_point(point)
+			brush_has_point = has_point(point, epsilon)
 
 		if brush_has_point:
-			var basis := Basis.IDENTITY
-			if random_rotation:
-				var r4 := random_number_generator.randf() - 0.5
-				var r5 := random_number_generator.randf() - 0.5
-				var r6 := random_number_generator.randf() - 0.5
-				basis = Basis(Quaternion.from_euler(Vector3(r4, r5, r6) * rotation_range))
-			if has_scale_range:
-				var r7 := random_number_generator.randf()
-				basis = basis.scaled(Vector3.ONE * (min_scale + scale_range * r7))
-			else:
-				basis = basis.scaled(Vector3.ONE * min_scale)
-
-			transform_array.append(basis.x)
-			transform_array.append(basis.y)
-			transform_array.append(basis.z)
+			transform_array.append(inverse_basis.x)
+			transform_array.append(inverse_basis.y)
+			transform_array.append(inverse_basis.z)
 			transform_array.append(point + offset)
-
-	if spread > 0.0:
-		return MapperUtilities.spread_transform_array(transform_array, spread)
 
 	return transform_array
