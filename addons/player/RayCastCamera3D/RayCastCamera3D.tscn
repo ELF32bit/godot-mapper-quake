@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dp4ir50jt2kwu"]
 
-[ext_resource type="Script" path="res://characters/player/RayCastCamera3D/RayCastCamera3D.gd" id="1_qse83"]
+[ext_resource type="Script" path="res://addons/player/RayCastCamera3D/RayCastCamera3D.gd" id="1_qse83"]
 
 [node name="RayCastCamera3D" type="Camera3D"]
 current = true

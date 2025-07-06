@@ -23,7 +23,7 @@ func _ready() -> void:
 
 
 func _spawn_player() -> void:
-	var player = preload("res://characters/player/player.tscn")
+	var player = preload("res://addons/player/player.tscn")
 	var player_instance = player.instantiate()
 	add_child(player_instance, true)
 

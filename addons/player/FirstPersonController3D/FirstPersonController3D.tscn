@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://qyjgwsd55mck"]
 
-[ext_resource type="Script" path="res://characters/player/FirstPersonController3D/FirstPersonController3D.gd" id="1_fk0n8"]
-[ext_resource type="PackedScene" uid="uid://dp4ir50jt2kwu" path="res://characters/player/RayCastCamera3D/RayCastCamera3D.tscn" id="2_47ucn"]
+[ext_resource type="Script" path="res://addons/player/FirstPersonController3D/FirstPersonController3D.gd" id="1_fk0n8"]
+[ext_resource type="PackedScene" uid="uid://dp4ir50jt2kwu" path="res://addons/player/RayCastCamera3D/RayCastCamera3D.tscn" id="2_47ucn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_wk1yp"]
 radius = 0.25

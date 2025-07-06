@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b28fad0h6t725"]
 
-[ext_resource type="PackedScene" uid="uid://qyjgwsd55mck" path="res://characters/player/FirstPersonController3D/FirstPersonController3D.tscn" id="1_vxbci"]
-[ext_resource type="PackedScene" uid="uid://bkvt5w6nb6a42" path="res://characters/player/screen_effects/screen_effects.tscn" id="3_kyj4x"]
+[ext_resource type="PackedScene" uid="uid://qyjgwsd55mck" path="res://addons/player/FirstPersonController3D/FirstPersonController3D.tscn" id="1_vxbci"]
+[ext_resource type="PackedScene" uid="uid://bkvt5w6nb6a42" path="res://addons/player/screen_effects/screen_effects.tscn" id="3_kyj4x"]
 
 [sub_resource type="GDScript" id="GDScript_skwqf"]
 script/source = "extends SpotLight3D
