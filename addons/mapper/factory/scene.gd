@@ -86,8 +86,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 	var generate_structures := func() -> void:
 		var world_entity_extra_brushes: Array[MapperBrush] = []
-		var forward := MapperUtilities.get_forward_vector(settings)
-		var forward_rotation := Quaternion(Vector3.FORWARD, forward)
+		var forward_rotation := MapperUtilities.get_forward_rotation(settings)
 		var forward_rotation_euler := forward_rotation.get_euler()
 		var tb_first_world_entity_structure: MapperEntity = null
 		var tb_default_layer_omit_from_export := false
@@ -390,6 +389,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 		var scale := (1.0 / settings.unit_size)
 		var transform := Transform3D.IDENTITY.scaled(Vector3.ONE * scale)
 		for face in brush.faces:
+			face.point1 *= scale
+			face.point2 *= scale
+			face.point3 *= scale
 			face.plane.d *= scale
 			face.center *= scale
 			face.vertices = transform * face.vertices
@@ -463,7 +465,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 		# collecting unique vertices and face normals
 		var vertices := PackedVector3Array()
-		var indices: Array[PackedInt64Array] = []
+		var indices: Array[PackedInt32Array] = []
 		var faces: Array[Array] = []
 
 		for entity_face_index in range(entity_faces.size()):
@@ -486,7 +488,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 
 				if is_unique_vertex:
 					vertices.append(vertex)
-					indices.append(PackedInt64Array([index1]))
+					indices.append(PackedInt32Array([index1]))
 					faces.append([face])
 
 		# calculating smooth normals
@@ -827,15 +829,8 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 	var generate_lightmap_uv := func(mesh: ArrayMesh, transform: Transform3D, lightmap_scale: float = 1.0) -> void:
 		if not mesh:
 			return
-		var surface_names: PackedStringArray = []
-		surface_names.resize(mesh.get_surface_count())
-		for surface_index in range(mesh.get_surface_count()):
-			surface_names.set(surface_index, mesh.surface_get_name(surface_index))
-		# BUG: lightmap unwrap creates new mesh without surface names
 		# BUG: sometimes throws invalid index count errors when epsilon is too small
-		mesh.lightmap_unwrap(transform, settings.lightmap_texel_size / lightmap_scale)
-		for surface_index in range(mesh.get_surface_count()):
-			mesh.surface_set_name(surface_index, surface_names[surface_index])
+		MapperUtilities.lightmap_unwrap(mesh, transform, settings.lightmap_texel_size / lightmap_scale)
 
 	var generate_brush_occluders := func(thread_index: int) -> void:
 		var brush := brush_structures[thread_index]

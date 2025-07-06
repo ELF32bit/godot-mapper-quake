@@ -42,12 +42,14 @@ func get_entity_group(entity: MapperEntity, group_type: StringName) -> MapperEnt
 
 func get_entity_group_recursively(entity: MapperEntity, group_type: StringName, reverse: bool = false) -> Array[MapperEntity]:
 	var entity_groups: Array[MapperEntity] = []
+	var entity_groups_set: Dictionary = { entity: true }
 	var group := get_entity_group(entity, group_type)
 	while group and entity_groups.size() < factory.settings.MAX_ENTITY_GROUP_DEPTH:
-		if group in entity_groups or group == entity:
+		if group in entity_groups_set:
 			entity_groups.append(group)
 			break
 		else:
+			entity_groups_set[group] = true
 			entity_groups.append(group)
 		group = get_entity_group(group, group_type)
 	if reverse:
@@ -142,12 +144,14 @@ func get_first_entity_target(entity: MapperEntity, destination_property: StringN
 
 func get_first_entity_target_recursively(entity: MapperEntity, destination_property: StringName, source_property: StringName, classname: String = "*", group_type: StringName = "") -> Array[MapperEntity]:
 	var targets: Array[MapperEntity] = []
+	var targets_set: Dictionary = { entity: true }
 	var target := get_first_entity_target(entity, destination_property, source_property, classname, group_type)
 	while target and targets.size() < factory.settings.MAX_ENTITY_TARGET_DEPTH:
-		if target in targets or target == entity:
+		if target in targets_set:
 			targets.append(target)
 			break
 		else:
+			targets_set[target] = true
 			targets.append(target)
 		target = get_first_entity_target(target, destination_property, source_property, classname, group_type)
 	return targets
