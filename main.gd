@@ -23,9 +23,18 @@ func _ready() -> void:
 
 
 func _spawn_player() -> void:
-	var player = preload("res://addons/player/player.tscn")
+	var player = preload("res://addons/observer/observer.tscn")
 	var player_instance = player.instantiate()
 	add_child(player_instance, true)
+
+	player_instance.set_collision_layer_value(1, true)
+	player_instance.set_collision_layer_value(4, true)
+	player_instance.set_collision_layer_value(6, true)
+	player_instance.set_collision_mask_value(1, true)
+	player_instance.set_collision_mask_value(2, true)
+	player_instance.set_collision_mask_value(5, true)
+	player_instance.set_collision_mask_value(6, true)
+	player_instance.set_collision_mask_value(7, true)
 
 	var spawns = get_tree().get_nodes_in_group("info_player_start")
 	if spawns.size() != 0:

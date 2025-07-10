@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://bj2rif776mhnx"]
+
+[ext_resource type="Script" path="res://addons/observer/observer.gd" id="1_n5atq"]
+[ext_resource type="Script" path="res://addons/observer/input.gd" id="2_3wleo"]
+[ext_resource type="Shader" path="res://addons/observer/shaders/distortion.gdshader" id="3_5u8b8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfwpu"]
+metallic_specular = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_vf82b"]
+material = SubResource("StandardMaterial3D_mfwpu")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gpebh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1w1ao"]
+shader = ExtResource("3_5u8b8")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/speed = 1.0
+shader_parameter/intensity = 0.025
+
+[node name="Observer3D" type="CharacterBody3D"]
+motion_mode = 1
+script = ExtResource("1_n5atq")
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("2_3wleo")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Camera3D"]
+remote_path = NodePath("../../RayCast3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+gi_mode = 0
+mesh = SubResource("SphereMesh_vf82b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_gpebh")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+spring_length = 0.0
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="SpringArm3D"]
+remote_path = NodePath("../../Camera3D")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, 0)
+
+[node name="ScreenEffects" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Distortion" type="ColorRect" parent="ScreenEffects"]
+visible = false
+material = SubResource("ShaderMaterial_1w1ao")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

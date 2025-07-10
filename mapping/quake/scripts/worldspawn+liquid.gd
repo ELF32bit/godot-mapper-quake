@@ -12,9 +12,9 @@ func _physics_process(delta: float) -> void:
 	var overlapping_bodies: Array[Node3D] = get_overlapping_bodies()
 	if overlapping_bodies.size():
 		for body in overlapping_bodies:
-			var swim_areas: Variant = body.get("swim_areas")
-			if swim_areas != null and swim_areas is Dictionary:
-				swim_areas[self] = liquid
+			if body.has_method("set_distortion_effect"):
+				if is_point_inside(body.global_position):
+					body.set_distortion_effect(liquid)
 	else:
 		set_physics_process(false)
 
@@ -24,9 +24,8 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _on_body_exited(body: Node3D) -> void:
-	var swim_areas: Variant = body.get("swim_areas")
-	if swim_areas != null and swim_areas is Dictionary:
-		swim_areas.erase(self)
+	if body.has_method("set_distortion_effect"):
+		body.set_distortion_effect(0)
 
 
 func is_point_inside(point: Vector3) -> bool:
