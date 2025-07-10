@@ -17,7 +17,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		node.monitorable = false
 		node.collision_layer = 0; node.collision_mask = 0;
 		node.set_collision_layer_value(PHYSICS_LAYERS_3D["trigger_once-areas"], true)
-		node.set_collision_mask_value(PHYSICS_LAYERS_3D["trigger_once-bodies"], true)
+		node.set_collision_mask_value(PHYSICS_LAYERS_3D["trigger_once-objects"], true)
 	else:
 		node = MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D", false, true, false)
 		if not node:
@@ -41,7 +41,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		delay_timer.wait_time = clampf(delay_time, 0.05, INF)
 		delay_timer.one_shot = true
 
-	if entity.get_int_property("spawnflags", 0) & 1 != 0:
+	if entity.get_int_property("spawnflags", 0) & 1:
 		if not has_health:
 			node.monitoring = false
 		else:

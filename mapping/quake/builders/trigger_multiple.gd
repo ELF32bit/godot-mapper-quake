@@ -5,4 +5,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if preload("__post.gd").get_appearflags(map, entity):
 		return null
 	# trigger: activate multiple
-	return null
+	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
+	if not node:
+		return null
+	set_collision_layer_mask(node, ["trigger_multiple-areas"], ["trigger_multiple-characters"])
+
+	return node

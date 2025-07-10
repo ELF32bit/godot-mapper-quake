@@ -5,7 +5,7 @@ signal path_corner_reached(path_corner: Node3D)
 const NODE_PATH_UTILITIES := preload("utilities/node_paths.gd")
 
 @export var damage_interval: float = 0.25
-@export var speed: float = 64.0 / 32.0
+@export var speed: float = 2.0
 
 @export var is_waiting_for_signal := false
 @export var _targets: Array[NodePath] = []

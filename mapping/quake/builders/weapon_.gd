@@ -19,10 +19,15 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if not weapon:
 		return null
 
-	entity.bind_string_property("message", "message")
+	var weapon_instance := weapon.instantiate()
+	weapon_instance.set_script(preload("../scripts/editor/item_rotating.gd"))
+
+	# target, targetname base
 	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
 	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
+	entity.bind_string_property("targetname", "name")
+
+	entity.bind_string_property("message", "message")
 	entity.bind_float_property("delay", "delay")
 
-	var weapon_instance := weapon.instantiate()
 	return weapon_instance

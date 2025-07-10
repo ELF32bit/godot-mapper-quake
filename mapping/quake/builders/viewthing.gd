@@ -6,4 +6,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 
 	var player_instance := player.instantiate()
+	player_instance.set_script(preload("../scripts/editor/monster.gd"))
+	player_instance.monster_name = "player"
+
 	return player_instance

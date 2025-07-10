@@ -2,8 +2,7 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	# world entity
-	if map.settings.options.get("__map_is_item", false):
+	if map.settings.options.get("_map_is_item", false):
 		return MapperUtilities.create_merged_brush_entity(entity, "Node3D", true, false, true)
 	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
 	if not node:
@@ -49,14 +48,12 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 					liquid_node.name = "liquid-%s" % liquid
 			liquids[liquid] = liquid_node
 
-		# creating excluded liquid area brush
+		# creating excluded from the merged entity liquid area brush
 		var area := MapperUtilities.create_brush(entity, brush, "Area3D")
 		if not area:
 			continue
+		set_collision_layer_mask(area, ["worldspawn-liquid-areas"], ["worldspawn-liquid-objects"])
 		MapperUtilities.add_global_child(area, liquids[liquid], map.settings)
-		set_collision_layer_mask(area,
-			["worldspawn-liquid-areas"],
-			["worldspawn-liquid-characters"])
 
 		# re-enabling disabled brush nodes
 		for child in area.get_children():
@@ -67,17 +64,18 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			elif child is OccluderInstance3D:
 				child.visible = false
 
-		# finishing setting up liquid area
+		# finishing constructing liquid area
 		area.set_script(preload("../scripts/worldspawn+liquid.gd"))
 		area.body_entered.connect(Callable(area, "_on_body_entered"), CONNECT_PERSIST)
 		area.body_exited.connect(Callable(area, "_on_body_exited"), CONNECT_PERSIST)
-		area.planes = brush.get_planes(true) # only visible planes are required
-		area.liquid = liquid
+		area.set("planes", brush.get_planes(true)) # only visible planes are required
+		area.set("liquid", liquid)
 
 		# also creating camera blocking static body for third person view
 		var collision_shape := CollisionShape3D.new()
 		collision_shape.shape = brush.concave_shape
 		collision_shape.shape.backface_collision = true
+
 		var static_body := StaticBody3D.new()
 		static_body.position = brush.center
 		MapperUtilities.add_global_child(static_body, area, map.settings)
@@ -85,11 +83,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		set_collision_layer_mask(static_body, ["worldspawn-liquid-bodies"], [])
 
 	entity.bind_string_property("message", "message")
-	map.settings.options["__worldtype"] = entity.get_int_property("worldtype", 0)
+	map.settings.options["_world_type"] = entity.get_int_property("worldtype", 0)
 	if entity.get_int_property("sounds", 0) > 0:
 		var audio_stream_player := AudioStreamPlayer.new()
 		node.add_child(audio_stream_player, map.settings.readable_node_names)
-		audio_stream_player.stream = null # TODO: add CD tracks
+		audio_stream_player.stream = null # CD tracks are not included
 		audio_stream_player.autoplay = true
 
 	return root_node

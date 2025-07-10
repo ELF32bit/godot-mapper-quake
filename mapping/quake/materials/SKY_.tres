@@ -7,3 +7,4 @@ render_priority = 0
 shader = ExtResource("1_0gl3q")
 shader_parameter/emission_energy = 8.0
 metadata/mesh_disabled = false
+metadata/cast_shadow = false

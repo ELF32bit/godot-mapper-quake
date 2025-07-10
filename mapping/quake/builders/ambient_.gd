@@ -4,6 +4,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 
 	var node := AudioStreamPlayer3D.new()
+	node.max_distance = 320.0 / map.settings.unit_size
+	node.autoplay = true
+
 	match entity.get_classname_property(null):
 		"ambient_drip": # dripping sound
 			node.stream = preload("../sounds/ambience/drip1.wav")
@@ -25,7 +28,5 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			node.stream = preload("../sounds/ambience/thunder1.wav")
 		_:
 			node.stream = entity.get_sound_property("noise", null)
-	node.max_distance = 320.0 / map.settings.unit_size
-	node.autoplay = true
 
 	return node

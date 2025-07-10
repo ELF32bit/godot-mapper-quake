@@ -38,7 +38,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			monster = map.loader.load_mdl("mdls/monsters/oldone.mdl")
 		"monster_zombie": # zombie
 			monster = map.loader.load_mdl("mdls/monsters/zombie.mdl")
-			if spawnflags & 1 != 0: # frame: 192
+			if spawnflags & 1: # frame: 192
 				pass
 	if not monster:
 		return null

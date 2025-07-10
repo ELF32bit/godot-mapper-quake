@@ -8,18 +8,18 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	var delay_time: float = entity.get_float_property("delay", 0.0)
 	if not delay_time < 0.0:
-		var delay_timer := Timer.new()
-		delay_timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
+		var delay_timer := preload("__post.gd").create_safe_timer(map, node, delay_time)
 		delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
-		node.add_child(delay_timer, map.settings.readable_node_names)
-		node._delay_timer = node.get_path_to(delay_timer)
-		delay_timer.wait_time = clampf(delay_time, 0.05, INF)
+		node.set("_delay_timer", node.get_path_to(delay_timer))
 		delay_timer.one_shot = true
 
-	entity.bind_string_property("targetname", "name")
-	entity.bind_int_property("count", "count")
-	entity.bind_string_property("message", "message")
+	# target, targetname base
 	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
 	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
+	entity.bind_string_property("targetname", "name")
+
+	entity.bind_int_property("count", "count")
+	if not entity.get_int_property("spawnflags", 0) & 1: # no message
+		entity.bind_string_property("message", "message")
 
 	return node

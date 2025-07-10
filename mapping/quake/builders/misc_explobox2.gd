@@ -9,12 +9,15 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	MapperUtilities.apply_entity_transform(entity, node, true)
 	set_collision_layer_mask(node, ["worldspawn"], [])
 
-	map.settings.options["__map_is_item"] = true
+	map.settings.options["_map_is_item"] = true
 	var explobox := map.loader.load_map_raw("maps/items/b_exbox2.map")
-	map.settings.options.erase("__map_is_item")
+	map.settings.options.erase("_map_is_item")
 	if explobox:
 		var explobox_instance := explobox.instantiate()
 		node.add_child(explobox_instance, map.settings.readable_node_names)
+	else:
+		node.free()
+		return null
 
 	var collision_shape = CollisionShape3D.new()
 	collision_shape.shape = BoxShape3D.new()

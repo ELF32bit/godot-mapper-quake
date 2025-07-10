@@ -40,6 +40,8 @@ func _ready() -> void:
 			animation_player.current_animation = "old"
 		"zombie":
 			animation_player.current_animation = "stand"
+		"player":
+			animation_player.current_animation = "stand"
 		_:
 			return
 	animation_player.animation_finished.connect(_on_animation_finished)

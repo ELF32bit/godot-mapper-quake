@@ -10,6 +10,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node, ["worldspawn"], [])
 
+	# func_wall does not cast shadow
+	for child in node.get_children():
+		if child is MeshInstance3D:
+			child.cast_shadow = false
+
 	# creating unique instances of animated materials and animated textures
 	var m_property := map.settings.alternative_textures_metadata_property
 	var animated_materials: Array[Material] = []
@@ -77,6 +82,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.alternative_textures = alternative_textures
 	node.affected_materials = animated_materials
 
+	# targetname base
 	entity.bind_string_property("targetname", "name")
 
 	return node
