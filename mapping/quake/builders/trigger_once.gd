@@ -2,6 +2,9 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
+	if preload("__post.gd").get_appearflags(map, entity):
+		return null
+	# trigger: activate once
 	var has_health: bool = (entity.get_int_property("health", -1) > 0)
 
 	var node: CollisionObject3D = null

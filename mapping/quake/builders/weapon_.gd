@@ -1,24 +1,28 @@
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	var scene_instance: Node3D = null
+	if preload("__post.gd").get_appearflags(map, entity):
+		return null
 
-	match entity.get_classname_property("").trim_prefix("weapon_"):
-		"supershotgun":
-			var scene := map.loader.load_mdl("mdls/items/g_shot.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"nailgun":
-			var scene := map.loader.load_mdl("mdls/items/g_nail.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"supernailgun":
-			var scene := map.loader.load_mdl("mdls/items/g_nail2.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"grenadelauncher":
-			var scene := map.loader.load_mdl("mdls/items/g_rock.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"rocketlauncher":
-			var scene := map.loader.load_mdl("mdls/items/g_rock2.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"lightning":
-			var scene := map.loader.load_mdl("mdls/items/g_light.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+	var weapon: PackedScene = null
+	match entity.get_classname_property(null):
+		"weapon_supershotgun": # double-barrelled shotgun
+			weapon = map.loader.load_mdl("mdls/items/g_shot.mdl")
+		"weapon_nailgun": # nailgun
+			weapon = map.loader.load_mdl("mdls/items/g_nail.mdl")
+		"weapon_supernailgun": # super nailgun
+			weapon = map.loader.load_mdl("mdls/items/g_nail2.mdl")
+		"weapon_grenadelauncher": # grenade launcher
+			weapon = map.loader.load_mdl("mdls/items/g_rock.mdl")
+		"weapon_rocketlauncher": # rocket launcher
+			weapon = map.loader.load_mdl("mdls/items/g_rock2.mdl")
+		"weapon_lightning": # thunderbolt
+			weapon = map.loader.load_mdl("mdls/items/g_light.mdl")
+	if not weapon:
+		return null
 
-	return scene_instance
+	entity.bind_string_property("message", "message")
+	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
+	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
+	entity.bind_float_property("delay", "delay")
+
+	var weapon_instance := weapon.instantiate()
+	return weapon_instance

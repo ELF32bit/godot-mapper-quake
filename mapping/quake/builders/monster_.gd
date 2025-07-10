@@ -1,60 +1,49 @@
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	var scene_instance: Node3D = null
+	if preload("__post.gd").get_appearflags(map, entity):
+		return null
+	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 
-	match entity.get_classname_property("").trim_prefix("monster_"):
-		"army":
-			var scene := map.loader.load_mdl("mdls/monsters/soldier.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"dog":
-			var scene := map.loader.load_mdl("mdls/monsters/dog.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"ogre":
-			var scene := map.loader.load_mdl("mdls/monsters/ogre.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"ogre_marksman":
-			var scene := map.loader.load_mdl("mdls/monsters/ogre.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"knight":
-			var scene := map.loader.load_mdl("mdls/monsters/knight.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"hell_knight":
-			var scene := map.loader.load_mdl("mdls/monsters/hknight.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"wizard":
-			var scene := map.loader.load_mdl("mdls/monsters/wizard.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"demon1":
-			var scene := map.loader.load_mdl("mdls/monsters/demon.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"shambler":
-			var scene := map.loader.load_mdl("mdls/monsters/shambler.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"boss":
-			var scene := map.loader.load_mdl("mdls/monsters/boss.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"enforcer":
-			var scene := map.loader.load_mdl("mdls/monsters/enforcer.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"shalrath":
-			var scene := map.loader.load_mdl("mdls/monsters/shalrath.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"tarbaby":
-			var scene := map.loader.load_mdl("mdls/monsters/tarbaby.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"fish":
-			var scene := map.loader.load_mdl("mdls/monsters/fish.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"oldone":
-			var scene := map.loader.load_mdl("mdls/monsters/oldone.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-		"zombie":
-			var scene := map.loader.load_mdl("mdls/monsters/zombie.mdl")
-			scene_instance = scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
-	if not scene_instance:
+	var monster: PackedScene = null
+	match entity.get_classname_property(null):
+		"monster_army": # grunt
+			monster = map.loader.load_mdl("mdls/monsters/soldier.mdl")
+		"monster_dog": # nasty doggie
+			monster = map.loader.load_mdl("mdls/monsters/dog.mdl")
+		"monster_ogre": # ogre
+			monster = map.loader.load_mdl("mdls/monsters/ogre.mdl")
+		"monster_ogre_marksman": # ogre marksman
+			monster = map.loader.load_mdl("mdls/monsters/ogre.mdl")
+		"monster_knight": # knight
+			monster = map.loader.load_mdl("mdls/monsters/knight.mdl")
+		"monster_hell_knight": # hell knight
+			monster = map.loader.load_mdl("mdls/monsters/hknight.mdl")
+		"monster_wizard": # scrag
+			monster = map.loader.load_mdl("mdls/monsters/wizard.mdl")
+		"monster_demon1": # fiend
+			monster = map.loader.load_mdl("mdls/monsters/demon.mdl")
+		"monster_shambler": # shambler
+			monster = map.loader.load_mdl("mdls/monsters/shambler.mdl")
+		"monster_boss": # chthon
+			monster = map.loader.load_mdl("mdls/monsters/boss.mdl")
+		"monster_enforcer": # enforcer
+			monster = map.loader.load_mdl("mdls/monsters/enforcer.mdl")
+		"monster_shalrath": # vore
+			monster = map.loader.load_mdl("mdls/monsters/shalrath.mdl")
+		"monster_tarbaby": # spawn
+			monster = map.loader.load_mdl("mdls/monsters/tarbaby.mdl")
+		"monster_fish": # rotfish
+			monster = map.loader.load_mdl("mdls/monsters/fish.mdl")
+		"monster_oldone": # shub-niggurath
+			monster = map.loader.load_mdl("mdls/monsters/oldone.mdl")
+		"monster_zombie": # zombie
+			monster = map.loader.load_mdl("mdls/monsters/zombie.mdl")
+			if spawnflags & 1 != 0: # frame: 192
+				pass
+	if not monster:
 		return null
 
-	scene_instance.set_script(preload("../scripts/editor/monster.gd"))
-	scene_instance.monster_name = entity.get_classname_property("").trim_prefix("monster_")
-
-	return scene_instance
+	var monster_instance := monster.instantiate()
+	monster_instance.set_script(preload("../scripts/editor/monster.gd"))
+	monster_instance.monster_name = entity.get_classname_property("").trim_prefix("monster_")
+	return monster_instance

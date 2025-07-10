@@ -2,6 +2,9 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
+	if preload("__post.gd").get_appearflags(map, entity):
+		return null
+
 	var node: Node = preload("func_wall.gd").build(map, entity)
 	if not node:
 		return null

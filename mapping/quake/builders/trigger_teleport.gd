@@ -2,7 +2,10 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	var node: Area3D = MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
+	if preload("__post.gd").get_appearflags(map, entity):
+		return null
+	# trigger: teleporter
+	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
 	if not node:
 		return null
 	node.set_script(preload("../scripts/trigger_teleport.gd"))

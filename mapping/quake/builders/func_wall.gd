@@ -2,10 +2,13 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
+	if preload("__post.gd").get_appearflags(map, entity):
+		return null
+	# wall, starts animation when triggered (if supporting texture)
 	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
 	if not node:
 		return null
-	node.set_script(preload("../scripts/func_wall.gd"))
+	set_collision_layer_mask(node, ["worldspawn"], [])
 
 	# creating unique instances of animated materials and animated textures
 	var m_property := map.settings.alternative_textures_metadata_property
@@ -69,12 +72,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 						material.set_script(preload("../scripts/func_wall+material.gd"))
 						animated_materials.append(material)
+
+	node.set_script(preload("../scripts/func_wall.gd"))
 	node.alternative_textures = alternative_textures
 	node.affected_materials = animated_materials
 
 	entity.bind_string_property("targetname", "name")
-
-	node.collision_layer = 0; node.collision_mask = 0;
-	node.set_collision_layer_value(PHYSICS_LAYERS_3D["worldspawn"], true)
 
 	return node

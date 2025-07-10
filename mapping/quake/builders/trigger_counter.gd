@@ -1,5 +1,8 @@
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
+	if preload("__post.gd").get_appearflags(map, entity):
+		return null
+	# trigger: counter
 	var node := Marker3D.new()
 	node.set_script(preload("../scripts/trigger_counter.gd"))
 

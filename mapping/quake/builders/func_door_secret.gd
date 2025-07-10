@@ -4,7 +4,7 @@ extends "../layers.gd"
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if preload("__post.gd").get_appearflags(map, entity):
 		return null
-	# basic door
+	# secret door
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
 		return null

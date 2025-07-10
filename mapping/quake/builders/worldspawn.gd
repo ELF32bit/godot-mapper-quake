@@ -2,70 +2,117 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
+	# world entity
+	if map.settings.options.get("__map_is_item", false):
+		return MapperUtilities.create_merged_brush_entity(entity, "Node3D", true, false, true)
 	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
 	if not node:
 		return null
+	set_collision_layer_mask(node, ["worldspawn"], [])
 
-	var root := Node3D.new()
-	root.transform = node.transform
-	MapperUtilities.add_global_child(node, root, map.settings)
-
+	# creating world entity navigation region
 	var navigation_region := MapperUtilities.create_navigation_region(map, node)
 	MapperUtilities.add_to_navigation_region(node, navigation_region)
-	node.move_child(navigation_region, 1)
 
 	# adding map entities to worldspawn navigation region
+	for map_entity in map.classnames.get("func_wall", []):
+		MapperUtilities.add_entity_to_navigation_region(map_entity, navigation_region)
 	for map_entity in map.classnames.get("func_detail", []):
 		MapperUtilities.add_entity_to_navigation_region(map_entity, navigation_region)
+	for map_entity in map.classnames.get("func_detail_wall", []):
+		MapperUtilities.add_entity_to_navigation_region(map_entity, navigation_region)
 
-	# creating worldspawn liquid areas
-	var liquids := {}
+	# creating root node to hold liquid areas
+	var root_node := Node3D.new()
+	root_node.transform = node.transform
+	MapperUtilities.add_global_child(node, root_node, map.settings)
+
+	# creating world entity liquid areas excluded from the merged brush entity
+	var liquids: Dictionary = {}
 	for brush in entity.brushes:
 		var liquid: int = brush.get_uniform_property("liquid", 0)
 		if not liquid > 0:
 			continue
 
+		# creating node to hold liquid areas of certain type
 		if not liquid in liquids:
 			var liquid_node = Node3D.new()
-			liquid_node.name = "liquid-%s" % liquid
-			liquid_node.transform = node.transform
-			MapperUtilities.add_global_child(liquid_node, root, map.settings)
+			root_node.add_child(liquid_node, map.settings.readable_node_names)
+			match liquid:
+				1:
+					liquid_node.name = "water"
+				2:
+					liquid_node.name = "lava"
+				3:
+					liquid_node.name = "slime"
+				_:
+					liquid_node.name = "liquid-%s" % liquid
 			liquids[liquid] = liquid_node
 
+		# creating excluded liquid area brush
 		var area := MapperUtilities.create_brush(entity, brush, "Area3D")
 		if not area:
 			continue
-
 		MapperUtilities.add_global_child(area, liquids[liquid], map.settings)
+		set_collision_layer_mask(area,
+			["worldspawn-liquid-areas"],
+			["worldspawn-liquid-characters"])
+
+		# re-enabling disabled brush nodes
 		for child in area.get_children():
 			if child is MeshInstance3D:
 				child.visible = true
 			elif child is CollisionShape3D:
 				child.disabled = false
 			elif child is OccluderInstance3D:
-				child.visible = true
-		var static_body := StaticBody3D.new()
-		var collision_shape := CollisionShape3D.new()
-		collision_shape.shape = brush.concave_shape
-		collision_shape.shape.backface_collision = true
-		static_body.add_child(collision_shape, map.settings.readable_node_names)
-		static_body.position = brush.center
-		MapperUtilities.add_global_child(static_body, area, map.settings)
+				child.visible = false
 
+		# finishing setting up liquid area
 		area.set_script(preload("../scripts/worldspawn+liquid.gd"))
 		area.body_entered.connect(Callable(area, "_on_body_entered"), CONNECT_PERSIST)
 		area.body_exited.connect(Callable(area, "_on_body_exited"), CONNECT_PERSIST)
 		area.planes = brush.get_planes(true) # only visible planes are required
 		area.liquid = liquid
 
-		area.collision_layer = 0; area.collision_mask = 0;
-		area.set_collision_layer_value(PHYSICS_LAYERS_3D["worldspawn-liquid-areas"], true)
-		area.set_collision_mask_value(PHYSICS_LAYERS_3D["worldspawn-liquid-characters"], true)
+		# also creating camera blocking static body for third person view
+		var collision_shape := CollisionShape3D.new()
+		collision_shape.shape = brush.concave_shape
+		collision_shape.shape.backface_collision = true
+		var static_body := StaticBody3D.new()
+		static_body.position = brush.center
+		MapperUtilities.add_global_child(static_body, area, map.settings)
+		static_body.add_child(collision_shape, map.settings.readable_node_names)
+		set_collision_layer_mask(static_body, ["worldspawn-liquid-bodies"], [])
 
-		static_body.collision_layer = 0; static_body.collision_mask = 0;
-		static_body.set_collision_layer_value(PHYSICS_LAYERS_3D["worldspawn-liquid-bodies"], true)
+	entity.bind_string_property("message", "message")
+	map.settings.options["__worldtype"] = entity.get_int_property("worldtype", 0)
+	if entity.get_int_property("sounds", 0) > 0:
+		var audio_stream_player := AudioStreamPlayer.new()
+		node.add_child(audio_stream_player, map.settings.readable_node_names)
+		audio_stream_player.stream = null # TODO: add CD tracks
+		audio_stream_player.autoplay = true
 
-	node.collision_layer = 0; node.collision_mask = 0;
-	node.set_collision_layer_value(PHYSICS_LAYERS_3D["worldspawn"], true)
+	return root_node
 
-	return root
+
+static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void:
+	if entity.get_float_property("light", 0.0) > 0.0:
+		var world_environment := WorldEnvironment.new()
+		map.node.add_child(world_environment, map.settings.readable_node_names)
+		map.node.move_child(world_environment, 0)
+
+		world_environment.environment = Environment.new()
+		world_environment.environment.ambient_light_color = Environment.AMBIENT_SOURCE_COLOR
+		world_environment.environment.ambient_light_color = Color.WHITE
+		world_environment.environment.ambient_light_energy = entity.get_float_property("light")
+
+	if entity.get_float_property("_sunlight", 0.0) > 0.0:
+		var directional_light := DirectionalLight3D.new()
+		map.node.add_child(directional_light, map.settings.readable_node_names)
+		var default_rotation := Vector3(180.0, 0.0, 0.0) # TODO: with basis
+		directional_light.rotation = entity.get_property("convert_mangle", "_sun_mangle", default_rotation)
+		directional_light.light_bake_mode = Light3D.BAKE_STATIC
+		directional_light.shadow_enabled = true
+		directional_light.light_energy = 4.0
+
+
