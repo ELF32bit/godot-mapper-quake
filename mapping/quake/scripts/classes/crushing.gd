@@ -1,9 +1,10 @@
 extends PhysicsBody3D
 
-signal crushing_object(object: Object, damage: int) # other than character
 signal crushing_character(character: CharacterBody3D, damage: int)
+signal crushing_object(object: Object, damage: int) # other than character
 
 @export var damage: int = 0
+
 @onready var last_global_position: Vector3 = global_position
 
 
@@ -29,8 +30,7 @@ func _physics_process(_delta: float) -> void:
 
 	for collision_index in range(collision.get_collision_count()):
 		var collider := collision.get_collider(collision_index)
-		# crushing characters based on slide collisions unique to CharacterBody3D
-		if collider is CharacterBody3D:
+		if collider is CharacterBody3D: # crushing characters based on slide collisions
 			for slide_index in range(collider.get_slide_collision_count()):
 				var slide_collision = collider.get_slide_collision(slide_index)
 				# only processing slide collisions with other nearby colliders
@@ -38,9 +38,8 @@ func _physics_process(_delta: float) -> void:
 					# crush angle is higher than 60 degrees
 					if slide_collision.get_normal().dot(direction) < -0.9:
 						crushing_character.emit(collider, damage)
-		else:
-			# crushing objects (not reliable for characters)
+		else: # crushing objects (not reliable for characters)
 			if collision.get_normal(collision_index).dot(direction) < -0.9:
 				crushing_object.emit(collider, damage)
-	# making sure last global position is updated after firing signals
+	# updating last global position after firing signals
 	last_global_position = global_position

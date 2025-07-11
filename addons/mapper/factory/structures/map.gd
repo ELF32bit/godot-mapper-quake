@@ -12,6 +12,7 @@ var group_target_sources: Dictionary
 var group_entities: Dictionary
 var groups: Dictionary
 
+var metadata: Dictionary
 var factory: MapperFactory
 var settings: MapperSettings # shortcut to factory settings for build scripts
 var loader: MapperLoader # shortcut to factory game loader for build scripts
@@ -139,7 +140,9 @@ func get_entity_targets(entity: MapperEntity, destination_property: StringName, 
 
 func get_first_entity_target(entity: MapperEntity, destination_property: StringName, source_property: StringName, classname: String = "*", group_type: StringName = "") -> MapperEntity:
 	var targets := get_entity_targets(entity, destination_property, source_property, classname, group_type)
-	return targets[0] if targets.size() else null
+	if targets.size():
+		return targets[0]
+	return null
 
 
 func get_first_entity_target_recursively(entity: MapperEntity, destination_property: StringName, source_property: StringName, classname: String = "*", group_type: StringName = "") -> Array[MapperEntity]:

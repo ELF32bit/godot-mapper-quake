@@ -2,7 +2,7 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 	# elevator
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
@@ -16,13 +16,12 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	root_node.transform = node.transform
 
 	# parenting node to root node
-	node.set_script(preload("../scripts/classes/PhysicsCrushingBody3D.gd"))
+	node.set_script(preload("../scripts/classes/crushing.gd"))
 	MapperUtilities.add_global_child(node, root_node, map.settings)
 
 	# creating func_plat area
 	var area := Area3D.new()
-	area.transform = MapperUtilities.get_tree_transform(node)
-	MapperUtilities.add_global_child(area, root_node, map.settings)
+	root_node.add_child(area, map.settings.readable_node_names)
 	set_collision_layer_mask(area, ["func_plat-areas"], ["func_plat-characters"])
 	root_node.set("_area", root_node.get_path_to(area))
 
@@ -92,7 +91,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	root_node.add_child(animation_player, map.settings.readable_node_names)
 	root_node.set("_animation_player", root_node.get_path_to(animation_player))
 
-	# creating wait timer
+	# creating wait timer (implementation specific property)
 	var wait_time: float = entity.get_float_property("wait", 1.0)
 	if not wait_time < 0.0:
 		var wait_timer := preload("__post.gd").create_safe_timer(map, root_node, wait_time)
@@ -122,11 +121,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	MapperUtilities.create_reset_animation(animation_player, animation_library)
 
 	# if targeted, the func_plat will spawn in the extended position
+	entity.bind_string_property("targetname", "name")
 	if not entity.get_string_property("targetname", "").is_empty():
 		animation_player.autoplay = "extended"
 		area.monitoring = false
 
-	entity.bind_string_property("targetname", "name")
 	node.set("damage", entity.get_int_property("dmg", 2))
 
 	return root_node
@@ -152,65 +151,66 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node], extra_pl
 	var retracted_animation := Animation.new()
 
 	# creating animation track names
-	var platform_track_name := str(node.name)
-	var collision_shape_track_name := str(area.name.path_join(collision_shape.name))
-	var collision_shape_size_track_name := collision_shape_track_name.path_join(":shape:size")
-	var move_sound_playing_track_name := platform_track_name.path_join(move_sound_player.name) + ":playing"
-	var stop_sound_playing_track_name := platform_track_name.path_join(stop_sound_player.name) + ":playing"
+	var platform_track := str(node.name)
+	var collision_shape_track := str(area.name.path_join(collision_shape.name))
+	var collision_shape_size_track := collision_shape_track + ":shape:size"
+	var move_sound_playing_track := node.name.path_join(move_sound_player.name) + ":playing"
+	var stop_sound_playing_track := node.name.path_join(stop_sound_player.name) + ":playing"
 
 	# creating animation tracks
 	extend_animation.add_track(Animation.TYPE_POSITION_3D)
-	extend_animation.track_set_path(0, platform_track_name)
+	extend_animation.track_set_path(0, platform_track)
 	extend_animation.add_track(Animation.TYPE_POSITION_3D)
-	extend_animation.track_set_path(1, collision_shape_track_name)
+	extend_animation.track_set_path(1, collision_shape_track)
 	extend_animation.add_track(Animation.TYPE_VALUE)
-	extend_animation.track_set_path(2, collision_shape_size_track_name)
+	extend_animation.track_set_path(2, collision_shape_size_track)
 	extend_animation.add_track(Animation.TYPE_VALUE)
-	extend_animation.track_set_path(3, move_sound_playing_track_name)
+	extend_animation.track_set_path(3, move_sound_playing_track)
 	extend_animation.add_track(Animation.TYPE_VALUE)
-	extend_animation.track_set_path(4, stop_sound_playing_track_name)
+	extend_animation.track_set_path(4, stop_sound_playing_track)
 
 	extended_animation.add_track(Animation.TYPE_POSITION_3D)
-	extended_animation.track_set_path(0, platform_track_name)
+	extended_animation.track_set_path(0, platform_track)
 	extended_animation.add_track(Animation.TYPE_POSITION_3D)
-	extended_animation.track_set_path(1, collision_shape_track_name)
+	extended_animation.track_set_path(1, collision_shape_track)
 	extended_animation.add_track(Animation.TYPE_VALUE)
-	extended_animation.track_set_path(2, collision_shape_size_track_name)
+	extended_animation.track_set_path(2, collision_shape_size_track)
 	extended_animation.add_track(Animation.TYPE_VALUE)
-	extended_animation.track_set_path(3, move_sound_playing_track_name)
+	extended_animation.track_set_path(3, move_sound_playing_track)
 
 	retract_animation.add_track(Animation.TYPE_POSITION_3D)
-	retract_animation.track_set_path(0, platform_track_name)
+	retract_animation.track_set_path(0, platform_track)
 	retract_animation.add_track(Animation.TYPE_POSITION_3D)
-	retract_animation.track_set_path(1, collision_shape_track_name)
+	retract_animation.track_set_path(1, collision_shape_track)
 	retract_animation.add_track(Animation.TYPE_VALUE)
-	retract_animation.track_set_path(2, collision_shape_size_track_name)
+	retract_animation.track_set_path(2, collision_shape_size_track)
 	retract_animation.add_track(Animation.TYPE_VALUE)
-	retract_animation.track_set_path(3, move_sound_playing_track_name)
+	retract_animation.track_set_path(3, move_sound_playing_track)
 	retract_animation.add_track(Animation.TYPE_VALUE)
-	retract_animation.track_set_path(4, stop_sound_playing_track_name)
+	retract_animation.track_set_path(4, stop_sound_playing_track)
 
 	retracted_animation.add_track(Animation.TYPE_POSITION_3D)
-	retracted_animation.track_set_path(0, platform_track_name)
+	retracted_animation.track_set_path(0, platform_track)
 	retracted_animation.add_track(Animation.TYPE_POSITION_3D)
-	retracted_animation.track_set_path(1, collision_shape_track_name)
+	retracted_animation.track_set_path(1, collision_shape_track)
 	retracted_animation.add_track(Animation.TYPE_VALUE)
-	retracted_animation.track_set_path(2, collision_shape_size_track_name)
+	retracted_animation.track_set_path(2, collision_shape_size_track)
 	retracted_animation.add_track(Animation.TYPE_VALUE)
-	retracted_animation.track_set_path(3, move_sound_playing_track_name)
+	retracted_animation.track_set_path(3, move_sound_playing_track)
 
 	# preparing to create animation key frames
+	var inverse_transform := root_node.transform.affine_inverse()
 	var up_axis := MapperUtilities.get_up_axis(entity.factory.settings)
 	var up_axis_index := MapperUtilities.get_up_axis_index(entity.factory.settings)
-	var inverse_transform := root_node.transform.affine_inverse()
+	var entity_center := entity.aabb.get_center()
 
 	# calculating func_plat positions
 	var offset := clampf(height, 0.0, INF)
 	if height == 0.0:
 		offset = entity.aabb.size[up_axis_index] - extra_platform_height
 
-	var platform_retract_position := inverse_transform * (entity.aabb.get_center() - up_axis * offset)
-	var platform_extend_position := inverse_transform * entity.aabb.get_center()
+	var platform_retract_position := inverse_transform * (entity_center - up_axis * offset)
+	var platform_extend_position := inverse_transform * entity_center
 
 	var collision_shape_extend_position := collision_shape.position
 	var collision_shape_extend_size: Vector3 = collision_shape.shape.size
@@ -218,10 +218,10 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node], extra_pl
 	var collision_shape_retract_position: Vector3
 	var collision_shape_retract_size := entity.aabb.size
 	if height == 0.0:
-		collision_shape_retract_position = inverse_transform * (entity.aabb.get_center() + up_axis * extra_platform_height)
+		collision_shape_retract_position = inverse_transform * (entity_center + up_axis * extra_platform_height)
 	else:
 		var collision_shape_offset := (entity.aabb.size[up_axis_index] + extra_platform_height - height) / 2.0
-		collision_shape_retract_position = inverse_transform * (entity.aabb.get_center() + up_axis * collision_shape_offset)
+		collision_shape_retract_position = inverse_transform * (entity_center + up_axis * collision_shape_offset)
 		collision_shape_retract_size[up_axis_index] = height + extra_platform_height
 
 	# creating animation frame times

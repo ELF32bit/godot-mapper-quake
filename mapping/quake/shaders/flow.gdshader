@@ -26,6 +26,6 @@ void fragment() {
 
 	if (quake_water) {
 		vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
-		ALPHA = float(abs(dot(world_normal, vec3(0.0, 1.0, 0.0))) > 0.90);
+		if (!(abs(dot(world_normal, vec3(0.0, 1.0, 0.0))) > 0.90)) { discard; }
 	}
 }

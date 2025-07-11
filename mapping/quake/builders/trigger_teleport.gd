@@ -2,7 +2,7 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 	# trigger: teleporter
 	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
@@ -10,6 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node, ["trigger_teleport-areas"], ["trigger_teleport-objects"])
 
+	# setting trigger_teleport script and connecting signals
 	node.set_script(preload("../scripts/trigger_teleport.gd"))
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
@@ -29,20 +30,17 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	]
 	node.set("teleport_sounds", teleport_sounds)
 
-	# handling trigger_teleport spawnflags
-	var spawnflags: int = entity.get_int_property("spawnflags", 0)
-	if spawnflags & 1:
-		pass # player only
-	if spawnflags & 2:
-		node.set("teleport_sounds", [])
 	if not entity.get_string_property("targetname", "").is_empty():
 		node.monitoring = false
 
-	# target, targetname base
-	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
-	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
-	entity.bind_string_property("targetname", "name")
+	preload("__post.gd").bind_target_base(entity, "info_teleport_destination")
+	preload("__post.gd").bind_targetname_base(entity)
 
-	entity.bind_node_path_array_property("target", "targetname", "_targets", "info_teleport_destination")
+	# handling trigger_teleport spawnflags
+	var spawnflags: int = entity.get_int_property("spawnflags", 0)
+	if spawnflags & 1: # player only
+		pass
+	if spawnflags & 2: # silent
+		node.set("teleport_sounds", [])
 
 	return node

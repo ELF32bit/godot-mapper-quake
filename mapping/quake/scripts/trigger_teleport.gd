@@ -1,16 +1,14 @@
-extends Area3D
+extends "classes/targets.gd" # Area3D
 
-const NODE_PATH_UTILITIES := preload("utilities/node_paths.gd")
-
+@export var push_speed: float = 15.0
 @export var teleport_sounds: Array[AudioStream]
+
 @export_node_path("AudioStreamPlayer3D") var _teleport_sound_player: NodePath
 @onready var teleport_sound_player: AudioStreamPlayer3D = get_node(_teleport_sound_player)
-@export var _targets: Array[NodePath] = []
-@export var push_speed: float = 15.0
 
 
 func _on_body_entered(body: Node3D) -> void:
-	var target: Node3D = NODE_PATH_UTILITIES.get_first_valid_node(self, _targets, "Node3D")
+	var target: Node3D = get_first_target_node("Node3D")
 	if target:
 		body.global_position = target.global_position + Vector3.UP * 2.0
 		var body_forward := -body.global_transform.basis.z.normalized()
@@ -33,4 +31,4 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _on_generic_signal() -> void:
-	monitoring = true
+	self.monitoring = true

@@ -4,4 +4,5 @@ extends "trigger_once.gd"
 
 
 func _on_trigger_fired() -> void:
-	super() # TODO: call singleton here
+	super()
+	#print(map)

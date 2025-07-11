@@ -375,7 +375,9 @@ static func create_lightmap_gi(map: MapperMap, parent: Node, as_first_child: boo
 		map.source_file.get_file().get_basename(),
 		map.source_file.hash(),
 		map.factory.random_number_generator.randi()])
-	if ResourceSaver.save(LightmapGIData.new(), lightmap_gi_data_path) == OK:
+	if map.settings.options.get("__lightmap_external", false):
+		lightmap_gi.light_data = ResourceLoader.load(lightmap_gi_data_path, "LightmapGIData")
+	elif ResourceSaver.save(LightmapGIData.new(), lightmap_gi_data_path) == OK:
 		lightmap_gi.light_data = ResourceLoader.load(lightmap_gi_data_path, "LightmapGIData")
 	if as_first_child:
 		parent.move_child(lightmap_gi, 0)
@@ -723,7 +725,7 @@ static func create_merged_brush_entity(entity: MapperEntity, node_class: StringN
 		has_children = true
 
 		if entity.factory.settings.store_base_materials:
-			var materials := {}
+			var materials: Dictionary = {}
 			for brush in entity.brushes:
 				materials.merge(brush.materials, false)
 			for surface_index in range(entity.mesh.get_surface_count()):

@@ -1,9 +1,9 @@
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 
 	var weapon: PackedScene = null
-	match entity.get_classname_property(null):
+	match entity.get_classname_property():
 		"weapon_supershotgun": # double-barrelled shotgun
 			weapon = map.loader.load_mdl("mdls/items/g_shot.mdl")
 		"weapon_nailgun": # nailgun
@@ -22,11 +22,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var weapon_instance := weapon.instantiate()
 	weapon_instance.set_script(preload("../scripts/editor/item_rotating.gd"))
 
-	# target, targetname base
-	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
-	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
-	entity.bind_string_property("targetname", "name")
-
+	preload("__post.gd").bind_target_base(entity)
+	preload("__post.gd").bind_targetname_base(entity)
 	entity.bind_string_property("message", "message")
 	entity.bind_float_property("delay", "delay")
 

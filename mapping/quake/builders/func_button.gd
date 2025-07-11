@@ -2,7 +2,7 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 	# button
 	var node: Node = preload("func_wall.gd").build(map, entity)
@@ -22,8 +22,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating func_button area
 	var area := Area3D.new()
-	area.transform = MapperUtilities.get_tree_transform(node)
-	MapperUtilities.add_global_child(area, root_node, map.settings)
+	root_node.add_child(area, map.settings.readable_node_names)
 	set_collision_layer_mask(area, ["func_button-areas"], ["func_button-characters"])
 	root_node.set("_area", root_node.get_path_to(area))
 
@@ -43,18 +42,18 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# handling func_button variant with health
 	var entity_health: int = entity.get_int_property("health", 0)
 	if entity_health > 0:
-		var c_alternative_texture: Variant = node.alternative_texture
-		var c_alternative_texture_fps: Variant = node.alternative_texture_fps
-		var c_alternative_textures: Variant = node.alternative_textures
-		var c_affected_materials: Variant = node.affected_materials
-		node.set_script(preload("../scripts/func_button+.gd"))
-		node.alternative_texture = c_alternative_texture
-		node.alternative_texture_fps = c_alternative_texture_fps
-		node.alternative_textures = c_alternative_textures
-		node.affected_materials = c_affected_materials
+		var alternative_texture: Variant = node.get("alternative_texture")
+		var alternative_speed_scale: Variant = node.get("alternative_speed_scale")
+		var alternative_textures: Variant = node.get("alternative_textures")
+		var affected_materials: Variant = node.get("affected_materials")
+		node.set_script(preload("../scripts/func_button-health.gd"))
+		node.set("alternative_texture", alternative_texture)
+		node.set("alternative_speed_scale", alternative_speed_scale)
+		node.set("alternative_textures", alternative_textures)
+		node.set("affected_materials", affected_materials)
 		# finishing switching button script and setting up connections
 		node.connect("generic", Callable(root_node, "_on_health_ended"), CONNECT_PERSIST)
-		node.max_health = entity_health
+		node.set("max_health", entity_health)
 		area.monitoring = false
 
 	# creating func_button sound player
@@ -113,11 +112,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating reset animation for the animation library
 	MapperUtilities.create_reset_animation(animation_player, animation_library)
 
-	# target, targetname base
-	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
-	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
-	entity.bind_string_property("targetname", "name")
-
+	preload("__post.gd").bind_target_base(entity)
+	preload("__post.gd").bind_targetname_base(entity)
 	entity.bind_float_property("delay", "delay_time")
 	entity.bind_string_property("message", "message")
 
@@ -140,36 +136,36 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node]) -> Array
 	var released_animation := Animation.new()
 
 	# creating animation track names
-	var button_track_name := str(root_node.get_path_to(node))
-	var button_track_alternative_texture_property := button_track_name + ":alternative_texture"
+	var button_track := str(root_node.get_path_to(node))
+	var button_alternative_texture_track := button_track + ":alternative_texture"
 
 	# creating animation tracks
 	press_animation.add_track(Animation.TYPE_POSITION_3D)
-	press_animation.track_set_path(0, button_track_name)
+	press_animation.track_set_path(0, button_track)
 
 	pressed_animation.add_track(Animation.TYPE_POSITION_3D)
-	pressed_animation.track_set_path(0, button_track_name)
+	pressed_animation.track_set_path(0, button_track)
 	pressed_animation.add_track(Animation.TYPE_VALUE)
-	pressed_animation.track_set_path(1, button_track_alternative_texture_property)
+	pressed_animation.track_set_path(1, button_alternative_texture_track)
 
 	release_animation.add_track(Animation.TYPE_POSITION_3D)
-	release_animation.track_set_path(0, button_track_name)
+	release_animation.track_set_path(0, button_track)
 	release_animation.add_track(Animation.TYPE_VALUE)
-	release_animation.track_set_path(1, button_track_alternative_texture_property)
+	release_animation.track_set_path(1, button_alternative_texture_track)
 
 	released_animation.add_track(Animation.TYPE_POSITION_3D)
-	released_animation.track_set_path(0, button_track_name)
+	released_animation.track_set_path(0, button_track)
 
 	# preparing to create animation key frames
 	var inverse_transform := root_node.transform.affine_inverse()
-	var forward := -root_node.basis.z.normalized()
-	var local_forward := -node.basis.z.normalized()
-	var axis_index := forward.abs().max_axis_index()
+	var forward_vector := -root_node.basis.z.normalized()
+	var forward_axis_index := forward_vector.abs().max_axis_index()
+	var local_forward_vector := -node.basis.z.normalized()
 
 	# calculating func_button positions
-	var offset := clampf(entity.aabb.size[axis_index] - lip, 0.0, INF)
+	var offset := clampf(entity.aabb.size[forward_axis_index] - lip, 0.0, INF)
 	var button_release_position := inverse_transform * entity.aabb.get_center()
-	var button_press_position := button_release_position + local_forward * offset
+	var button_press_position := button_release_position + local_forward_vector * offset
 
 	# creating animation frame times
 	var frames := [0.0, offset / speed, offset / speed + wait, 2.0 * offset / speed + wait]

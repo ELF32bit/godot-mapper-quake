@@ -1,13 +1,13 @@
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 
 	var node := AudioStreamPlayer3D.new()
 	node.max_distance = 320.0 / map.settings.unit_size
 	node.autoplay = true
 
-	match entity.get_classname_property(null):
+	match entity.get_classname_property():
 		"ambient_drip": # dripping sound
 			node.stream = preload("../sounds/ambience/drip1.wav")
 		"ambient_drone": # engine/machinery sound

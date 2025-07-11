@@ -65,7 +65,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 				child.visible = false
 
 		# finishing constructing liquid area
-		area.set_script(preload("../scripts/worldspawn+liquid.gd"))
+		area.set_script(preload("../scripts/worldspawn-liquid.gd"))
 		area.body_entered.connect(Callable(area, "_on_body_entered"), CONNECT_PERSIST)
 		area.body_exited.connect(Callable(area, "_on_body_exited"), CONNECT_PERSIST)
 		area.set("planes", brush.get_planes(true)) # only visible planes are required
@@ -87,7 +87,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if entity.get_int_property("sounds", 0) > 0:
 		var audio_stream_player := AudioStreamPlayer.new()
 		node.add_child(audio_stream_player, map.settings.readable_node_names)
-		audio_stream_player.stream = null # CD tracks are not included
+		audio_stream_player.stream = null # CD tracks 2-11 are not included
 		audio_stream_player.autoplay = true
 
 	return root_node

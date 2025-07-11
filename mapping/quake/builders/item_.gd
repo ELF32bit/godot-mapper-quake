@@ -1,10 +1,10 @@
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 
 	var item: PackedScene = null
-	match entity.get_classname_property(null):
+	match entity.get_classname_property():
 		"item_artifact_envirosuit": # environmental protection
 			item = map.loader.load_mdl("mdls/items/suit.mdl")
 		"item_artifact_super_damage": # quad damage
@@ -47,19 +47,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if item:
 		var item_instance := item.instantiate()
 		item_instance.set_script(preload("../scripts/editor/item_rotating.gd"))
-
-		# target, targetname base
-		entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
-		entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
-		entity.bind_string_property("targetname", "name")
-
-		entity.bind_string_property("message", "message")
-		entity.bind_float_property("delay", "delay")
-
+		bind_entity_properties(entity)
 		return item_instance
 
 	map.settings.options["_map_is_item"] = true
-	match entity.get_classname_property(null):
+	match entity.get_classname_property():
 		"item_cells": # thunderbolt ammo
 			if spawnflags & 1: # large box
 				item = map.loader.load_map_raw("maps/items/b_batt1.map")
@@ -90,16 +82,15 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	map.settings.options.erase("_map_is_item")
 	if item:
 		var item_instance := item.instantiate()
-
-		if entity.get_classname_property("") != "item_health":
-			# target, targetname base
-			entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal")
-			entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free")
-			entity.bind_string_property("targetname", "name")
-
-			entity.bind_string_property("message", "message")
-			entity.bind_float_property("delay", "delay")
-
+		if entity.get_classname_property() != "item_health":
+			bind_entity_properties(entity)
 		return item_instance
 
 	return null
+
+
+static func bind_entity_properties(entity: MapperEntity) -> void:
+	preload("__post.gd").bind_target_base(entity)
+	preload("__post.gd").bind_targetname_base(entity)
+	entity.bind_string_property("message", "message")
+	entity.bind_float_property("delay", "delay")

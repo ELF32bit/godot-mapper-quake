@@ -2,7 +2,7 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 	# moving platform
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
@@ -10,6 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node, ["worldspawn"], ["func_train-characters", "func_train-objects"])
 
+	# setting trigger_train script and connecting signals
 	node.set_script(preload("../scripts/func_train.gd"))
 	node.connect("crushing_character", Callable(node, "_on_crushing_character"), CONNECT_PERSIST)
 	node.connect("crushing_object", Callable(node, "_on_crushing_object"), CONNECT_PERSIST)
@@ -41,7 +42,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		if noise2:
 			stop_sound_player.stream = noise2
 
-	# creating generic wait timer
+	# creating generic wait timer for path_corner
 	var wait_timer := preload("__post.gd").create_safe_timer(map, node)
 	wait_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 	node.set("_wait_timer", node.get_path_to(wait_timer))
@@ -53,10 +54,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			if child is MeshInstance3D:
 				child.gi_mode = MeshInstance3D.GI_MODE_DISABLED
 
-	# targetname base
-	entity.bind_string_property("targetname", "name")
+	preload("__post.gd").bind_targetname_base(entity)
 	if not entity.get_string_property("targetname", "").is_empty():
-		node.is_waiting_for_signal = true
+		node.set("is_waiting_for_signal", true)
 
 	node.set("speed", entity.get_unit_property("speed", 64.0))
 	entity.bind_node_path_array_property("target", "targetname", "_targets", "path_corner")

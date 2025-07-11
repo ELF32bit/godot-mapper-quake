@@ -18,14 +18,14 @@ extends Material
 				if alternative_texture < textures[slot].size():
 					call("set_shader_parameter", slot, textures[slot][alternative_texture])
 
-@export var alternative_texture_fps: float = 10.0:
+@export_range(-60.0, 60.0) var alternative_speed_scale: float = 1.0:
 	set(value):
 		var textures := get_alternative_textures()
 		for slot_textures in textures.values():
 				for slot_texture in slot_textures:
 					if slot_texture is AnimatedTexture:
 						slot_texture.speed_scale = value
-		alternative_texture_fps = value
+		alternative_speed_scale = value
 
 
 func get_alternative_textures() -> Dictionary:

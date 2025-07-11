@@ -1,4 +1,4 @@
-extends "classes/PhysicsCrushingBody3D.gd"
+extends "classes/crushing.gd"
 
 signal generic # only used for linked doors and not the main door
 signal activated # emitted when health ended or generic signal received by linked door

@@ -32,7 +32,6 @@ func _on_trigger_fired() -> void:
 	# checking trigger timer before starting
 	if is_instance_valid(delay_timer):
 		delay_timer.start()
-	print('kek')
 
 
 func _on_delay_timer_timeout() -> void:

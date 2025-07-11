@@ -1,14 +1,11 @@
-extends "classes/PhysicsCrushingBody3D.gd"
+extends "classes/crushing+targets.gd"
 
 signal path_corner_reached(path_corner: Node3D)
-
-const NODE_PATH_UTILITIES := preload("utilities/node_paths.gd")
 
 @export var damage_interval: float = 0.25
 @export var speed: float = 2.0
 
 @export var is_waiting_for_signal := false
-@export var _targets: Array[NodePath] = []
 @onready var target: Node3D = null
 
 @export_node_path("Timer") var _wait_timer: NodePath
@@ -31,7 +28,7 @@ func _ready() -> void:
 
 
 func _get_first_target() -> void:
-	target = NODE_PATH_UTILITIES.get_first_valid_node(self, _targets, "Node3D")
+	target = get_first_target_node("Node3D")
 	if target:
 		path_offset = global_position - target.global_position
 		set_physics_process(true)

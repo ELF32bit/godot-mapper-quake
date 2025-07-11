@@ -1,11 +1,11 @@
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 
 	var monster: PackedScene = null
-	match entity.get_classname_property(null):
+	match entity.get_classname_property():
 		"monster_army": # grunt
 			monster = map.loader.load_mdl("mdls/monsters/soldier.mdl")
 		"monster_dog": # nasty doggie

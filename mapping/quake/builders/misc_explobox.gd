@@ -2,7 +2,7 @@ extends "../layers.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").get_appearflags(map, entity):
+	if preload("__post.gd").bind_appearflags_base(map, entity):
 		return null
 	# large exploding container
 	var node := StaticBody3D.new()
@@ -20,10 +20,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 
 	var collision_shape = CollisionShape3D.new()
+	collision_shape.position = node.position - Vector3(16, 0, 16) / map.settings.unit_size
+	MapperUtilities.add_global_child(collision_shape, node, map.settings)
+
 	collision_shape.shape = BoxShape3D.new()
 	collision_shape.shape.size = Vector3(32, 64, 32) / map.settings.unit_size
-	collision_shape.position = node.position - Vector3(16, 0, 16) / map.settings.unit_size
 	collision_shape.position += Vector3.UP * collision_shape.shape.size.y / 2
-	MapperUtilities.add_global_child(collision_shape, node, map.settings)
 
 	return node

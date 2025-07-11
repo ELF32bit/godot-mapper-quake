@@ -1,4 +1,4 @@
-# Quake game profile for [godot-mapper](https://github.com/ELF32bit/godot-mapper) plugin
+# Quake game profile for [godot-mapper](https://github.com/ELF32bit/godot-mapper) plugin [WIP for some time]
 ![Demonstration](screenshots/demonstration.webp)
 
 Convoluted and slightly outdated Quake entity examples.
