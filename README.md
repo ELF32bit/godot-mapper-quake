@@ -1,4 +1,4 @@
-# Quake game profile for [godot-mapper](https://github.com/ELF32bit/godot-mapper) plugin
+# Quake game profile for [godot-mapper](https://github.com/ELF32bit/godot-mapper) plugin [WIP]
 ![Demonstration](screenshots/demonstration.webp)
 
 Collision layers driven Quake entities connected by Godot signals.<br>
