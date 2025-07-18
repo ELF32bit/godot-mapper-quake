@@ -1,7 +1,7 @@
 # Quake game profile for [godot-mapper](https://github.com/ELF32bit/godot-mapper) plugin [WIP]
 ![Demonstration](screenshots/demonstration.webp)
 
-Collision layers driven Quake entities connected by Godot signals.<br>
+Collision layers driven Quake entities.<br>
 
 * Door linking is implemented.
 * Platforms and doors can crush characters.
@@ -10,6 +10,7 @@ Collision layers driven Quake entities connected by Godot signals.<br>
 * Most spawnflags are supported.
 
 Change **layers.gd** file to integrate entities into your project.
+> This repository needs a lot more work, better use it as a reference.
 
 ## Generated scene tree examples
 |Scene Tree|func_door|
