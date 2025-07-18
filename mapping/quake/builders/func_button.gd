@@ -1,8 +1,8 @@
-extends "../layers.gd"
+extends "__classes.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	# button
 	var node: Node = preload("func_wall.gd").build(map, entity)
@@ -112,8 +112,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating reset animation for the animation library
 	MapperUtilities.create_reset_animation(animation_player, animation_library)
 
-	preload("__post.gd").bind_target_base(entity)
-	preload("__post.gd").bind_targetname_base(entity)
+	# binding func_button properties
+	bind_target_base(entity)
+	bind_targetname_base(entity)
 	entity.bind_float_property("delay", "delay_time")
 	entity.bind_string_property("message", "message")
 

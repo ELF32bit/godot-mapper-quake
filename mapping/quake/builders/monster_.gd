@@ -1,6 +1,8 @@
+extends "__classes.gd"
+
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 
@@ -46,4 +48,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var monster_instance := monster.instantiate()
 	monster_instance.set_script(preload("../scripts/editor/monster.gd"))
 	monster_instance.monster_name = entity.get_classname_property("").trim_prefix("monster_")
+
+	# binding monster properties
+	bind_monster_base(entity)
+
 	return monster_instance

@@ -1,8 +1,8 @@
-extends "../layers.gd"
+extends "__classes.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	# moving platform
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
@@ -54,7 +54,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			if child is MeshInstance3D:
 				child.gi_mode = MeshInstance3D.GI_MODE_DISABLED
 
-	preload("__post.gd").bind_targetname_base(entity)
+	# binding func_train properties
+	bind_targetname_base(entity)
 	if not entity.get_string_property("targetname", "").is_empty():
 		node.set("is_waiting_for_signal", true)
 

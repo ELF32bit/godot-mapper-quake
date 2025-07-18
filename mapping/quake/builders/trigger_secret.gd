@@ -1,8 +1,8 @@
-extends "../layers.gd"
+extends "__classes.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	# trigger: secret
 	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
@@ -20,7 +20,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(trigger_sound_player, map.settings.readable_node_names)
 	node.set("_trigger_sound_player", node.get_path_to(trigger_sound_player))
 
-	preload("__post.gd").bind_trigger_base(map, entity, node, trigger_sound_player)
+	# binding trigger_secret properties
+	bind_trigger_base(map, entity, node, trigger_sound_player)
 
 	match entity.get_int_property("sounds", 0):
 		0: # none

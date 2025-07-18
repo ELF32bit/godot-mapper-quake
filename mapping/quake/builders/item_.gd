@@ -1,5 +1,8 @@
+extends "__classes.gd"
+
+@warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 
@@ -47,7 +50,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if item:
 		var item_instance := item.instantiate()
 		item_instance.set_script(preload("../scripts/editor/item_rotating.gd"))
-		bind_entity_properties(entity)
+		# binding item properties
+		bind_item_base(entity)
 		return item_instance
 
 	map.settings.options["_map_is_item"] = true
@@ -83,14 +87,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if item:
 		var item_instance := item.instantiate()
 		if entity.get_classname_property() != "item_health":
-			bind_entity_properties(entity)
+			# binding item properties
+			bind_item_base(entity)
 		return item_instance
 
 	return null
-
-
-static func bind_entity_properties(entity: MapperEntity) -> void:
-	preload("__post.gd").bind_target_base(entity)
-	preload("__post.gd").bind_targetname_base(entity)
-	entity.bind_string_property("message", "message")
-	entity.bind_float_property("delay", "delay")

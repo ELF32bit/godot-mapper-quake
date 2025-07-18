@@ -1,7 +1,7 @@
 extends Node
 
-@export var _targets: Array[NodePath] = []
-@export var _kill_targets: Array[NodePath] = []
+@export var _targets: Array = [] # typed array (NodePath) throws errors
+@export var _kill_targets: Array = [] # typed array (NodePath) throws errors
 
 
 func _get_first_node_of_class(from: Node, node_paths: Array[NodePath], node_class: StringName = "Node") -> Node:

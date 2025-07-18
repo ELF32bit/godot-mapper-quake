@@ -1,8 +1,8 @@
-extends "../layers.gd"
+extends "__classes.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	# wall, starts animation when triggered (if supporting texture)
 	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
@@ -52,7 +52,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.set("alternative_textures", alternative_textures_size)
 	node.set("affected_materials", animated_materials)
 
-	preload("__post.gd").bind_targetname_base(entity)
+	# binding func_wall properties
+	bind_targetname_base(entity)
 
 	return node
 

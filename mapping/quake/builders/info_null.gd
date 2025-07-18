@@ -1,5 +1,7 @@
+extends "__classes.gd"
+
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# info_null (spotlight target)
-	entity.bind_string_property("targetname", "name")
+	bind_targetname_base(entity)
 	return null

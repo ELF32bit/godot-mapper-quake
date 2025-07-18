@@ -1,6 +1,8 @@
+extends "__classes.gd"
+
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	# trigger: relay
 	var node := Node3D.new()
@@ -11,8 +13,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(trigger_sound_player, map.settings.readable_node_names)
 	node.set("_trigger_sound_player", node.get_path_to(trigger_sound_player))
 
-	preload("__post.gd").bind_target_base(entity)
-	preload("__post.gd").bind_targetname_base(entity)
+	# binding trigger_relay properties
+	bind_target_base(entity)
+	bind_targetname_base(entity)
 
 	# trigger base
 	match entity.get_int_property("sounds", 0):

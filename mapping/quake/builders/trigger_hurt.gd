@@ -1,8 +1,8 @@
-extends "../layers.gd"
+extends "__classes.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	# trigger: hurt
 	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
@@ -15,7 +15,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
 
-	preload("__post.gd").bind_targetname_base(entity)
+	# binding trigger_hurt properties
+	bind_targetname_base(entity)
 	entity.set("damage", entity.get_int_property("damage", 5))
 
 	return node

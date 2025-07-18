@@ -1,5 +1,8 @@
+extends "__classes.gd"
+
+@warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 
 	var weapon: PackedScene = null
@@ -22,9 +25,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var weapon_instance := weapon.instantiate()
 	weapon_instance.set_script(preload("../scripts/editor/item_rotating.gd"))
 
-	preload("__post.gd").bind_target_base(entity)
-	preload("__post.gd").bind_targetname_base(entity)
-	entity.bind_string_property("message", "message")
-	entity.bind_float_property("delay", "delay")
+	# binding weapon properties
+	bind_weapon_base(entity)
 
 	return weapon_instance

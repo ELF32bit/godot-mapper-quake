@@ -1,8 +1,8 @@
-extends "../layers.gd"
+extends "__classes.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
-	if preload("__post.gd").bind_appearflags_base(map, entity):
+	if bind_appearflags_base(map, entity):
 		return null
 	# secret door
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
@@ -49,9 +49,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			if child is MeshInstance3D:
 				child.gi_mode = MeshInstance3D.GI_MODE_DISABLED
 
-	# binding some func_door_secret properties
-	preload("__post.gd").bind_target_base(entity)
-	preload("__post.gd").bind_targetname_base(entity)
+	# binding func_door_secret properties
+	bind_target_base(entity)
+	bind_targetname_base(entity)
 	node.set("damage", entity.get_int_property("dmg", 2))
 	entity.bind_string_property("message", "message")
 	node.set("max_health", maxi(entity.get_int_property("health", 0), 0))

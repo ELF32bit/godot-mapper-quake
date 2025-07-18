@@ -1,4 +1,4 @@
-extends "../layers.gd"
+extends "__classes.gd"
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
@@ -82,6 +82,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		static_body.add_child(collision_shape, map.settings.readable_node_names)
 		set_collision_layer_mask(static_body, ["worldspawn-liquid-bodies"], [])
 
+	# binding worldspawn properties
 	entity.bind_string_property("message", "message")
 	map.settings.options["_world_type"] = entity.get_int_property("worldtype", 0)
 	if entity.get_int_property("sounds", 0) > 0:

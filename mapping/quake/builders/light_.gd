@@ -1,3 +1,5 @@
+extends "__classes.gd"
+
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var light: Light3D = null
@@ -100,8 +102,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	light.distance_fade_begin = 40.0
 	light.distance_fade_length = 10.0
 
-	preload("__post.gd").bind_target_base(entity)
-	preload("__post.gd").bind_targetname_base(entity)
+	# binding light properties
+	bind_target_base(entity)
+	bind_targetname_base(entity)
 
 	if model_instance:
 		model_instance.add_child(light, map.settings.readable_node_names)
