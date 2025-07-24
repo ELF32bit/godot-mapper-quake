@@ -100,10 +100,11 @@ static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void
 		map.node.add_child(world_environment, map.settings.readable_node_names)
 		map.node.move_child(world_environment, 0)
 
-		world_environment.environment = Environment.new()
-		world_environment.environment.ambient_light_color = Environment.AMBIENT_SOURCE_COLOR
-		world_environment.environment.ambient_light_color = Color.WHITE
-		world_environment.environment.ambient_light_energy = entity.get_float_property("light")
+		var environment := Environment.new()
+		world_environment.environment = environment
+		environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+		environment.ambient_light_color = entity.get_color_property("_colors", Color.WHITE)
+		environment.ambient_light_energy = entity.get_float_property("light")
 
 	if entity.get_float_property("_sunlight", 0.0) > 0.0:
 		var directional_light := DirectionalLight3D.new()
