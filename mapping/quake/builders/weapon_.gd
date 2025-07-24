@@ -23,7 +23,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 
 	var weapon_instance := weapon.instantiate()
-	weapon_instance.set_script(preload("../scripts/editor/item_rotating.gd"))
+	weapon_instance.set_script(preload("../scripts/editor/item.gd"))
 
 	# binding weapon properties
 	bind_weapon_base(entity)

@@ -20,9 +20,9 @@ State | Classname | Commentary
 -- | ---------------------- | ----------------------------------------------------------- |
 ✏️ | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br><u>Game script for liquid areas needs to be redesigned.</u><br>**Will require method on a character.**
 ✅ | info_*                 | `info_notnull` does not implement `progs.dat` hacks.
-✏️ | item_*                 | Can't be picked up. Armor does not use MDL skins.
+✏️ | item_*                 | Can't be picked up.<br> Armor does not use MDL skins.
 ✏️ | weapon_*               | Can't be picked up.
-❌ | light_*                | Poor spotlight implementation. No light flickering.
+✏️ | light_*                | No light flickering.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
 ❌ | func_door              | <u>Game scripts need to be redesigned for a new implementation.</u><br> **Requires "crush" method on characters and collision objects.**<br>**Might be driven by a "health" property.**

@@ -49,7 +49,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 				item = map.loader.load_mdl("mdls/items/end1.mdl")
 	if item:
 		var item_instance := item.instantiate()
-		item_instance.set_script(preload("../scripts/editor/item_rotating.gd"))
+		item_instance.set_script(preload("../scripts/editor/item.gd"))
 		# binding item properties
 		bind_item_base(entity)
 		return item_instance

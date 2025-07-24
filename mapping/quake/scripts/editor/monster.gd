@@ -2,51 +2,51 @@
 extends Node
 
 @export var monster_name: String = ""
-var animation_player: AnimationPlayer
+var animation_player: AnimationPlayer = null
 
 
 func _ready() -> void:
-	animation_player = get_node("AnimationPlayer")
+	animation_player = get_child(0)
 	match monster_name:
-		"army":
-			animation_player.current_animation = "stand"
-		"dog":
-			animation_player.current_animation = "stand"
-		"ogre":
-			animation_player.current_animation = "stand"
-		"ogre_marksman":
-			animation_player.current_animation = "stand"
-		"knight":
-			animation_player.current_animation = "stand"
-		"hell_knight":
-			animation_player.current_animation = "stand"
-		"wizard":
-			animation_player.current_animation = "hover"
-		"demon1":
-			animation_player.current_animation = "stand"
-		"shambler":
-			animation_player.current_animation = "stand"
-		"boss":
-			animation_player.current_animation = "walk"
-		"enforcer":
-			animation_player.current_animation = "stand"
-		"shalrath":
-			animation_player.current_animation = "walk"
-		"tarbaby":
-			animation_player.current_animation = "walk"
-		"fish":
-			animation_player.current_animation = "swim"
-		"oldone":
-			animation_player.current_animation = "old"
-		"zombie":
-			animation_player.current_animation = "stand"
+		"army": # grunt
+			_enable_animation("stand")
+		"dog": # nasty doggie
+			_enable_animation("stand")
+		"ogre": # ogre
+			_enable_animation("stand")
+		"ogre_marksman": # ogre marksman
+			_enable_animation("stand")
+		"knight": # knight
+			_enable_animation("stand")
+		"hell_knight": # hell knight
+			_enable_animation("stand")
+		"wizard": # scrag
+			_enable_animation("hover")
+		"demon1": # fiend
+			_enable_animation("stand")
+		"shambler": # shambler
+			_enable_animation("stand")
+		"boss": # chthon
+			_enable_animation("walk")
+		"enforcer": # enforcer
+			_enable_animation("stand")
+		"shalrath": # vore
+			_enable_animation("walk")
+		"tarbaby": # spawn
+			_enable_animation("walk")
+		"fish": # rotfish
+			_enable_animation("swim")
+		"oldone": # shub-niggurath
+			_enable_animation("old")
+		"zombie": # zombie
+			_enable_animation("stand")
 		"player":
-			animation_player.current_animation = "stand"
+			_enable_animation("stand")
 		_:
 			return
-	animation_player.animation_finished.connect(_on_animation_finished)
 
 
-func _on_animation_finished(animation_name: StringName) -> void:
-	if animation_player:
-		animation_player.current_animation = animation_name
+func _enable_animation(animation_name: StringName) -> void:
+	var animation := animation_player.get_animation(animation_name)
+	animation.loop_mode = Animation.LOOP_LINEAR
+	animation_player.play(animation_name)

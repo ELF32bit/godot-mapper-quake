@@ -3,46 +3,22 @@ extends "__classes.gd"
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var light: Light3D = null
-	var light_prefix := "omni_"
-
-	var target := map.get_first_entity_target(entity, "target", "targetname", "info_null")
-	if target:
-		light = SpotLight3D.new()
-		var origin = entity.get_origin_property(entity.center)
-		var target_origin = target.get_origin_property(target.center)
-		var direction := Vector3(target_origin - origin).normalized()
-		var basis := Basis.from_euler(entity.node_properties.get("rotation", Vector3.ZERO))
-		entity.node_properties["rotation"] = Quaternion(-basis.z, direction).get_euler()
-		light_prefix = "spot_"
-	else:
+	var light_prefix: String = "spot_"
+	light = build_spot_light(map, entity)
+	if not light:
 		light = OmniLight3D.new()
+		light_prefix = "omni_"
 
-	var model: PackedScene = null
-	var model_instance: Node = null
-	match entity.get_classname_property():
-		"light": # invisible light source
-			pass
-		"light_fluoro": # fluorescent light
-			pass
-		"light_fluorospark": # sparking fluorescent light
-			pass
-		"light_globe": # globe light
-			model = map.loader.load_mdl("mdls/misc/s_light")
-		"light_flame_large_yellow": # large yellow flame
-			model = map.loader.load_mdl("mdls/misc/flame2")
-		"light_flame_small_yellow": # small yellow flame
-			model = map.loader.load_mdl("mdls/misc/flame2")
-		"light_flame_small_white": # small white flame
-			model = map.loader.load_mdl("mdls/misc/flame2")
-		"light_torch_small_walltorch": # small walltorch
-			model = map.loader.load_mdl("mdls/misc/flame")
-	if model:
-		model_instance = model.instantiate()
+	if light is OmniLight3D:
+		light.omni_range = entity.get_unit_property("light", 300)
+	elif entity.get_mangle_property(null) != null:
+		light.spot_range = entity.get_unit_property("light", 300)
 
-	light.set(light_prefix + "range", entity.get_unit_property("light", 300))
 	light.light_energy = entity.get_unit_property("light", 300)
 	light.light_color = entity.get_color_property("_color", Color.WHITE)
+	light.light_bake_mode = Light3D.BAKE_STATIC
 
+	# handling light delay property
 	match entity.get_int_property("delay", 0):
 		0: # linear falloff (default)
 			light.set(light_prefix + "attenuation", 1.0)
@@ -59,7 +35,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		_:
 			light.set(light_prefix + "attenuation", 1.0)
 
-	if target:
+	# handling light wait property
+	if light is SpotLight3D:
 		light.spot_attenuation *= entity.get_float_property("wait", 1.0)
 	else:
 		light.omni_attenuation *= entity.get_float_property("wait", 1.0)
@@ -93,11 +70,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			pass
 
 	if entity.get_int_property("spawnflags", 0) & 1: # start off
-		pass
+		light.visible = false
 
-	#if map.settings.prefer_static_lighting:
-	#	light.visible = false
-	light.light_bake_mode = Light3D.BAKE_STATIC
+	# optimizing lights for large scenes
 	light.distance_fade_enabled = true
 	light.distance_fade_begin = 40.0
 	light.distance_fade_length = 10.0
@@ -106,7 +81,73 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	bind_target_base(entity)
 	bind_targetname_base(entity)
 
-	if model_instance:
-		model_instance.add_child(light, map.settings.readable_node_names)
-		return model_instance
+	# loading light model instance
+	var light_model_instance := load_model(map, entity)
+	if light_model_instance:
+		light_model_instance.add_child(light, map.settings.readable_node_names)
+		return light_model_instance
 	return light
+
+
+static func build_spot_light(map: MapperMap, entity: MapperEntity) -> SpotLight3D:
+	# lights with mangle property are spot lights
+	if entity.get_mangle_property(null) != null:
+		return SpotLight3D.new()
+
+	# lights that target info_null are spot lights
+	var target := map.get_first_entity_target(entity, "target", "targetname", "info_null")
+	if not target:
+		return null
+
+	var light := SpotLight3D.new()
+	var origin = entity.get_origin_property(entity.center)
+	var target_origin = target.get_origin_property(target.center)
+
+	# obtating target direction and rotation
+	var direction := Vector3(target_origin - origin)
+	var direction_normalized := direction.normalized()
+	var entity_rotation: Vector3 = entity.node_properties.get("rotation", Vector3.ZERO)
+	var entity_basis := Basis.from_euler(entity_rotation)
+	var entity_forward = -entity_basis.z
+	var entity_up = entity_basis.y
+
+	var light_rotation := Quaternion()
+	if not direction_normalized.is_equal_approx(-entity_forward):
+		light_rotation = Quaternion(entity_forward, direction_normalized)
+	else:
+		light_rotation = Quaternion(entity_up, PI)
+
+	# creating spot light with slightly increased spot range
+	light.spot_range = direction.length() + 32.0 / map.settings.unit_size
+	light.rotation = light_rotation.get_euler()
+	entity.node_properties.erase("rotation")
+
+	return light
+
+
+static func load_model(map: MapperMap, entity: MapperEntity) -> Node3D:
+	var model: PackedScene = null
+	match entity.get_classname_property():
+		"light": # invisible light source
+			pass
+		"light_fluoro": # fluorescent light
+			pass
+		"light_fluorospark": # sparking fluorescent light
+			pass
+		"light_globe": # globe light
+			model = map.loader.load_mdl("mdls/misc/s_light")
+		"light_flame_large_yellow": # large yellow flame
+			model = map.loader.load_mdl("mdls/misc/flame2")
+		"light_flame_small_yellow": # small yellow flame
+			model = map.loader.load_mdl("mdls/misc/flame2")
+		"light_flame_small_white": # small white flame
+			model = map.loader.load_mdl("mdls/misc/flame2")
+		"light_torch_small_walltorch": # small walltorch
+			model = map.loader.load_mdl("mdls/misc/flame")
+	if model:
+		var model_instance := model.instantiate()
+		model_instance.set_script(preload("../scripts/editor/light.gd"))
+		model_instance.set("light_name", entity.get_classname_property(""))
+		return model_instance
+
+	return null
