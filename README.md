@@ -19,8 +19,8 @@ Change **layers.gd** file to integrate entities into an existing project.<br>
 State | Classname | Commentary
 -- | ---------------------- | ----------------------------------------------------------- |
 ✏️ | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br><u>Game script for liquid areas needs to be redesigned.</u><br>**Will require method on a character.**
-✅ | info_*                 | `info_notnull` does not implement `progs.dat` hacks.
-✏️ | item_*                 | Can't be picked up.<br> Armor does not use MDL skins.
+✅ | info_*                 | Does not implement `progs.dat` hacks.
+✏️ | item_*                 | Can't be picked up.
 ✏️ | weapon_*               | Can't be picked up.
 ✏️ | light_*                | No light flickering.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
