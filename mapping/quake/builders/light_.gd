@@ -92,6 +92,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 static func build_spot_light(map: MapperMap, entity: MapperEntity) -> SpotLight3D:
 	# lights with mangle property are spot lights
 	if entity.get_mangle_property(null) != null:
+		entity.bind_mangle_property("rotation", "YpR")
 		return SpotLight3D.new()
 
 	# lights that target info_null are spot lights
