@@ -1,6 +1,6 @@
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap) -> void:
-	if  map.settings.options.get("_map_is_item", false):
+	if map.settings.options.get("_map_is_item", false):
 		return
 
 	var lightmap_gi := MapperUtilities.create_lightmap_gi(map, map.node)

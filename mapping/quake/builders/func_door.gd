@@ -123,10 +123,12 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 		wait_timer.one_shot = true
 
 	# parenting linked doors to the root node and setting its name
-	for linked_entity in linked_entities:
+	for index in range(linked_entities.size() - 1, -1, -1):
+		var linked_entity := linked_entities[index]
 		var node := linked_entity.node
 		node.get_parent().remove_child(node)
 		MapperUtilities.add_global_child(node, root_node, map.settings)
+		root_node.move_child(node, 0)
 	if linked_entities.size() == 1:
 		root_node.name = linked_entities[0].get_string_property("targetname", "")
 
