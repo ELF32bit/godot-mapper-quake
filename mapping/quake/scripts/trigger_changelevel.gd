@@ -5,4 +5,11 @@ extends "trigger_once.gd"
 
 func _on_trigger_fired() -> void:
 	super()
-	#print(map)
+
+
+func _on_delay_timer_timeout() -> void:
+	pass # change map after the delay
+
+
+func _on_generic_signal() -> void:
+	pass

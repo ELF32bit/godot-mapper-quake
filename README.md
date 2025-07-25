@@ -25,8 +25,8 @@ State | Classname | Commentary
 ✅ | light_*                | No light flickering.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
-❌ | func_door              | <u>Game scripts need to be redesigned for a new implementation.</u><br> **Calls `crush` method on characters and collision objects.**<br>**Might be driven by `health` property.**
-❌ | func_door_secret       | Follows after `func_door`. Uses different logic.
+✅ | func_door              | **Might be driven by `health` property.**<br>**Calls `crush` method on characters and collision objects.**
+❌ | func_door_secret       | Moves in the right direction first, then in the angle direction.
 ✅ | func_wall              | Uses extended alternative texture system.
 ✅ | func_button            | **Might be driven by `health` property.**
 ✅ | func_train             | **Calls `crush` method on characters and collision objects.**
@@ -34,7 +34,7 @@ State | Classname | Commentary
 ✅ | func_illusionary       |
 ❌ | func_episodegate       | Unnecessary story entity.
 ❌ | func_bossgate          | Unnecessary story entity.
-❌ | trigger_changelevel    | Game script is not implemented.
+✅ | trigger_changelevel    | Does not change current `map`.
 ✅ | trigger_once           | **Might be driven by `health` property.**
 ❌ | trigger_multiple       | **Will be driven by `health` property.**
 ❌ | trigger_onlyregistered | Game script is not implemented.
@@ -48,9 +48,8 @@ State | Classname | Commentary
 ❌ | trigger_hurt           | **Will require method on a character.**
 ✏️ | air_bubbles            | Uses placeholder particle system.
 ✏️ | event_lightning        | Uses placeholder particle system.
-✏️ | misc_explobox          | **Will require method on a character.**
-✏️ | misc_explobox2         | **Will require method on a character.**
-✏️ | misc_fireball          | **Will require method on a character.**
+✅ | misc_explobox*         | Does not have script to explode.
+✏️ | misc_fireball          | Does not move or deal damage.
 ✅ | misc_noisemaker        |
 ✅ | path_corner            |
 ✅ | testplayerstart        |
