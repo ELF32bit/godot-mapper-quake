@@ -47,7 +47,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	var monster_instance := monster.instantiate()
 	monster_instance.set_script(preload("../scripts/editor/monster.gd"))
-	monster_instance.monster_name = entity.get_classname_property("").trim_prefix("monster_")
+	monster_instance.monster_name = entity.get_classname_property("")
 
 	# binding monster properties
 	bind_monster_base(entity)

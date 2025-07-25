@@ -8,37 +8,37 @@ var animation_player: AnimationPlayer = null
 func _ready() -> void:
 	animation_player = get_child(0)
 	match monster_name:
-		"army": # grunt
+		"monster_army": # grunt
 			_enable_animation("stand")
-		"dog": # nasty doggie
+		"monster_dog": # nasty doggie
 			_enable_animation("stand")
-		"ogre": # ogre
+		"monster_ogre": # ogre
 			_enable_animation("stand")
-		"ogre_marksman": # ogre marksman
+		"monster_ogre_marksman": # ogre marksman
 			_enable_animation("stand")
-		"knight": # knight
+		"monster_knight": # knight
 			_enable_animation("stand")
-		"hell_knight": # hell knight
+		"monster_hell_knight": # hell knight
 			_enable_animation("stand")
-		"wizard": # scrag
+		"monster_wizard": # scrag
 			_enable_animation("hover")
-		"demon1": # fiend
+		"monster_demon1": # fiend
 			_enable_animation("stand")
-		"shambler": # shambler
+		"monster_shambler": # shambler
 			_enable_animation("stand")
-		"boss": # chthon
+		"monster_boss": # chthon
 			_enable_animation("walk")
-		"enforcer": # enforcer
+		"monster_enforcer": # enforcer
 			_enable_animation("stand")
-		"shalrath": # vore
+		"monster_shalrath": # vore
 			_enable_animation("walk")
-		"tarbaby": # spawn
+		"monster_tarbaby": # spawn
 			_enable_animation("walk")
-		"fish": # rotfish
+		"monster_fish": # rotfish
 			_enable_animation("swim")
-		"oldone": # shub-niggurath
+		"monster_oldone": # shub-niggurath
 			_enable_animation("old")
-		"zombie": # zombie
+		"monster_zombie": # zombie
 			_enable_animation("stand")
 		"player":
 			_enable_animation("stand")
