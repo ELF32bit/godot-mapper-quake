@@ -13,9 +13,9 @@ var aabb: AABB
 
 var node: Node # only valid after all build scripts executed
 var node_properties: Dictionary # stores converted properties
-var node_groups: PackedStringArray
-var signals: Array[Array] # gets filled automatically after binding
+var node_groups: PackedStringArray # stores future node groups
 var node_paths: Array[Array] # gets filled automatically after binding
+var signals: Array[Array] # gets filled automatically after binding
 var parent: MapperEntity:
 	set(value):
 		var hierarchy := { self: true }
@@ -60,12 +60,6 @@ func bind_property(method: StringName, property: StringName, node_property: Stri
 		node_properties[node_property] = value
 
 
-func bind_signal_property(property: StringName, target_source_property: StringName, signal_name: StringName, method: StringName, classname: String = "*", flags: int = 0) -> void:
-	var parameters: Array[Variant] = [property, target_source_property, signal_name, method, classname, flags]
-	if not parameters in signals:
-		signals.append(parameters)
-
-
 func bind_node_path_property(property: StringName, target_source_property: StringName, node_property: StringName, classname: String = "*") -> void:
 	var parameters: Array[Variant] = [property, target_source_property, node_property, classname, true]
 	if not parameters in node_paths:
@@ -76,6 +70,12 @@ func bind_node_path_array_property(property: StringName, target_source_property:
 	var parameters: Array[Variant] = [property, target_source_property, node_property, classname, false]
 	if not parameters in node_paths:
 		node_paths.append(parameters)
+
+
+func bind_signal_property(property: StringName, target_source_property: StringName, signal_name: StringName, method: StringName, classname: String = "*", flags: int = 0) -> void:
+	var parameters: Array[Variant] = [property, target_source_property, signal_name, method, classname, flags]
+	if not parameters in signals:
+		signals.append(parameters)
 
 
 func get_string_property(property: StringName, default: Variant = null) -> Variant:
@@ -256,13 +256,13 @@ func is_decal() -> bool:
 	return bool(aabb.has_volume() and brushes.size() == 1 and brushes[0].is_uniform())
 
 
-func generate_surface_distribution(surfaces: PackedStringArray, density: float, min_floor_angle: float = 0.0, max_floor_angle: float = 45.0, even_distribution: bool = false, world_space: bool = false, seed: int = 0, use_map_basis: bool = true) -> PackedVector3Array:
+func generate_surface_distribution(surfaces: PackedStringArray, density: float, min_floor_angle: float = 0.0, max_floor_angle: float = 45.0, even_distribution: bool = false, world_space: bool = false, seed: int = 0, _use_map_basis: bool = true) -> PackedVector3Array:
 	var transform_array := PackedVector3Array()
 	var mutex := Mutex.new()
 
 	var populate_brushes := func(thread_index: int) -> void:
 		var brush := brushes[thread_index]
-		var brush_transform_array := brush.generate_surface_distribution(surfaces, density, min_floor_angle, max_floor_angle, even_distribution, world_space, seed + thread_index, use_map_basis)
+		var brush_transform_array := brush.generate_surface_distribution(surfaces, density, min_floor_angle, max_floor_angle, even_distribution, world_space, seed + thread_index, _use_map_basis)
 		if not world_space:
 			for index in range(3, brush_transform_array.size(), 4):
 				brush_transform_array[index] += brush.center - center
@@ -280,13 +280,13 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 	return transform_array
 
 
-func generate_volume_distribution(density: float, min_penetration: float = 0.0, max_penetration: float = INF, basis: Basis = Basis.IDENTITY, world_space: bool = false, seed: int = 0, use_map_basis: bool = true) -> PackedVector3Array:
+func generate_volume_distribution(density: float, min_penetration: float = 0.0, max_penetration: float = INF, basis: Basis = Basis.IDENTITY, world_space: bool = false, seed: int = 0, _use_map_basis: bool = true) -> PackedVector3Array:
 	var transform_array := PackedVector3Array()
 	var mutex := Mutex.new()
 
 	var populate_brushes := func(thread_index: int) -> void:
 		var brush := brushes[thread_index]
-		var brush_transform_array := brush.generate_volume_distribution(density, min_penetration, max_penetration, basis, world_space, seed + thread_index, use_map_basis)
+		var brush_transform_array := brush.generate_volume_distribution(density, min_penetration, max_penetration, basis, world_space, seed + thread_index, _use_map_basis)
 		if not world_space:
 			for index in range(3, brush_transform_array.size(), 4):
 				brush_transform_array[index] += brush.center - center
