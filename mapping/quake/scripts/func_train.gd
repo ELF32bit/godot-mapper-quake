@@ -51,6 +51,7 @@ func _physics_process(delta: float) -> void:
 			target = next_target
 		else:
 			target = null
+			return
 		# getting wait time from path corner
 		var wait_time: Variant = target.get("wait_time")
 		wait_time = wait_time if wait_time != null and wait_time is float else 0.0
