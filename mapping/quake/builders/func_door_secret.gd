@@ -11,7 +11,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	set_collision_layer_mask(node, ["worldspawn"], ["func_door-characters", "func_door-objects"])
 
 	# setting func_door_secret script
-	node.set_script(preload("../scripts/func_door_secret.gd"))
+	node.set_script(preload("../scripts/func_door-health.gd"))
 
 	# creating func_door_secret sound players
 	var move_sound_player := AudioStreamPlayer3D.new()
