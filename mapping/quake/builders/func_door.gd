@@ -197,33 +197,33 @@ static func create_animations(root_node: Node3D, linking_data: Array) -> Array[A
 		var stop_sound_player: AudioStreamPlayer3D = sound_players[1]
 
 		# creating animation track names
-		var door_track_name := str(node.name)
-		var move_sound_playing_track_name := node.name.path_join(move_sound_player.name) + ":playing"
-		var stop_sound_playing_track_name := node.name.path_join(stop_sound_player.name) + ":playing"
+		var door_track := str(node.name)
+		var move_sound_playing_track := node.name.path_join(move_sound_player.name) + ":playing"
+		var stop_sound_playing_track := node.name.path_join(stop_sound_player.name) + ":playing"
 
 		open_animation.add_track(Animation.TYPE_POSITION_3D)
-		open_animation.track_set_path(index * 3 + 0, door_track_name)
+		open_animation.track_set_path(index * 3 + 0, door_track)
 		open_animation.add_track(Animation.TYPE_VALUE)
-		open_animation.track_set_path(index * 3 + 1, move_sound_playing_track_name)
+		open_animation.track_set_path(index * 3 + 1, move_sound_playing_track)
 		open_animation.add_track(Animation.TYPE_VALUE)
-		open_animation.track_set_path(index * 3 + 2, stop_sound_playing_track_name)
+		open_animation.track_set_path(index * 3 + 2, stop_sound_playing_track)
 
 		opened_animation.add_track(Animation.TYPE_POSITION_3D)
-		opened_animation.track_set_path(index * 2 + 0, door_track_name)
+		opened_animation.track_set_path(index * 2 + 0, door_track)
 		opened_animation.add_track(Animation.TYPE_VALUE)
-		opened_animation.track_set_path(index * 2 + 1, move_sound_playing_track_name)
+		opened_animation.track_set_path(index * 2 + 1, move_sound_playing_track)
 
 		close_animation.add_track(Animation.TYPE_POSITION_3D)
-		close_animation.track_set_path(index * 3 + 0, door_track_name)
+		close_animation.track_set_path(index * 3 + 0, door_track)
 		close_animation.add_track(Animation.TYPE_VALUE)
-		close_animation.track_set_path(index * 3 + 1, move_sound_playing_track_name)
+		close_animation.track_set_path(index * 3 + 1, move_sound_playing_track)
 		close_animation.add_track(Animation.TYPE_VALUE)
-		close_animation.track_set_path(index * 3 + 2, stop_sound_playing_track_name)
+		close_animation.track_set_path(index * 3 + 2, stop_sound_playing_track)
 
 		closed_animation.add_track(Animation.TYPE_POSITION_3D)
-		closed_animation.track_set_path(index * 2 + 0, door_track_name)
+		closed_animation.track_set_path(index * 2 + 0, door_track)
 		closed_animation.add_track(Animation.TYPE_VALUE)
-		closed_animation.track_set_path(index * 2 + 1, move_sound_playing_track_name)
+		closed_animation.track_set_path(index * 2 + 1, move_sound_playing_track)
 
 		# preparing to create animation key frames
 		var forward_axis := Vector3.ZERO
