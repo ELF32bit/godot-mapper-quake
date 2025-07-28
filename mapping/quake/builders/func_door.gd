@@ -72,7 +72,7 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 	var entity := linked_entities[0]
 
 	# obtaining nodes forward rotation
-	var forward_rotation := MapperUtilities.get_forward_rotation(map.settings)
+	var forward_rotation := map.settings.get_forward_rotation()
 	var forward_rotation_euler := forward_rotation.get_euler()
 
 	# creating func_door root node

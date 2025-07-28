@@ -70,8 +70,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 				child.gi_mode = MeshInstance3D.GI_MODE_DISABLED
 
 	# getting up axis information for AABB manipulation
-	var up_axis := MapperUtilities.get_up_axis(map.settings)
-	var up_axis_index := MapperUtilities.get_up_axis_index(map.settings)
+	var up_axis := map.settings.get_up_axis()
+	var up_axis_index := map.settings.get_up_axis_index()
 	var extra_platform_height := 8.0 / map.settings.unit_size
 
 	# creating func_plat area collision shape above platform
@@ -200,8 +200,8 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node], extra_pl
 
 	# preparing to create animation key frames
 	var inverse_transform := root_node.transform.affine_inverse()
-	var up_axis := MapperUtilities.get_up_axis(entity.factory.settings)
-	var up_axis_index := MapperUtilities.get_up_axis_index(entity.factory.settings)
+	var up_axis := entity.factory.settings.get_up_axis()
+	var up_axis_index := entity.factory.settings.get_up_axis_index()
 	var entity_center := entity.aabb.get_center()
 
 	# calculating func_plat positions
