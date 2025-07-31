@@ -12,6 +12,7 @@ func _ready() -> void:
 	map_options["prefer_static_lighting"] = true
 	map_options["lightmap_unwrap"] = false
 	map_options["print_progress"] = true
+	map_options["__lightmap_external"] = true
 	var settings := MapperSettings.new(map_options)
 
 	var factory := MapperFactory.new(settings)
