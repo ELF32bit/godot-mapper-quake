@@ -10,9 +10,9 @@ func _ready() -> void:
 	map_options["game_loader"] = MapperSettings.QUAKE_GAME_LOADER
 	map_options["skip_material_affects_collision"] = false
 	map_options["prefer_static_lighting"] = true
-	map_options["lightmap_unwrap"] = false
+	map_options["lightmap_unwrap"] = false # set to True to load external lightmap (can freeze)
 	map_options["print_progress"] = true
-	map_options["__lightmap_external"] = true
+	map_options["__lightmap_external"] = true # import E1M1 as scene and bake it
 	var settings := MapperSettings.new(map_options)
 
 	var factory := MapperFactory.new(settings)
