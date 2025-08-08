@@ -24,7 +24,7 @@ func _ready() -> void:
 	if is_waiting_for_signal:
 		set_physics_process(false)
 	else:
-		_get_first_target()
+		_get_first_target.call_deferred()
 
 
 func _get_first_target() -> void:
@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		path_corner_reached.emit(target)
 		move_sound_player.playing = false
 		# getting the next target from path corner
-		var next_target: Variant = target.get("target")
+		var next_target: Variant = target.get_first_target_node("Node3D")
 		if next_target != null and next_target is Node3D:
 			target = next_target
 		else:

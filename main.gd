@@ -4,6 +4,7 @@ extends Node3D
 func _ready() -> void:
 	var map_resource: MapperMapResource = null
 	map_resource = MapperMapResource.load_from_file("res://mapping/quake/maps/e1m1.map")
+	var animated_wad := MapperWadResource.load_from_file("res://mapping/quake/wads/quake101.wad")
 
 	var map_options := {}
 	map_options["game_directory"] = "res://mapping/quake"
@@ -13,10 +14,9 @@ func _ready() -> void:
 	map_options["lightmap_unwrap"] = false # set to True to load external lightmap (can freeze)
 	map_options["print_progress"] = true
 	map_options["__lightmap_external"] = true # import E1M1 as scene and bake it
-	var settings := MapperSettings.new(map_options)
 
+	var settings := MapperSettings.new(map_options)
 	var factory := MapperFactory.new(settings)
-	var animated_wad := MapperWadResource.load_from_file("res://mapping/quake/wads/quake101.wad")
 	var packed_scene := factory.build_map(map_resource, [animated_wad])
 
 	self.add_child(packed_scene.instantiate())
