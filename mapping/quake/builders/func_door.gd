@@ -130,7 +130,9 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 		MapperUtilities.add_global_child(node, root_node, map.settings)
 		root_node.move_child(node, 0)
 	if linked_entities.size() == 1:
-		root_node.name = linked_entities[0].get_string_property("targetname", "")
+		var root_name: String = linked_entities[0].get_string_property("targetname", "")
+		if not root_name.validate_node_name().strip_edges().is_empty():
+			root_node.name = root_name
 
 	# connecting signals from linked doors
 	for linked_entity in linked_entities:
