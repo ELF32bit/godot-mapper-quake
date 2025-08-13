@@ -28,6 +28,7 @@ func _spawn_player() -> void:
 	var player_instance = player.instantiate()
 	add_child(player_instance, true)
 
+	player_instance.spring_arm_collision_mask = 1 + 4
 	player_instance.set_collision_layer_value(1, true)
 	player_instance.set_collision_layer_value(4, true)
 	player_instance.set_collision_layer_value(6, true)

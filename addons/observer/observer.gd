@@ -13,6 +13,7 @@ extends CharacterBody3D
 @export var speed_teleport: float = 30.0
 @export var orbit_limit_min := deg_to_rad(-89.0)
 @export var orbit_limit_max := deg_to_rad(89.0)
+@export_flags_3d_physics var spring_arm_collision_mask: int = 1
 
 @onready var input: Node = $"Input"
 @onready var camera: Camera3D = $"Camera3D"
@@ -38,7 +39,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		spring_arm.spring_length -= scroll_number * 0.15
 		spring_arm.spring_length = clampf(spring_arm.spring_length, 0.0, 10.0)
-	spring_arm.collision_mask = (0 if input.is_noclip_pressed else 1)
+	spring_arm.collision_mask = spring_arm_collision_mask * int(not input.is_noclip_pressed)
 
 	if input.is_orbit_pressed:
 		_apply_free_look(spring_arm, free_look, delta)
