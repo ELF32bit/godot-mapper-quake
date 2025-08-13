@@ -22,6 +22,8 @@ extends CharacterBody3D
 @onready var spring_arm: SpringArm3D = $"SpringArm3D"
 @onready var ray_cast: RayCast3D = $"RayCast3D"
 
+var _push_velocity := Vector3.ZERO
+
 
 func _ready() -> void:
 	spring_arm.add_excluded_object(get_rid())
@@ -90,6 +92,8 @@ func _physics_process(delta: float) -> void:
 	elif collision_shape.disabled:
 		collision_shape.disabled = false
 
+	velocity += _push_velocity
+	_push_velocity = Vector3.ZERO
 	move_and_slide()
 
 
@@ -113,3 +117,7 @@ func set_distortion_effect(liquid: int) -> void:
 			distortion.visible = true
 		_:
 			distortion.visible = false
+
+
+func push(push_velocity: Vector3) -> void:
+	_push_velocity = push_velocity * 10.0
