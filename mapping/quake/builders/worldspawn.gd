@@ -110,7 +110,7 @@ static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void
 		var directional_light := DirectionalLight3D.new()
 		map.node.add_child(directional_light, map.settings.readable_node_names)
 		var default_rotation := Vector3(180.0, 0.0, 0.0) # TODO: with basis
-		directional_light.rotation = entity.get_property("convert_mangle", "_sun_mangle", default_rotation)
+		directional_light.rotation = entity.get_property("convert_mangle_YpR", "_sun_mangle", default_rotation)
 		directional_light.light_bake_mode = Light3D.BAKE_STATIC
 		directional_light.shadow_enabled = true
 		directional_light.light_energy = 4.0
