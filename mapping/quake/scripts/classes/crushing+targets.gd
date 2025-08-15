@@ -1,5 +1,6 @@
 extends "crushing.gd"
 
+ # Array[NodePath]
 @export var _targets: Array = []
 @export var _kill_targets: Array = []
 
