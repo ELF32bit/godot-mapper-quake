@@ -34,7 +34,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			move_sound_player.stream = preload("../sounds/doors/basesec1.wav")
 			stop_sound_player.stream = preload("../sounds/doors/basesec2.wav")
 
-	# using custom sounds if they are loading
+	# using custom func_door_secret sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)
 	var noise2: AudioStream = entity.get_sound_property("noise2", null)
 	if noise1:
@@ -101,6 +101,7 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node]) -> Array
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 	var t_width: Variant = entity.get_unit_property("t_width", null)
 	var t_length: Variant = entity.get_unit_property("t_length", null)
+	var animation_delay: float = 0.15
 
 	# creating empty animations
 	var open_animation := Animation.new()
@@ -164,28 +165,37 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node]) -> Array
 	var second_move_position := first_move_position + forward_vector * forward_offset
 
 	# creating animation frame times
-	var frames := [0.0, right_offset / speed, forward_offset / speed, (right_offset + forward_offset) / speed]
+	var frames := [
+		0.0,
+		right_offset / speed,
+		right_offset / speed + animation_delay,
+		forward_offset / speed,
+		forward_offset / speed + animation_delay,
+		(right_offset + forward_offset) / speed + animation_delay,
+	]
 
 	# inserting keys into animations
-	open_animation.length = frames[3]
+	open_animation.length = frames[5]
 	open_animation.position_track_insert_key(0, frames[0], door_close_position)
 	open_animation.track_insert_key(1, frames[0], true)
 	open_animation.position_track_insert_key(0, frames[1], first_move_position)
-	open_animation.position_track_insert_key(0, frames[3], second_move_position)
-	open_animation.track_insert_key(1, frames[3], false)
-	open_animation.track_insert_key(2, frames[3], true)
+	open_animation.position_track_insert_key(0, frames[2], first_move_position)
+	open_animation.position_track_insert_key(0, frames[5], second_move_position)
+	open_animation.track_insert_key(1, frames[5], false)
+	open_animation.track_insert_key(2, frames[5], true)
 
 	opened_animation.length = 0.0
 	opened_animation.position_track_insert_key(0, frames[0], second_move_position)
 	opened_animation.track_insert_key(1, frames[0], false)
 
-	close_animation.length = frames[3]
+	close_animation.length = frames[5]
 	close_animation.position_track_insert_key(0, frames[0], second_move_position)
 	close_animation.track_insert_key(1, frames[0], true)
-	close_animation.position_track_insert_key(0, frames[2], first_move_position)
-	close_animation.position_track_insert_key(0, frames[3], door_close_position)
-	close_animation.track_insert_key(1, frames[3], false)
-	close_animation.track_insert_key(2, frames[3], true)
+	close_animation.position_track_insert_key(0, frames[3], first_move_position)
+	close_animation.position_track_insert_key(0, frames[4], first_move_position)
+	close_animation.position_track_insert_key(0, frames[5], door_close_position)
+	close_animation.track_insert_key(1, frames[5], false)
+	close_animation.track_insert_key(2, frames[5], true)
 
 	closed_animation.length = 0.0
 	closed_animation.position_track_insert_key(0, frames[0], door_close_position)

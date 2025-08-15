@@ -229,7 +229,12 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node], extra_pl
 		collision_shape_retract_size[up_axis_index] = height + extra_platform_height
 
 	# creating animation frame times
-	var frames := [0.0, animation_delay, offset / speed + animation_delay, offset / speed + 2.0 * animation_delay]
+	var frames := [
+		0.0,
+		animation_delay,
+		offset / speed + animation_delay,
+		offset / speed + 2.0 * animation_delay
+	]
 
 	# inserting keys into animations
 	extend_animation.length = frames[3]

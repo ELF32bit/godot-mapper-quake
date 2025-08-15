@@ -13,12 +13,12 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["worldspawn-StaticBody3D"],
 		[])
 
-	# creating root node
+	# creating func_button root node
 	var root_node := Node3D.new()
 	root_node.set_script(preload("../scripts/func_button.gd"))
 	root_node.transform = node.transform
 
-	# parenting node to root node
+	# parenting func_button node to root node
 	MapperUtilities.add_global_child(node, root_node, map.settings)
 	root_node.set("_animatable_body", root_node.get_path_to(node))
 
@@ -76,7 +76,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		3: # in-out
 			press_sound_player.stream = preload("../sounds/buttons/switch04.wav")
 
-	# using custom sounds if they are loading
+	# using custom func_button sounds if they are loading
 	var noise: AudioStream = entity.get_sound_property("noise", null)
 	if noise:
 		press_sound_player.stream = noise
@@ -94,7 +94,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	root_node.add_child(animation_player, map.settings.readable_node_names)
 	root_node.set("_animation_player", root_node.get_path_to(animation_player))
 
-	# creating wait timer
+	# creating func_button wait timer
 	var wait_time: float = entity.get_float_property("wait", 1.0)
 	if not wait_time < 0.0:
 		var wait_timer := create_safe_timer(map, root_node, wait_time)
@@ -132,7 +132,6 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node]) -> Array
 	# animation parameters
 	var lip: float = entity.get_unit_property("lip", 4.0)
 	var speed: float = entity.get_unit_property("speed", 40.0)
-	var wait: float = entity.get_float_property("wait", 1.0)
 
 	# creating empty animations
 	var press_animation := Animation.new()
@@ -173,7 +172,10 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node]) -> Array
 	var button_press_position := button_release_position + local_forward_vector * offset
 
 	# creating animation frame times
-	var frames := [0.0, offset / speed, offset / speed + wait, 2.0 * offset / speed + wait]
+	var frames := [
+		0.0,
+		offset / speed,
+	]
 
 	# inserting keys into animations
 	press_animation.length = frames[1]
