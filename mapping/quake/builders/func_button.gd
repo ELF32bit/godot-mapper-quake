@@ -75,8 +75,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			press_sound_player.stream = preload("../sounds/buttons/switch02.wav")
 		3: # in-out
 			press_sound_player.stream = preload("../sounds/buttons/switch04.wav")
-		_:
-			press_sound_player.stream = null
 
 	# using custom sounds if they are loading
 	var noise: AudioStream = entity.get_sound_property("noise", null)

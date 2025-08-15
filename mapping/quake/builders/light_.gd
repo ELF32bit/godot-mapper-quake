@@ -32,8 +32,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			light.set(light_prefix + "attenuation", 0.01)
 		5: # inverse distance squared B
 			light.set(light_prefix + "attenuation", 2.0)
-		_:
-			light.set(light_prefix + "attenuation", 1.0)
 
 	# handling light wait property
 	if light is SpotLight3D:
@@ -65,8 +63,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		4 : # fast strobe
 			pass
 		9 : # slow strobe
-			pass
-		_:
 			pass
 
 	if entity.get_int_property("spawnflags", 0) & 1: # start off

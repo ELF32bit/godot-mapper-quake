@@ -50,9 +50,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		2: # base (tech)
 			var _stream1 := preload("../sounds/doors/basetry.wav")
 			var _stream2 := preload("../sounds/doors/baseuse.wav")
-		_: # default
-			var _stream1 := preload("../sounds/doors/medtry.wav")
-			var _stream2 := preload("../sounds/doors/meduse.wav")
 
 	# using custom sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)
@@ -71,8 +68,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# binding func_door properties
 	bind_target_base(entity)
 	bind_targetname_base(entity)
-	node.set("damage", entity.get_int_property("dmg", 2))
 	entity.bind_string_property("message", "message")
+	node.set("damage", entity.get_int_property("dmg", 2))
 	node.set("max_health", maxi(entity.get_int_property("health", 0), 0))
 
 	return node

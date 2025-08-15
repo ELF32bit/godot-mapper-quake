@@ -85,8 +85,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# binding func_door_secret properties
 	bind_target_base(entity)
 	bind_targetname_base(entity)
-	node.set("damage", entity.get_int_property("dmg", 2))
 	entity.bind_string_property("message", "message")
+	node.set("damage", entity.get_int_property("dmg", 2))
 
 	return node
 

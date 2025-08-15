@@ -30,8 +30,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 					item = map.loader.load_mdl("mdls/keys/m_s_key.mdl")
 				2: # base (tech)
 					item = map.loader.load_mdl("mdls/keys/b_s_key.mdl")
-				_: # default
-					item = map.loader.load_mdl("mdls/keys/w_s_key.mdl")
 		"item_key2": # gold key
 			match map.settings.options.get("_world_type", 0):
 				0: # medieval (wizard)
@@ -40,8 +38,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 					item = map.loader.load_mdl("mdls/keys/m_g_key.mdl")
 				2: # base (tech)
 					item = map.loader.load_mdl("mdls/keys/b_g_key.mdl")
-				_: # default
-					item = map.loader.load_mdl("mdls/keys/w_g_key.mdl")
 		"item_sigil": # sigil
 			if spawnflags & 8:
 				item = map.loader.load_mdl("mdls/items/end4.mdl")

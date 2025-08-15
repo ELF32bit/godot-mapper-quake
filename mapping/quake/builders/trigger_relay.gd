@@ -23,8 +23,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			trigger_sound_player.stream = preload("../sounds/misc/talk.wav")
 		3: # large switch
 			trigger_sound_player.stream = preload("../sounds/misc/trigger1.wav")
-		_:
-			trigger_sound_player.stream = null
 
 	# binding trigger_relay properties
 	bind_trigger_base(entity)

@@ -61,8 +61,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if not entity.get_string_property("targetname", "").is_empty():
 		node.set("is_waiting_for_signal", true)
 
-	node.set("speed", entity.get_unit_property("speed", 64.0))
 	entity.bind_node_path_array_property("target", "targetname", "_targets", "path_corner")
+	node.set("speed", entity.get_unit_property("speed", 64.0))
 	node.set("damage", entity.get_int_property("dmg", 2))
 
 	# implementation specific property

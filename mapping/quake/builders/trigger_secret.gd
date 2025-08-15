@@ -28,8 +28,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			trigger_sound_player.stream = preload("../sounds/misc/secret.wav")
 		2: # beep beep
 			trigger_sound_player.stream = preload("../sounds/misc/talk.wav")
-		_:
-			trigger_sound_player.stream = null
 
 	# creating trigger_secret delay timer
 	var delay_time: float = entity.get_float_property("delay", 0.0)

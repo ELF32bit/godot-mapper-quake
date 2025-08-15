@@ -27,7 +27,5 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			node.set("skill", 2)
 		3: # nightmare
 			node.set("skill", 3)
-		_:
-			node.set("skill", 1)
 
 	return node
