@@ -1,7 +1,6 @@
 extends "classes/crushing.gd"
 
-signal generic # only used for linked doors and not the main door
-signal activated # emitted when health ended or generic signal received by linked door
+signal generic
 
 @export var max_health: int = 0
 @onready var health: int = max_health:
@@ -11,5 +10,5 @@ signal activated # emitted when health ended or generic signal received by linke
 		if health != previous_health:
 			# health has changed here
 			if health == 0:
-				activated.emit()
+				generic.emit()
 @export var message: String = ""

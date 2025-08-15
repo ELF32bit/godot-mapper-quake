@@ -21,7 +21,7 @@ func _physics_process(_delta: float) -> void:
 	# increasing max_collisions does not return more unique colliders
 	# consider putting crushable objects on a separate sparse physics layer
 	# only 1 object is crushed per frame, other objects will not be reported
-	# many objects require many frames to be reported, consider the slowing body
+	# many objects require many frames to be reported, consider slowing the body
 	# collisions between two concave shapes will not be reported
 	var collision := move_and_collide(Vector3.ZERO, true, 0.001, true, 1)
 	if not collision:

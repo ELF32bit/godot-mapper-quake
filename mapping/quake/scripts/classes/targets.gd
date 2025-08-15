@@ -1,11 +1,10 @@
 extends Node
 
- # Array[NodePath]
-@export var _targets: Array = []
-@export var _kill_targets: Array = []
+@export var _targets: Array[NodePath] = []
+@export var _kill_targets: Array[NodePath] = []
 
 
-func _get_first_node_of_class(from: Node, node_paths: Array, node_class: StringName = "Node") -> Node:
+func _get_first_node_of_class(from: Node, node_paths: Array[NodePath], node_class: StringName = "Node") -> Node:
 	if not ClassDB.class_exists(node_class):
 		return null
 	if not ClassDB.is_parent_class(node_class, "Node"):
@@ -18,7 +17,7 @@ func _get_first_node_of_class(from: Node, node_paths: Array, node_class: StringN
 	return null
 
 
-func _get_nodes_of_class(from: Node, node_paths: Array, node_class: StringName = "Node") -> Array[Node]:
+func _get_nodes_of_class(from: Node, node_paths: Array[NodePath], node_class: StringName = "Node") -> Array[Node]:
 	var nodes: Array[Node] = []
 	if not ClassDB.class_exists(node_class):
 		return nodes

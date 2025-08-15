@@ -13,7 +13,7 @@ const RENDER_LAYERS_3D := {
 const PHYSICS_LAYERS_3D := {
 	"worldspawn-StaticBody3D": 1,
 	"worldspawn-liquid-Area3D": 2,
-	"worldspawn-liquid-StaticBody3D": 3,
+	"worldspawn-liquid-StaticBody3D": 3, # camera blocking
 	"worldspawn-liquid-PhysicsBody3D": 4,
 
 	"func_door-Area3D": 5,
