@@ -56,7 +56,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			continue
 		set_collision_layer_mask(area,
 			["worldspawn-liquid-Area3D"],
-			["worldspawn-liquid-CollisionObject3D"])
+			["worldspawn-liquid-PhysicsBody3D"])
 		MapperUtilities.add_global_child(area, liquids[liquid], map.settings)
 
 		# re-enabling disabled brush nodes

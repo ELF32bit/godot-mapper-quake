@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node,
 		["trigger_push-Area3D"],
-		["trigger_push-CollisionObject3D"])
+		["trigger_push-PhysicsBody3D"])
 
 	# setting trigger_push script and connecting signals
 	node.set_script(preload("../scripts/trigger_push.gd"))

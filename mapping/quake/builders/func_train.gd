@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node,
 		["worldspawn-StaticBody3D"],
-		["func_train-CharacterBody3D", "func_train-CollisionObject3D"])
+		["func_train-CharacterBody3D", "func_train-Object"])
 
 	# setting trigger_train script and connecting signals
 	node.set_script(preload("../scripts/func_train.gd"))

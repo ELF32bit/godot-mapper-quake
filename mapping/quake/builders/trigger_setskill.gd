@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node,
 		["trigger_setskill-Area3D"],
-		["trigger_setskill-CollisionObject3D"])
+		["trigger_setskill-PhysicsBody3D"])
 
 	# setting trigger_setskill script and connecting signals
 	node.set_script(preload("../scripts/trigger_setskill.gd"))

@@ -22,7 +22,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			return null
 		set_collision_layer_mask(node,
 			["trigger_multiple-Area3D"],
-			["trigger_multiple-CollisionObject3D"])
+			["trigger_multiple-PhysicsBody3D"])
 
 	# setting trigger_multiple script and connecting signals
 	if has_health:

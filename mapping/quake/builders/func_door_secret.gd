@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node,
 		["worldspawn-StaticBody3D"],
-		["func_door-CharacterBody3D", "func_door-CollisionObject3D"])
+		["func_door-CharacterBody3D", "func_door-Object"])
 
 	# setting func_door_secret script
 	node.set_script(preload("../scripts/func_door_secret.gd"))

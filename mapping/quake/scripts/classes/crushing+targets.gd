@@ -1,10 +1,10 @@
 extends "crushing.gd"
 
-@export var _targets: Array[NodePath] = [] # typed array throws errors
-@export var _kill_targets: Array[NodePath] = [] # typed array throws errors
+@export var _targets: Array = []
+@export var _kill_targets: Array = []
 
 
-func _get_first_node_of_class(from: Node, node_paths: Array[NodePath], node_class: StringName = "Node") -> Node:
+func _get_first_node_of_class(from: Node, node_paths: Array, node_class: StringName = "Node") -> Node:
 	if not ClassDB.class_exists(node_class):
 		return null
 	if not ClassDB.is_parent_class(node_class, "Node"):
@@ -17,7 +17,7 @@ func _get_first_node_of_class(from: Node, node_paths: Array[NodePath], node_clas
 	return null
 
 
-func _get_nodes_of_class(from: Node, node_paths: Array[NodePath], node_class: StringName = "Node") -> Array[Node]:
+func _get_nodes_of_class(from: Node, node_paths: Array, node_class: StringName = "Node") -> Array[Node]:
 	var nodes: Array[Node] = []
 	if not ClassDB.class_exists(node_class):
 		return nodes

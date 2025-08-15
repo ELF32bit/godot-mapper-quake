@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node,
 		["trigger_teleport-Area3D"],
-		["trigger_teleport-CollisionObject3D"])
+		["trigger_teleport-PhysicsBody3D"])
 
 	# setting trigger_teleport script and connecting signals
 	node.set_script(preload("../scripts/trigger_teleport.gd"))

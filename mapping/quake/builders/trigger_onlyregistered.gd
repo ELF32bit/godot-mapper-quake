@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node,
 		["trigger_onlyregistered-Area3D"],
-		["trigger_onlyregistered-CollisionObject3D"])
+		["trigger_onlyregistered-PhysicsBody3D"])
 
 	# setting trigger_onlyregistered script and connecting signals
 	node.set_script(preload("../scripts/trigger_multiple.gd"))

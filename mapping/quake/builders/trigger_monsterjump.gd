@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	set_collision_layer_mask(node,
 		["trigger_monsterjump-Area3D"],
-		["trigger_monsterjump-CollisionObject3D"])
+		["trigger_monsterjump-PhysicsBody3D"])
 
 	# setting trigger_monsterjump script and connecting signals
 	node.set_script(preload("../scripts/trigger_monsterjump.gd"))
