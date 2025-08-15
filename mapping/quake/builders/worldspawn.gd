@@ -112,12 +112,13 @@ static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void
 		var environment := Environment.new()
 		world_environment.environment = environment
 		environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-		environment.ambient_light_color = entity.get_color_property("_colors", Color.WHITE)
+		environment.ambient_light_color = entity.get_color_property("_color", Color.WHITE)
 		environment.ambient_light_energy = entity.get_float_property("light")
 
 	if entity.get_float_property("_sunlight", 0.0) > 0.0:
 		var directional_light := DirectionalLight3D.new()
 		entity.node.add_child(directional_light, map.settings.readable_node_names)
+		entity.node.move_child(directional_light, 0)
 
 		var default_rotation := Quaternion(Vector3.FORWARD, Vector3.DOWN).get_euler()
 		directional_light.rotation = entity.get_property("convert_mangle_YpR", "_sun_mangle", default_rotation)

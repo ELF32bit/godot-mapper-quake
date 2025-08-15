@@ -26,7 +26,7 @@ State | Classname | Commentary
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
 ✅ | func_door              | **Might be driven by `health` property.**<br>**Calls `crush` method on characters and collision objects.**
-🟨 | func_door_secret       | Game script is not implemented.<br>Uses wrong default sounds.
+🟨 | func_door_secret       | Game script is not implemented.
 ✅ | func_wall              | Uses extended alternative texture system.
 ✅ | func_button            | **Might be driven by `health` property.**
 ✅ | func_train             | **Calls `crush` method on characters and collision objects.**
