@@ -8,10 +8,12 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["worldspawn"], ["func_door-characters", "func_door-objects"])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		["func_door-CharacterBody3D", "func_door-CollisionObject3D"])
 
 	# setting func_door_secret script
-	node.set_script(preload("../scripts/func_door-health.gd"))
+	node.set_script(preload("../scripts/func_door_secret.gd"))
 
 	# creating func_door_secret sound players
 	var move_sound_player := AudioStreamPlayer3D.new()
@@ -23,14 +25,14 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# loading func_door_secret default sounds
 	match entity.get_int_property("sounds", 3):
 		1: # medieval
-			move_sound_player.stream = preload("../sounds/doors/doormv1.wav")
+			move_sound_player.stream = preload("../sounds/doors/winch2.wav")
 			stop_sound_player.stream = preload("../sounds/doors/drclos4.wav")
 		2: # metal
+			move_sound_player.stream = preload("../sounds/doors/airdoor1.wav")
+			stop_sound_player.stream = preload("../sounds/doors/airdoor2.wav")
+		3: # base
 			move_sound_player.stream = preload("../sounds/doors/basesec1.wav")
 			stop_sound_player.stream = preload("../sounds/doors/basesec2.wav")
-		3: # base
-			move_sound_player.stream = preload("../sounds/doors/stndr1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/stndr2.wav")
 
 	# using custom sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)
@@ -56,7 +58,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating wait timer
 	var wait_time: float = entity.get_float_property("wait", 2.0)
 	if not wait_time < 0.0:
-		var wait_timer := preload("__post.gd").create_safe_timer(map, node, wait_time)
+		var wait_timer := create_safe_timer(map, node, wait_time)
 		wait_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 		node.set("_wait_timer", node.get_path_to(wait_timer))
 		wait_timer.one_shot = true
@@ -99,7 +101,6 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node]) -> Array
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 	var t_width: Variant = entity.get_unit_property("t_width", null)
 	var t_length: Variant = entity.get_unit_property("t_length", null)
-	var _wait: float = entity.get_float_property("wait", 2.0)
 
 	# creating empty animations
 	var open_animation := Animation.new()

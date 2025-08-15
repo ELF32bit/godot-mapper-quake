@@ -52,12 +52,3 @@ static func link_entities(map: MapperMap, entity: MapperEntity, link_units: floa
 			linked_aabb = linked_aabb.merge(another_entity.aabb)
 
 	return [linked_entities, linked_aabb, link_units]
-
-
-static func create_safe_timer(map: MapperMap, parent: Node, wait_time: float = 1.0) -> Timer:
-	var timer := Timer.new()
-	parent.add_child(timer, map.settings.readable_node_names)
-	timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
-	# Godot timers don't work correctly with small wait times
-	timer.wait_time = clampf(wait_time, 0.05, INF)
-	return timer

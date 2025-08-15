@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["trigger_teleport-areas"], ["trigger_teleport-objects"])
+	set_collision_layer_mask(node,
+		["trigger_teleport-Area3D"],
+		["trigger_teleport-CollisionObject3D"])
 
 	# setting trigger_teleport script and connecting signals
 	node.set_script(preload("../scripts/trigger_teleport.gd"))
@@ -20,7 +22,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(teleport_sound_player, map.settings.readable_node_names)
 	node.set("_teleport_sound_player", node.get_path_to(teleport_sound_player))
 
-	# loading default quake sounds
+	# loading trigger_teleport default sounds
 	var teleport_sounds: Array[AudioStream] = [
 		preload("../sounds/misc/r_tele1.wav"),
 		preload("../sounds/misc/r_tele2.wav"),
@@ -30,12 +32,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	]
 	node.set("teleport_sounds", teleport_sounds)
 
+	# disabling trigger_teleport area if activated by a signal
 	if not entity.get_string_property("targetname", "").is_empty():
 		node.monitoring = false
-
-	# binding trigger_teleport properties
-	bind_target_base(entity, "info_teleport_destination")
-	bind_targetname_base(entity)
 
 	# handling trigger_teleport spawnflags
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
@@ -43,5 +42,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		pass
 	if spawnflags & 2: # silent
 		node.set("teleport_sounds", [])
+
+	# binding trigger_teleport properties
+	bind_target_base(entity, "info_teleport_destination")
+	bind_targetname_base(entity)
 
 	return node

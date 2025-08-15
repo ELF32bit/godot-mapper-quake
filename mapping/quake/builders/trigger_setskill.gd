@@ -8,13 +8,16 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["trigger_setskill-areas"], ["trigger_setskill-objects"])
+	set_collision_layer_mask(node,
+		["trigger_setskill-Area3D"],
+		["trigger_setskill-CollisionObject3D"])
 
 	# setting trigger_setskill script and connecting signals
 	node.set_script(preload("../scripts/trigger_setskill.gd"))
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
 
+	# binding trigger_setskill properties
 	match entity.get_int_property("message", 1):
 		0: # easy
 			node.set("skill", 0)

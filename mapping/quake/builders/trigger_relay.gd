@@ -13,23 +13,21 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(trigger_sound_player, map.settings.readable_node_names)
 	node.set("_trigger_sound_player", node.get_path_to(trigger_sound_player))
 
-	# binding trigger_relay properties
-	bind_target_base(entity)
-	bind_targetname_base(entity)
-
-	# trigger base
+	# loading trigger_relay default sounds
 	match entity.get_int_property("sounds", 0):
 		0: # none
 			trigger_sound_player.stream = null
 		1: # secret sound
-			trigger_sound_player.stream = null
+			trigger_sound_player.stream = preload("../sounds/misc/secret.wav")
 		2: # beep beep
-			trigger_sound_player.stream = null
+			trigger_sound_player.stream = preload("../sounds/misc/talk.wav")
 		3: # large switch
+			trigger_sound_player.stream = preload("../sounds/misc/trigger1.wav")
+		_:
 			trigger_sound_player.stream = null
-	entity.bind_float_property("delay", "delay_time")
-	entity.bind_string_property("message", "message")
 
+	# binding trigger_relay properties
+	bind_trigger_base(entity)
 	entity.bind_float_property("wait", "delay_time") # for compatibility
 
 	return node

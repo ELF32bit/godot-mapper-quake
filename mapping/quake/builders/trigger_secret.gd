@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["trigger_secret-areas"], ["trigger_secret-objects"])
+	set_collision_layer_mask(node,
+		["trigger_secret-Area3D"],
+		["trigger_secret-CollisionObject3D"])
 
 	# setting trigger_secret script and connecting signals
 	node.set_script(preload("../scripts/trigger_once.gd"))
@@ -20,20 +22,28 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(trigger_sound_player, map.settings.readable_node_names)
 	node.set("_trigger_sound_player", node.get_path_to(trigger_sound_player))
 
-	# binding trigger_secret properties
-	bind_trigger_base(map, entity, node, trigger_sound_player)
-
-	match entity.get_int_property("sounds", 0):
-		0: # none
-			trigger_sound_player.stream = null
+	# loading trigger_secret default sounds
+	match entity.get_int_property("sounds", 1):
 		1: # secret sound
-			trigger_sound_player.stream = null
+			trigger_sound_player.stream = preload("../sounds/misc/secret.wav")
 		2: # beep beep
-			trigger_sound_player.stream = null
+			trigger_sound_player.stream = preload("../sounds/misc/talk.wav")
 		_:
 			trigger_sound_player.stream = null
 
+	# creating trigger_secret delay timer
+	var delay_time: float = entity.get_float_property("delay", 0.0)
+	if not delay_time < 0.0:
+		var delay_timer := create_safe_timer(map, node, delay_time)
+		delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
+		node.set("_delay_timer", node.get_path_to(delay_timer))
+		delay_timer.one_shot = true
+
+	# handling trigger_secret spawnflags
 	if entity.get_int_property("spawnflags", 0) & 1: # not touchable
 		node.monitoring = false
+
+	# binding trigger_secret properties
+	bind_trigger_base(entity)
 
 	return node

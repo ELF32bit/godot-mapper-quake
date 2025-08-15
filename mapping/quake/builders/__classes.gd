@@ -1,4 +1,4 @@
-extends "../layers.gd"
+extends "__utilities.gd"
 
 
 static func bind_appearflags_base(map: MapperMap, entity: MapperEntity) -> bool:
@@ -52,29 +52,11 @@ static func bind_ammo_base(entity: MapperEntity) -> void:
 			pass
 
 
-static func bind_trigger_base(map: MapperMap, entity: MapperEntity, node: Node, trigger_sound_player: AudioStreamPlayer3D, classname: String = "*") -> void:
-	bind_target_base(entity, classname)
+static func bind_trigger_base(entity: MapperEntity) -> void:
+	bind_target_base(entity)
 	bind_targetname_base(entity)
-
-	match entity.get_int_property("sounds", 0):
-		0: # none
-			trigger_sound_player.stream = null
-		1: # secret sound
-			trigger_sound_player.stream = null
-		2: # beep beep
-			trigger_sound_player.stream = null
-		3: # large switch
-			trigger_sound_player.stream = null
-		_:
-			trigger_sound_player.stream = null
-
-	var delay_time: float = entity.get_float_property("delay", 0.0)
-	if not delay_time < 0.0:
-		var delay_timer := preload("__post.gd").create_safe_timer(map, node, delay_time)
-		delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
-		node.set("_delay_timer", node.get_path_to(delay_timer))
-		delay_timer.one_shot = true
-
+	entity.bind_int_property("sounds", "sounds")
+	entity.bind_float_property("delay", "delay_time")
 	entity.bind_string_property("message", "message")
 
 

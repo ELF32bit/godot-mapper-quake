@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["worldspawn"], [])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		[])
 
 	# func_wall does not cast shadow
 	for mesh_instance in node.find_children("*", "MeshInstance3D", false, false):

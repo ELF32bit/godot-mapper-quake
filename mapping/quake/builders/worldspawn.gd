@@ -7,7 +7,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["worldspawn"], [])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		[])
 
 	# creating world entity navigation region
 	var navigation_region := MapperUtilities.create_navigation_region(map, node)
@@ -52,7 +54,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		var area := MapperUtilities.create_brush(entity, brush, "Area3D")
 		if not area:
 			continue
-		set_collision_layer_mask(area, ["worldspawn-liquid-areas"], ["worldspawn-liquid-objects"])
+		set_collision_layer_mask(area,
+			["worldspawn-liquid-Area3D"],
+			["worldspawn-liquid-CollisionObject3D"])
 		MapperUtilities.add_global_child(area, liquids[liquid], map.settings)
 
 		# re-enabling disabled brush nodes
@@ -80,7 +84,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		static_body.position = brush.center
 		MapperUtilities.add_global_child(static_body, area, map.settings)
 		static_body.add_child(collision_shape, map.settings.readable_node_names)
-		set_collision_layer_mask(static_body, ["worldspawn-liquid-bodies"], [])
+		set_collision_layer_mask(static_body,
+			["worldspawn-liquid-StaticBody3D"],
+			[])
 
 	# binding worldspawn properties
 	entity.bind_string_property("message", "message")
@@ -95,10 +101,13 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 
 static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void:
+	if not entity.node:
+		return
+
 	if entity.get_float_property("light", 0.0) > 0.0:
 		var world_environment := WorldEnvironment.new()
-		map.node.add_child(world_environment, map.settings.readable_node_names)
-		map.node.move_child(world_environment, 0)
+		entity.node.add_child(world_environment, map.settings.readable_node_names)
+		entity.node.move_child(world_environment, 0)
 
 		var environment := Environment.new()
 		world_environment.environment = environment
@@ -108,8 +117,9 @@ static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void
 
 	if entity.get_float_property("_sunlight", 0.0) > 0.0:
 		var directional_light := DirectionalLight3D.new()
-		map.node.add_child(directional_light, map.settings.readable_node_names)
-		var default_rotation := Vector3(180.0, 0.0, 0.0) # TODO: with basis
+		entity.node.add_child(directional_light, map.settings.readable_node_names)
+
+		var default_rotation := Quaternion(Vector3.FORWARD, Vector3.DOWN).get_euler()
 		directional_light.rotation = entity.get_property("convert_mangle_YpR", "_sun_mangle", default_rotation)
 		directional_light.light_bake_mode = Light3D.BAKE_STATIC
 		directional_light.shadow_enabled = true

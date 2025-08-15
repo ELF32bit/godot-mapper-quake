@@ -9,20 +9,20 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.autoplay = true
 
 	var enforcer_sounds: Array[AudioStream] = [
-		preload("../sounds/enforcer/death1.wav"),
 		preload("../sounds/enforcer/enfire.wav"),
 		preload("../sounds/enforcer/enfstop.wav"),
-		preload("../sounds/enforcer/idle1.wav"),
-		preload("../sounds/enforcer/pain1.wav"),
-		preload("../sounds/enforcer/pain2.wav"),
 		preload("../sounds/enforcer/sight1.wav"),
 		preload("../sounds/enforcer/sight2.wav"),
 		preload("../sounds/enforcer/sight3.wav"),
 		preload("../sounds/enforcer/sight4.wav"),
+		preload("../sounds/enforcer/pain1.wav"),
+		preload("../sounds/enforcer/pain2.wav"),
+		preload("../sounds/enforcer/death1.wav"),
+		preload("../sounds/enforcer/idle1.wav"),
 	]
 	node.set("noises", enforcer_sounds)
 
-	var timer := preload("__post.gd").create_safe_timer(map, node, 0.1)
+	var timer := create_safe_timer(map, node, 0.1)
 	timer.timeout.connect(Callable(node, "_on_timer_timeout"), CONNECT_PERSIST)
 	timer.autostart = true
 

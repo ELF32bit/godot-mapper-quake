@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["worldspawn"], ["func_train-characters", "func_train-objects"])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		["func_train-CharacterBody3D", "func_train-CollisionObject3D"])
 
 	# setting trigger_train script and connecting signals
 	node.set_script(preload("../scripts/func_train.gd"))
@@ -43,7 +45,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			stop_sound_player.stream = noise2
 
 	# creating generic wait timer for path_corner
-	var wait_timer := preload("__post.gd").create_safe_timer(map, node)
+	var wait_timer := create_safe_timer(map, node)
 	wait_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 	node.set("_wait_timer", node.get_path_to(wait_timer))
 	wait_timer.one_shot = true

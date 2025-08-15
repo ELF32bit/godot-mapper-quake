@@ -7,11 +7,14 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# large exploding container
 	var node := StaticBody3D.new()
 	MapperUtilities.apply_entity_transform(entity, node, true)
-	set_collision_layer_mask(node, ["worldspawn"], [])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		[])
 
 	map.settings.options["_map_is_item"] = true
 	var explobox := map.loader.load_map_raw("maps/items/b_explob.map")
 	map.settings.options.erase("_map_is_item")
+
 	if explobox:
 		var explobox_instance := explobox.instantiate()
 		node.add_child(explobox_instance, map.settings.readable_node_names)

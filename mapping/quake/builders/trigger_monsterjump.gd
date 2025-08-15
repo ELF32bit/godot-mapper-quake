@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["trigger_monsterjump-areas"], ["trigger_monsterjump-objects"])
+	set_collision_layer_mask(node,
+		["trigger_monsterjump-Area3D"],
+		["trigger_monsterjump-CollisionObject3D"])
 
 	# setting trigger_monsterjump script and connecting signals
 	node.set_script(preload("../scripts/trigger_monsterjump.gd"))

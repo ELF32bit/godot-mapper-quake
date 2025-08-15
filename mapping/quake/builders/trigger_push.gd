@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node: Area3D = MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["trigger_push-areas"], ["trigger_push-objects"])
+	set_collision_layer_mask(node,
+		["trigger_push-Area3D"],
+		["trigger_push-CollisionObject3D"])
 
 	# setting trigger_push script and connecting signals
 	node.set_script(preload("../scripts/trigger_push.gd"))
@@ -20,7 +22,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(push_sound_player, map.settings.readable_node_names)
 	push_sound_player.autoplay = true
 
-	# setting default sound or loading custom sound
+	# loading trigger_push default sounds
 	push_sound_player.stream = preload("../sounds/ambience/windfly.wav")
 	var noise: AudioStream = entity.get_sound_property("noise", null)
 	if noise:

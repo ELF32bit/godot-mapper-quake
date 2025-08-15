@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["worldspawn"], ["func_plat-characters", "func_plat-objects"])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		["func_plat-CharacterBody3D", "func_plat-CollisionObject3D"])
 
 	# creating root node
 	var root_node := Node3D.new()
@@ -22,7 +24,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating func_plat area
 	var area := Area3D.new()
 	root_node.add_child(area, map.settings.readable_node_names)
-	set_collision_layer_mask(area, ["func_plat-areas"], ["func_plat-characters"])
+	set_collision_layer_mask(area,
+		["func_plat-Area3D"],
+		["func_plat-CharacterBody3D"])
 	root_node.set("_area", root_node.get_path_to(area))
 
 	# connecting func_plat area signals
@@ -94,7 +98,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating wait timer (implementation specific property)
 	var wait_time: float = entity.get_float_property("wait", 1.0)
 	if not wait_time < 0.0:
-		var wait_timer := preload("__post.gd").create_safe_timer(map, root_node, wait_time)
+		var wait_timer := create_safe_timer(map, root_node, wait_time)
 		wait_timer.timeout.connect(Callable(root_node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 		root_node.set("_wait_timer", root_node.get_path_to(wait_timer))
 		wait_timer.one_shot = true

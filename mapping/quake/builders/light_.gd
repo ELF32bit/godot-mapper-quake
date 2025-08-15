@@ -101,16 +101,16 @@ static func build_spot_light(map: MapperMap, entity: MapperEntity) -> SpotLight3
 		return null
 
 	var light := SpotLight3D.new()
-	var origin = entity.get_origin_property(entity.center)
-	var target_origin = target.get_origin_property(target.center)
+	var origin: Vector3 = entity.get_origin_property(entity.center)
+	var target_origin: Vector3 = target.get_origin_property(target.center)
 
 	# obtating target direction and rotation
 	var direction := Vector3(target_origin - origin)
 	var direction_normalized := direction.normalized()
 	var entity_rotation: Vector3 = entity.node_properties.get("rotation", Vector3.ZERO)
 	var entity_basis := Basis.from_euler(entity_rotation)
-	var entity_forward = -entity_basis.z
-	var entity_up = entity_basis.y
+	var entity_forward := -entity_basis.z
+	var entity_up := entity_basis.y
 
 	var light_rotation := Quaternion()
 	if not direction_normalized.is_equal_approx(-entity_forward):

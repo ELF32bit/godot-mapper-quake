@@ -1,6 +1,6 @@
 extends "__classes.gd"
 
-@warning_ignore("unused_parameter")
+
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if bind_appearflags_base(map, entity):
 		return null
@@ -8,7 +8,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
 		return null
-	set_collision_layer_mask(node, ["worldspawn"], ["func_door-characters", "func_door-objects"])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		["func_door-CharacterBody3D", "func_door-CollisionObject3D"])
 
 	# setting func_door script
 	node.set_script(preload("../scripts/func_door-health.gd"))
@@ -29,14 +31,28 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			move_sound_player.stream = preload("../sounds/doors/doormv1.wav")
 			stop_sound_player.stream = preload("../sounds/doors/drclos4.wav")
 		2: # machine
-			move_sound_player.stream = preload("../sounds/doors/basesec1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/basesec2.wav")
+			move_sound_player.stream = preload("../sounds/doors/hydro1.wav")
+			stop_sound_player.stream = preload("../sounds/doors/hydro2.wav")
 		3: # stone chain
 			move_sound_player.stream = preload("../sounds/doors/stndr1.wav")
 			stop_sound_player.stream = preload("../sounds/doors/stndr2.wav")
 		4: # screechy metal
 			move_sound_player.stream = preload("../sounds/doors/ddoor1.wav")
 			stop_sound_player.stream = preload("../sounds/doors/ddoor2.wav")
+
+	match map.settings.options["_world_type"]:
+		0: # medieval (wizard)
+			var _stream1 := preload("../sounds/doors/medtry.wav")
+			var _stream2 := preload("../sounds/doors/meduse.wav")
+		1: # metal (runic)
+			var _stream1 := preload("../sounds/doors/runetry.wav")
+			var _stream2 := preload("../sounds/doors/runeuse.wav")
+		2: # base (tech)
+			var _stream1 := preload("../sounds/doors/basetry.wav")
+			var _stream2 := preload("../sounds/doors/baseuse.wav")
+		_: # default
+			var _stream1 := preload("../sounds/doors/medtry.wav")
+			var _stream2 := preload("../sounds/doors/meduse.wav")
 
 	# using custom sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)
@@ -71,21 +87,18 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 	var linked_aabb_center := linked_aabb.get_center()
 	var entity := linked_entities[0]
 
-	# obtaining nodes forward rotation
-	var forward_rotation := map.settings.get_forward_rotation()
-	var forward_rotation_euler := forward_rotation.get_euler()
-
 	# creating func_door root node
 	var root_node := Node3D.new()
 	root_node.position = linked_aabb_center
-	root_node.rotation = forward_rotation_euler
 	MapperUtilities.add_global_child(root_node, entity.node.get_parent(), map.settings)
 	root_node.set_script(preload("../scripts/func_door.gd"))
 
 	# creating func_door activation area
 	var area := Area3D.new()
 	root_node.add_child(area, map.settings.readable_node_names)
-	set_collision_layer_mask(area, ["func_door-areas"], ["func_door-characters"])
+	set_collision_layer_mask(area,
+		["func_door-Area3D"],
+		["func_door-CharacterBody3D"])
 	area.body_entered.connect(Callable(root_node, "_on_body_entered"), CONNECT_PERSIST)
 	root_node.set("_area", root_node.get_path_to(area))
 	area.monitorable = false
@@ -117,7 +130,7 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 	# creating wait timer
 	var wait_time: float = entity.get_float_property("wait", 3.0)
 	if not wait_time < 0.0:
-		var wait_timer := preload("__post.gd").create_safe_timer(map, root_node, wait_time)
+		var wait_timer := create_safe_timer(map, root_node, wait_time)
 		wait_timer.timeout.connect(Callable(root_node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 		root_node.set("_wait_timer", root_node.get_path_to(wait_timer))
 		wait_timer.one_shot = true
@@ -191,7 +204,6 @@ static func create_animations(root_node: Node3D, linking_data: Array) -> Array[A
 		# animation parameters per door
 		var lip: float = entity.get_unit_property("lip", 8.0)
 		var speed: float = entity.get_unit_property("speed", 100.0)
-		var wait: float = entity.get_float_property("wait", 3.0)
 
 		# finding func_door sound players children
 		var sound_players = node.find_children("*", "AudioStreamPlayer3D", false, false)
@@ -241,7 +253,7 @@ static func create_animations(root_node: Node3D, linking_data: Array) -> Array[A
 		var door_open_position := inverse_transform * (entity_center + forward_axis * offset)
 
 		# creating animation frame times
-		var frames := [0.0, offset / speed, offset / speed + wait, 2.0 * offset / speed + wait]
+		var frames := [0.0, offset / speed]
 
 		if entity.get_int_property("spawnflags", 0) & 1: # starts open
 			var tmp := door_open_position

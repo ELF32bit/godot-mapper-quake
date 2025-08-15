@@ -9,7 +9,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if not node:
 		return null
 	node = MapperUtilities.change_node_type(node, "AnimatableBody3D")
-	set_collision_layer_mask(node, ["worldspawn"], [])
+	set_collision_layer_mask(node,
+		["worldspawn-StaticBody3D"],
+		[])
 
 	# creating root node
 	var root_node := Node3D.new()
@@ -23,7 +25,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating func_button area
 	var area := Area3D.new()
 	root_node.add_child(area, map.settings.readable_node_names)
-	set_collision_layer_mask(area, ["func_button-areas"], ["func_button-characters"])
+	set_collision_layer_mask(area,
+		["func_button-Area3D"],
+		["func_button-CharacterBody3D"])
 	root_node.set("_area", root_node.get_path_to(area))
 
 	# connecting func_button area signals
@@ -71,6 +75,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			press_sound_player.stream = preload("../sounds/buttons/switch02.wav")
 		3: # in-out
 			press_sound_player.stream = preload("../sounds/buttons/switch04.wav")
+		_:
+			press_sound_player.stream = null
 
 	# using custom sounds if they are loading
 	var noise: AudioStream = entity.get_sound_property("noise", null)
@@ -93,7 +99,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating wait timer
 	var wait_time: float = entity.get_float_property("wait", 1.0)
 	if not wait_time < 0.0:
-		var wait_timer := preload("__post.gd").create_safe_timer(map, root_node, wait_time)
+		var wait_timer := create_safe_timer(map, root_node, wait_time)
 		wait_timer.timeout.connect(Callable(root_node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 		root_node.set("_wait_timer", root_node.get_path_to(wait_timer))
 		wait_timer.one_shot = true
