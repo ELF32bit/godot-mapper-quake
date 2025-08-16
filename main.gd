@@ -6,19 +6,19 @@ func _ready() -> void:
 	map_resource = MapperMapResource.load_from_file("res://mapping/quake/maps/e1m1.map")
 	var animated_wad := MapperWadResource.load_from_file("res://mapping/quake/wads/quake101.wad")
 
-	# using external lightmap:
-	# import E1M1 as scene and bake lightmap
-	# runtime constructed map will be using this lightmap
-	# also enable lightmap_unwrap if using custom editor
-	# compile Godot editor with XA_MULTITHREADED 0
-
 	var map_options := {}
 	map_options["game_directory"] = "res://mapping/quake"
 	map_options["game_loader"] = MapperSettings.QUAKE_GAME_LOADER
 	map_options["skip_material_affects_collision"] = false
 	map_options["prefer_static_lighting"] = true
-	map_options["lightmap_unwrap"] = false
 	map_options["print_progress"] = true
+
+	# using external lightmap:
+	# import E1M1 as scene and bake lightmap
+	# runtime constructed map will be using this lightmap
+	# also enable lightmap_unwrap if using custom editor
+	# compile Godot editor with XA_MULTITHREADED 0
+	map_options["lightmap_unwrap"] = false
 	map_options["__lightmap_external"] = true
 
 	var settings := MapperSettings.new(map_options)
