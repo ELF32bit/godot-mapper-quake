@@ -41,7 +41,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			stop_sound_player.stream = preload("../sounds/doors/ddoor2.wav")
 
 	# currently unused func_door sounds based on worldtype
-	match map.settings.options["_world_type"]:
+	match map.settings.options.get("_world_type", 0):
 		0: # medieval (wizard)
 			var _stream1 := preload("../sounds/doors/medtry.wav")
 			var _stream2 := preload("../sounds/doors/meduse.wav")
