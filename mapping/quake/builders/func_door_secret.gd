@@ -79,8 +79,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	MapperUtilities.create_reset_animation(animation_player, animation_library)
 
 	#1 : "Open once" : 0
-	#8 : "Not shootable" : 0
-	#16 : "Always shootable" : 0
+	if entity.get_int_property("spawnflags", 0) & 8: # not shootable
+		pass
+	elif not entity.get_string_property("targetname", "").is_empty():
+		if entity.get_int_property("spawnflags", 0) & 16: # always shootable
+			pass
 
 	# binding func_door_secret properties
 	bind_target_base(entity)

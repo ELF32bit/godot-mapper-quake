@@ -14,6 +14,7 @@ func _on_body_entered(body: Node3D) -> void:
 		var body_forward := -body.global_transform.basis.z.normalized()
 		var target_forward := -target.global_transform.basis.z
 		body.quaternion = Quaternion(body_forward, target_forward) * body.quaternion
+		body.rotation = Vector3(0.0, body.rotation.y, 0.0)
 
 		if teleport_sounds.size():
 			var target_teleport_sound_player := teleport_sound_player.duplicate()
