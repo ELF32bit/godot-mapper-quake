@@ -251,10 +251,7 @@ static func create_animations(root_node: Node3D, linking_data: Array) -> Array[A
 		var door_open_position := inverse_transform * (entity_center + forward_axis * offset)
 
 		# creating animation frame times
-		var frames := [
-			0.0,
-			offset / speed
-		]
+		var frames := [0.0, offset / speed]
 
 		if entity.get_int_property("spawnflags", 0) & 1: # starts open
 			var tmp := door_open_position

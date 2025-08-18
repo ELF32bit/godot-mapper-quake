@@ -172,10 +172,7 @@ static func create_animations(entity: MapperEntity, nodes: Array[Node]) -> Array
 	var button_press_position := button_release_position + local_forward_vector * offset
 
 	# creating animation frame times
-	var frames := [
-		0.0,
-		offset / speed,
-	]
+	var frames := [0.0, offset / speed]
 
 	# inserting keys into animations
 	press_animation.length = frames[1]
