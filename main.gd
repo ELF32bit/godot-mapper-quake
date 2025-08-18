@@ -11,7 +11,6 @@ func _ready() -> void:
 	map_options["game_loader"] = MapperSettings.QUAKE_GAME_LOADER
 	map_options["skip_material_affects_collision"] = false
 	map_options["prefer_static_lighting"] = true
-	map_options["print_progress"] = true
 
 	# using external lightmap:
 	# import E1M1 as scene and bake lightmap
@@ -20,6 +19,8 @@ func _ready() -> void:
 	# compile Godot editor with XA_MULTITHREADED 0
 	map_options["lightmap_unwrap"] = false
 	map_options["__lightmap_external"] = true
+	map_options["print_progress_verbose"] = false
+	map_options["print_progress"] = true
 
 	var settings := MapperSettings.new(map_options)
 	var factory := MapperFactory.new(settings)
