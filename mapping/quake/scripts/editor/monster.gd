@@ -2,6 +2,13 @@
 extends Node
 
 @export var monster_name: String = ""
+@export var monster_animation: String = "":
+	set(value):
+		if is_instance_valid(animation_player):
+			if animation_player.has_animation(value):
+				_enable_animation(value)
+		monster_animation = value
+
 var animation_player: AnimationPlayer = null
 
 
@@ -44,6 +51,7 @@ func _ready() -> void:
 			_enable_animation("stand")
 		_:
 			return
+	monster_animation = monster_animation
 
 
 func _enable_animation(animation_name: StringName) -> void:

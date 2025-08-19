@@ -40,14 +40,16 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			monster = map.loader.load_mdl("mdls/monsters/oldone.mdl")
 		"monster_zombie": # zombie
 			monster = map.loader.load_mdl("mdls/monsters/zombie.mdl")
-			if spawnflags & 1: # frame: 192
-				pass
 	if not monster:
 		return null
 
 	var monster_instance := monster.instantiate()
 	monster_instance.set_script(preload("../scripts/editor/monster.gd"))
 	monster_instance.monster_name = entity.get_classname_property("")
+
+	if monster_instance.monster_name == "monster_zombie":
+		if spawnflags & 1: # frame 192
+			monster_instance.monster_animation = "cruc_"
 
 	# binding monster properties
 	bind_monster_base(entity)
