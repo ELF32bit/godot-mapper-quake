@@ -5,18 +5,15 @@ extends Area3D
 
 @warning_ignore("unused_parameter")
 func _physics_process(delta: float) -> void:
+	# area must be monitoring to get overlapping bodies
 	if not monitoring:
 		set_physics_process(false)
 		return
-	# area must be monitoring to get overlapping bodies
-	var overlapping_bodies: Array[Node3D] = get_overlapping_bodies()
+	# iterating over overlapping bodies and submerging them
+	var overlapping_bodies := get_overlapping_bodies()
 	if overlapping_bodies.size():
-		for body in overlapping_bodies:
-			if is_point_inside(body.global_position):
-				if body.has_method("set_distortion_effect"):
-					body.call("set_distortion_effect", liquid)
-			elif body.has_method("set_distortion_effect"):
-				body.call("set_distortion_effect", 0)
+		for overlapping_body in overlapping_bodies:
+			_submerge(overlapping_body, liquid)
 	else:
 		set_physics_process(false)
 
@@ -26,8 +23,7 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _on_body_exited(body: Node3D) -> void:
-	if body.has_method("set_distortion_effect"):
-		body.call("set_distortion_effect", 0)
+	_submerge(body, 0)
 
 
 func is_point_inside(point: Vector3) -> bool:
@@ -38,3 +34,8 @@ func is_point_inside(point: Vector3) -> bool:
 			if not is_zero_approx(plane.distance_to(point)):
 				return false
 	return true
+
+@warning_ignore("shadowed_variable")
+func _submerge(body: Node3D, liquid: int) -> void:
+	if body.has_method("quake_submerge"):
+		body.call("quake_submerge", self, liquid)

@@ -103,7 +103,7 @@ func _apply_free_look(node: Node3D, free_look: Vector2, delta: float) -> void:
 	node.rotate_y(free_look.x * delta)
 
 
-func set_distortion_effect(liquid: int) -> void:
+func _set_distortion_effect(liquid: int) -> void:
 	var distortion: ColorRect = $"ScreenEffects/Distortion"
 	match liquid:
 		1:
@@ -119,5 +119,12 @@ func set_distortion_effect(liquid: int) -> void:
 			distortion.visible = false
 
 
-func push(push_velocity: Vector3) -> void:
+func quake_submerge(area: Area3D, liquid: int) -> void:
+	if area.is_point_inside(global_position):
+		_set_distortion_effect(liquid)
+	else:
+		_set_distortion_effect(0)
+
+
+func quake_push(push_velocity: Vector3) -> void:
 	_push_velocity = push_velocity * 10.0

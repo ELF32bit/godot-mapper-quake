@@ -18,7 +18,7 @@ Change **layers.gd** file to integrate entities into an existing project.<br>
 
 State | Classname | Commentary
 -- | ---------------------- | ----------------------------------------------------------- |
-🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>**Liquid areas call `set_distortion_effect`.**
+🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>**`quake_submerge(area: Area3D, liquid: int)`**
 ✅ | info_*                 | Does not implement `progs.dat` hacks.
 🟨 | item_*                 | Can't be picked up.
 🟨 | weapon_*               | Can't be picked up.
@@ -27,7 +27,7 @@ State | Classname | Commentary
 ✅ | ambient_*              |
 ✅ | func_door              | **Might be driven by `health` property.**<br>**`quake_crush(body: PhysicsBody3D, damage: int)`**
 🟨 | func_door_secret       | Game script is not implemented.<br>**`quake_crush(body: PhysicsBody3D, damage: int)`**
-✅ | func_wall              | Uses extended alternative texture system.
+✅ | func_wall              | **Uses extended alternative texture system.**
 ✅ | func_button            | **Might be driven by `health` property.**
 ✅ | func_train             | **`quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_plat              | **`quake_crush(body: PhysicsBody3D, damage: int)`**
