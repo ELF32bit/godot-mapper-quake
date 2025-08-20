@@ -8,11 +8,11 @@ extends Area3D
 
 func _on_wait_timer_timeout() -> void:
 	# area must be monitoring to get overlapping bodies
-	if not self.monitoring:
+	if not monitoring:
 		return
 	# iterating over overlapping bodies and hurting them
-	for body in self.get_overlapping_bodies():
-		_hurt(body, self.damage)
+	for overlapping_body in get_overlapping_bodies():
+		_hurt(overlapping_body, damage)
 
 @warning_ignore("shadowed_variable")
 func _hurt(body: Node3D, damage: int) -> void:
