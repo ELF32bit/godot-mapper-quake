@@ -122,8 +122,6 @@ static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void
 
 		var default_rotation := Quaternion(Vector3.FORWARD, Vector3.DOWN).get_euler()
 		directional_light.rotation = entity.get_property("convert_mangle_YpR", "_sun_mangle", default_rotation)
+		directional_light.light_energy = entity.get_unit_property("_sunlight", 0.0)
 		directional_light.light_bake_mode = Light3D.BAKE_STATIC
 		directional_light.shadow_enabled = true
-		directional_light.light_energy = 4.0
-
-
