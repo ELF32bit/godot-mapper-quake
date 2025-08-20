@@ -11,3 +11,8 @@ signal generic
 
 @export_node_path("Timer") var _wait_timer: NodePath
 @onready var wait_timer: Timer = get_node_or_null(_wait_timer)
+
+@warning_ignore("shadowed_variable")
+func _message(message: String) -> void:
+	if not message.is_empty():
+		print(message)

@@ -21,3 +21,8 @@ signal generic
 			# health has changed here
 			if health == 0:
 				generic.emit()
+
+@warning_ignore("shadowed_variable")
+func _message(message: String) -> void:
+	if not message.is_empty():
+		print(message)

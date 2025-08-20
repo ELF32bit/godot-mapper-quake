@@ -9,3 +9,8 @@ signal generic
 
 @export_node_path("AudioStreamPlayer3D") var _trigger_sound_player: NodePath
 @onready var trigger_sound_player: AudioStreamPlayer3D = get_node(_trigger_sound_player)
+
+@warning_ignore("shadowed_variable")
+func _message(message: String) -> void:
+	if not message.is_empty():
+		print(message)

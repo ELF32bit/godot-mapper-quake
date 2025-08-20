@@ -31,9 +31,14 @@ func _on_trigger_fired() -> void:
 
 
 func _on_delay_timer_timeout() -> void:
-	# can print message here
+	_message(message)
 	generic.emit()
 
 
 func _on_generic_signal() -> void:
 	_on_body_entered(null)
+
+@warning_ignore("shadowed_variable")
+func _message(message: String) -> void:
+	if not message.is_empty():
+		print(message)

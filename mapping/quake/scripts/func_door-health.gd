@@ -27,3 +27,8 @@ func _on_closing_signal() -> void:
 
 func _on_generic_signal() -> void:
 	activated.emit() # rerouting generic signal from linked door to the main door
+
+@warning_ignore("shadowed_variable")
+func _message(message: String) -> void:
+	if not message.is_empty():
+		print(message)
