@@ -45,7 +45,7 @@ State | Classname | Commentary
 ❌ | trigger_monsterjump    | **Will require method on a character.**
 ✅ | trigger_counter        | Does not print `message`.
 ✅ | trigger_push           | **Calls `push` method on a collision object.**
-❌ | trigger_hurt           | **Will require method on a character.**
+✅ | trigger_hurt           | **Calls `quake_hurt(damage: int)` on PhysicsBody3D**.
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
 ✅ | misc_explobox*         | Does not have script to explode.
