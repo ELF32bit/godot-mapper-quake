@@ -48,14 +48,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		3: # large switch
 			trigger_sound_player.stream = preload("../sounds/misc/trigger1.wav")
 
-	# creating trigger_multiple delay timer
-	var delay_time: float = entity.get_float_property("delay", 0.0)
-	if not delay_time < 0.0:
-		var delay_timer := create_safe_timer(map, node, delay_time)
-		delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
-		node.set("_delay_timer", node.get_path_to(delay_timer))
-		delay_timer.one_shot = true
-
 	# creating trigger_multiple wait timer
 	var wait_time: float = entity.get_float_property("wait", 0.2)
 	if not wait_time < 0.0:

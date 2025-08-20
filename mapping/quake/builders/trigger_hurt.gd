@@ -17,6 +17,14 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
 
+	# creating trigger_hurt wait timer
+	var wait_time: float = 0.5
+	var wait_timer := create_safe_timer(map, node, wait_time)
+	wait_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
+	node.set("_wait_timer", node.get_path_to(wait_timer))
+	wait_timer.one_shot = false
+	wait_timer.autostart = true
+
 	# binding trigger_hurt properties
 	bind_targetname_base(entity)
 	node.set("damage", entity.get_int_property("damage", 5))

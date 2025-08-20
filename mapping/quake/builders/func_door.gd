@@ -40,18 +40,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			move_sound_player.stream = preload("../sounds/doors/ddoor1.wav")
 			stop_sound_player.stream = preload("../sounds/doors/ddoor2.wav")
 
-	# currently unused func_door sounds based on worldtype
-	match map.settings.options.get("_world_type", 0):
-		0: # medieval (wizard)
-			var _stream1 := preload("../sounds/doors/medtry.wav")
-			var _stream2 := preload("../sounds/doors/meduse.wav")
-		1: # metal (runic)
-			var _stream1 := preload("../sounds/doors/runetry.wav")
-			var _stream2 := preload("../sounds/doors/runeuse.wav")
-		2: # base (tech)
-			var _stream1 := preload("../sounds/doors/basetry.wav")
-			var _stream2 := preload("../sounds/doors/baseuse.wav")
-
 	# using custom sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)
 	var noise2: AudioStream = entity.get_sound_property("noise2", null)

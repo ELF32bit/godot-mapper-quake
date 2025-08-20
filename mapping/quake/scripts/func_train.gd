@@ -2,9 +2,8 @@ extends "classes/crushing+targets.gd"
 
 signal path_corner_reached(path_corner: Node3D)
 
-@export var damage_interval: float = 0.25
 @export var speed: float = 2.0
-
+@export var damage_interval: float = 0.25
 @export var is_waiting_for_signal := false
 @onready var target: Node3D = null
 

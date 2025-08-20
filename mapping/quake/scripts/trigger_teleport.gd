@@ -1,7 +1,7 @@
 extends "classes/targets.gd" # Area3D
 
 @export var push_speed: float = 15.0
-@export var teleport_sounds: Array[AudioStream]
+@export var teleport_sounds: Array[AudioStream] = []
 
 @export_node_path("AudioStreamPlayer3D") var _teleport_sound_player: NodePath
 @onready var teleport_sound_player: AudioStreamPlayer3D = get_node(_teleport_sound_player)

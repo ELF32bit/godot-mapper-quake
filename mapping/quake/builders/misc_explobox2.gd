@@ -11,6 +11,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["worldspawn-StaticBody3D"],
 		[])
 
+	# loading sub-map with an additional option
 	map.settings.options["_map_is_item"] = true
 	var explobox := map.loader.load_map_raw("maps/items/b_exbox2.map")
 	map.settings.options.erase("_map_is_item")
@@ -22,6 +23,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		node.free()
 		return null
 
+	# creating misc_explobox2 collision shape
 	var collision_shape = CollisionShape3D.new()
 	collision_shape.position = node.position - Vector3(16, 0, 16) / map.settings.unit_size
 	MapperUtilities.add_global_child(collision_shape, node, map.settings)

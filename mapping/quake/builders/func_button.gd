@@ -55,6 +55,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		node.set("alternative_speed_scale", alternative_speed_scale)
 		node.set("alternative_textures", alternative_textures)
 		node.set("affected_materials", affected_materials)
+
 		# finishing switching button script and setting up connections
 		node.connect("generic", Callable(root_node, "_on_health_ended"), CONNECT_PERSIST)
 		node.set("max_health", entity_health)

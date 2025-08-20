@@ -15,7 +15,8 @@ static func build(map: MapperMap) -> void:
 	# creating func_door entities from linking data
 	for entity in map.classnames.get("func_door", []):
 		var linking_data := link_entities(map, entity, 32.0, true)
-		preload("func_door.gd").post_build(map, linking_data)
+		if linking_data.size():
+			preload("func_door.gd").post_build(map, linking_data)
 
 
 static func link_entities(map: MapperMap, entity: MapperEntity, link_units: float = 32.0, use_door_spawnflags: bool = false) -> Array:

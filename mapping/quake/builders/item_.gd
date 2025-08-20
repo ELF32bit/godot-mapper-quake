@@ -60,6 +60,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		bind_item_base(entity)
 		return item_instance
 
+	# loading sub-map with an additional option
 	map.settings.options["_map_is_item"] = true
 	match entity.get_classname_property():
 		"item_cells": # thunderbolt ammo
