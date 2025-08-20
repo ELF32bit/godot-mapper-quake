@@ -54,8 +54,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if item:
 		var item_instance := item.instantiate()
 		item_instance.set_script(preload("../scripts/editor/item.gd"))
-		item_instance.classname = entity.get_classname_property()
-		item_instance.skin = item_skin
+		item_instance.set("classname", entity.get_classname_property())
+		item_instance.set("skin", item_skin)
 		# binding item properties
 		bind_item_base(entity)
 		return item_instance

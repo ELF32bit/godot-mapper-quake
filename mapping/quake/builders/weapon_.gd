@@ -24,7 +24,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	var weapon_instance := weapon.instantiate()
 	weapon_instance.set_script(preload("../scripts/editor/item.gd"))
-	weapon_instance.classname = entity.get_classname_property()
+	weapon_instance.set("classname", entity.get_classname_property())
 
 	# binding weapon properties
 	bind_weapon_base(entity)

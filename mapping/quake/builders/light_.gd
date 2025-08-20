@@ -150,8 +150,8 @@ static func load_model(map: MapperMap, entity: MapperEntity) -> Node3D:
 	if model:
 		var model_instance := model.instantiate()
 		model_instance.set_script(preload("../scripts/editor/light.gd"))
-		model_instance.classname = entity.get_classname_property()
-		model_instance.animation_name = model_animation
+		model_instance.set("classname", entity.get_classname_property())
+		model_instance.set("animation_name", model_animation)
 		return model_instance
 
 	return null

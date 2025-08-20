@@ -101,9 +101,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 
 static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void:
-	if not entity.node:
-		return
-
 	if entity.get_float_property("light", 0.0) > 0.0:
 		var world_environment := WorldEnvironment.new()
 		entity.node.add_child(world_environment, map.settings.readable_node_names)

@@ -77,8 +77,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 
 static func post_build(map: MapperMap, linking_data: Array) -> void:
-	if not linking_data.size() == 3:
-		return
 	var linked_entities: Array[MapperEntity] = linking_data[0]
 	var linked_aabb: AABB = linking_data[1]
 	var link_units: float = linking_data[2]
