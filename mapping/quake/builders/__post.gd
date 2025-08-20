@@ -3,14 +3,16 @@ static func build(map: MapperMap) -> void:
 	if map.settings.options.get("_map_is_item", false):
 		return
 
+	# creating lightmapGI
 	var lightmap_gi := MapperUtilities.create_lightmap_gi(map, map.node)
 	lightmap_gi.set_script(preload("../scripts/editor/lightmap.gd"))
 
-	var first_world_entity: MapperEntity = null
-	first_world_entity = map.classnames.get("worldspawn", [null])[0]
+	# creating world environment and directional light
+	var first_world_entity := map.get_first_world_entity()
 	if first_world_entity != null:
 		preload("worldspawn.gd").post_build_environment(map, first_world_entity)
 
+	# creating func_door entities from linking data
 	for entity in map.classnames.get("func_door", []):
 		var linking_data := link_entities(map, entity, 32.0, true)
 		preload("func_door.gd").post_build(map, linking_data)
