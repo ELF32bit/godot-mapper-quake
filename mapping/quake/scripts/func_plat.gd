@@ -59,15 +59,15 @@ func _on_crushing(object: Object, damage: int) -> void:
 
 func _on_crushing_object(object: Object, damage: int) -> void:
 	if not has_crushed:
-		if is_instance_valid(object) and object.has_method("crush"):
-			object.call("crush", damage, self)
+		if is_instance_valid(object):
+			_crush(object, damage)
 	_on_crushing(object, damage)
 
 
 func _on_crushing_character(character: CharacterBody3D, damage: int) -> void:
 	if not has_crushed:
-		if is_instance_valid(character) and character.has_method("crush"):
-			character.call("crush", damage, self)
+		if is_instance_valid(character):
+			_crush(character, damage)
 	_on_crushing(character, damage)
 
 
@@ -81,3 +81,8 @@ func _on_generic_signal() -> void:
 		if animation_player.assigned_animation == "extended":
 			animation_player.play("retract")
 			area.monitoring = true
+
+@warning_ignore("shadowed_variable")
+func _crush(object: Object, damage: int) -> void:
+	if object.has_method("quake_crush"):
+		object.call("quake_crush", self, damage)

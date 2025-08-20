@@ -19,3 +19,25 @@ signal generic
 			# health has changed here
 			if health == 0:
 				generic.emit()
+
+
+@warning_ignore("unused_parameter", "shadowed_variable")
+func _on_crushing(object: Object, damage: int) -> void:
+	pass
+
+@warning_ignore("shadowed_variable")
+func _on_crushing_object(object: Object, damage: int) -> void:
+	if is_instance_valid(object):
+		_crush(object, damage)
+	_on_crushing(object, damage)
+
+@warning_ignore("shadowed_variable")
+func _on_crushing_character(character: CharacterBody3D, damage: int) -> void:
+	if is_instance_valid(character):
+		_crush(character, damage)
+	_on_crushing(character, damage)
+
+@warning_ignore("shadowed_variable")
+func _crush(object: Object, damage: int) -> void:
+	if object.has_method("quake_crush"):
+		object.call("quake_crush", self, damage)
