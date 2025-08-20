@@ -9,6 +9,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	var player_instance := player.instantiate()
 	player_instance.set_script(preload("../scripts/editor/monster.gd"))
-	player_instance.monster_name = "player"
+	player_instance.classname = entity.get_classname_property()
+	player_instance.animation_name = "stand"
 
 	return player_instance

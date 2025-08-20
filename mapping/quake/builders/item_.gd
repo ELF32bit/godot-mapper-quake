@@ -6,6 +6,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 
+	var item_skin: int = 0
 	var item: PackedScene = null
 	match entity.get_classname_property():
 		"item_artifact_envirosuit": # environmental protection
@@ -18,10 +19,13 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			item = map.loader.load_mdl("mdls/items/invisibl.mdl")
 		"item_armorInv": # red armor (200%)
 			item = map.loader.load_mdl("mdls/items/armor.mdl")
+			item_skin = 2
 		"item_armor2": # yellow armor (150%)
 			item = map.loader.load_mdl("mdls/items/armor.mdl")
+			item_skin = 1
 		"item_armor1": # green armor (100%)
 			item = map.loader.load_mdl("mdls/items/armor.mdl")
+			item_skin = 0
 		"item_key1": # silver key
 			match map.settings.options.get("_worldtype", 0):
 				0: # medieval (wizard)
@@ -50,7 +54,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if item:
 		var item_instance := item.instantiate()
 		item_instance.set_script(preload("../scripts/editor/item.gd"))
-		item_instance.set("item_name", entity.get_classname_property(""))
+		item_instance.classname = entity.get_classname_property()
+		item_instance.skin = item_skin
 		# binding item properties
 		bind_item_base(entity)
 		return item_instance
