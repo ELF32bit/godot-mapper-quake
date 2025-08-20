@@ -17,12 +17,13 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		delay_timer.one_shot = true
 
 	# handling trigger_counter spawnflags
-	if not entity.get_int_property("spawnflags", 0) & 1: # no message
-		entity.bind_string_property("message", "message")
+	if entity.get_int_property("spawnflags", 0) & 1: # no message
+		node.set("no_messages", true)
 
 	# binding trigger_counter properties
 	bind_target_base(entity)
 	bind_targetname_base(entity)
+	entity.bind_string_property("message", "message")
 	entity.bind_int_property("count", "count")
 
 	return node

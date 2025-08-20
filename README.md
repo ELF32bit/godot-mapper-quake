@@ -43,7 +43,7 @@ State | Classname | Commentary
 ❌ | trigger_setskill       | Game script is not implemented.
 ✅ | trigger_relay          | Does not print `message`.
 ❌ | trigger_monsterjump    | **Will require method on a character.**
-✅ | trigger_counter        | Does not print `message`.
+✅ | trigger_counter        |
 ✅ | trigger_push           | **Requires `quake_push(velocity: Vector3)` on PhysicsBody3D.**
 ✅ | trigger_hurt           | **Requires `quake_hurt(damage: int)` on PhysicsBody3D.**
 🟨 | air_bubbles            | Uses placeholder particle system.
