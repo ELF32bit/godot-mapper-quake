@@ -39,7 +39,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# handling trigger_teleport spawnflags
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
 	if spawnflags & 1: # player only
-		pass
+		node.set("player_only", true)
 	if spawnflags & 2: # silent
 		node.set("teleport_sounds", [])
 

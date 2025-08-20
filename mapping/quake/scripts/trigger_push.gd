@@ -1,7 +1,7 @@
 extends Area3D
 
-@export var push_speed: float = 20.0
-@export var push_once := false
+@export var push_speed: float = 1000 / 32.0
+@export var push_once: bool = false
 
 
 func _ready() -> void:

@@ -39,8 +39,8 @@ State | Classname | Commentary
 ❌ | trigger_multiple       | **Will be driven by `health` property.**
 ❌ | trigger_onlyregistered | Game script is not implemented.
 ❌ | trigger_secret         | Game script is not implemented.
-✅ | trigger_teleport       | **Calls `push` method on a collision object.**
-❌ | trigger_setskill       | Game script is not implemented.
+✅ | trigger_teleport       | **`quake_push(velocity: Vector3)`**
+✅ | trigger_setskill       | Does not set skill, use map `game_mode` instead.
 ✅ | trigger_relay          |
 ✅ | trigger_monsterjump    | **`quake_monsterjump(velocity: Vector3, height: float)`**
 ✅ | trigger_counter        |
