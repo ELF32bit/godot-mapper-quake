@@ -42,10 +42,10 @@ State | Classname | Commentary
 ✅ | trigger_teleport       | **Calls `push` method on a collision object.**
 ❌ | trigger_setskill       | Game script is not implemented.
 ✅ | trigger_relay          |
-✅ | trigger_monsterjump    | **PhysicsBody3D: `quake_monsterjump(velocity: Vector3, height: float)`**
+✅ | trigger_monsterjump    | **`quake_monsterjump(velocity: Vector3, height: float)`**
 ✅ | trigger_counter        |
-✅ | trigger_push           | **PhysicsBody3D: `quake_push(velocity: Vector3)`**
-✅ | trigger_hurt           | **PhysicsBody3D: `quake_hurt(damage: int)`**
+✅ | trigger_push           | **`quake_push(velocity: Vector3)`**
+✅ | trigger_hurt           | **`quake_hurt(damage: int)`**
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
 ✅ | misc_explobox*         | Does not have script to explode.
