@@ -44,7 +44,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	collision_shape.shape.size = entity.aabb.grow(grow_units).size
 
 	# handling func_button variant with health
-	var entity_health: int = entity.get_int_property("health", 0)
+	var entity_health: int = maxi(entity.get_int_property("health", 0), 0)
 	if entity_health > 0:
 		var alternative_texture: Variant = node.get("alternative_texture")
 		var alternative_speed_scale: Variant = node.get("alternative_speed_scale")

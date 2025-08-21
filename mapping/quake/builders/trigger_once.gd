@@ -68,6 +68,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# binding trigger_once properties
 	bind_trigger_base(entity)
 	if has_health:
-		entity.bind_int_property("health", "max_health")
+		node.set("max_health", maxi(entity.get_int_property("health", 1), 0))
 
 	return node

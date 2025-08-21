@@ -25,7 +25,7 @@ signal generic
 func _ready() -> void:
 	set_physics_process(false)
 	# making sure area is disabled if button has health
-	if "health" in animatable_body and area.monitoring:
+	if "max_health" in animatable_body and area.monitoring:
 		area.monitoring = false
 
 @warning_ignore("unused_parameter")

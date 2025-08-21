@@ -25,7 +25,7 @@ State | Classname | Commentary
 ✅ | light_*                | No light flickering.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
-✅ | func_door              | Might be driven by **`quake_health: int`**<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
+✅ | func_door              | Is driven by **`quake_health: int`**<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
 🟨 | func_door_secret       | Game script is not implemented.<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_wall              | **Uses extended alternative texture system.**
 ✅ | func_button            | Might be driven by **`quake_health: int`**

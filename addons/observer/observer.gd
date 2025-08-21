@@ -79,11 +79,15 @@ func _physics_process(delta: float) -> void:
 		var direction := camera.global_position + camera_forward * camera.far
 		ray_cast.target_position = ray_cast.to_local(direction)
 		ray_cast.force_raycast_update()
-		if ray_cast.is_colliding():
+		if input.is_modifier_pressed and ray_cast.is_colliding():
 			var teleport_position := ray_cast.get_collision_point()
 			var teleport_direction := teleport_position - global_position
 			if teleport_direction.length_squared() > radius * radius:
 				velocity += teleport_direction.normalized() * speed_teleport
+		elif ray_cast.is_colliding():
+			var teleport_object := ray_cast.get_collider()
+			if "quake_health" in teleport_object:
+				teleport_object.quake_health -= 1
 		ray_cast.target_position = Vector3.ZERO
 
 	if input.is_noclip_pressed:
