@@ -6,23 +6,21 @@ signal activated # emitted when health ended or generic signal received by linke
 @export var message: String = ""
 
 @export var max_health: int = 0
-@onready var health: int = max_health:
+@onready var quake_health: int = max_health:
 	set(value):
-		var previous_health := health
-		health = clampi(value, 0, max_health)
-		if health != previous_health:
-			# health has changed here
-			if health == 0:
-				activated.emit()
+		var previous_health := int(quake_health)
+		quake_health = clampi(value, 0, max_health)
+		if quake_health == 0 and quake_health != previous_health:
+			generic.emit()
 
 
 func _on_opening_signal() -> void:
 	generic.emit()
-	health = 0
+	quake_health = 0
 
 
 func _on_closing_signal() -> void:
-	health = max_health
+	quake_health = max_health
 
 
 func _on_generic_signal() -> void:

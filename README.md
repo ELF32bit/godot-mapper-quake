@@ -25,18 +25,18 @@ State | Classname | Commentary
 ✅ | light_*                | No light flickering.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
-✅ | func_door              | **Might be driven by `health` property.**<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
+✅ | func_door              | **`quake_health: int`**<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
 🟨 | func_door_secret       | Game script is not implemented.<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_wall              | **Uses extended alternative texture system.**
-✅ | func_button            | **Might be driven by `health` property.**
+✅ | func_button            | **`quake_health: int`**
 ✅ | func_train             | **`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_plat              | **`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_illusionary       |
 ❌ | func_episodegate       | Unnecessary story entity.
 ❌ | func_bossgate          | Unnecessary story entity.
 ✅ | trigger_changelevel    | Does not change current `map`.
-✅ | trigger_once           | **Might be driven by `health` property.**
-❌ | trigger_multiple       | **Will be driven by `health` property.**
+✅ | trigger_once           | **`quake_health: int`**
+✅ | trigger_multiple       | **`quake_health: int`**
 ❌ | trigger_onlyregistered | Game script is not implemented.
 ❌ | trigger_secret         | Game script is not implemented.
 ✅ | trigger_teleport       | **`_quake_push(velocity: Vector3)`**

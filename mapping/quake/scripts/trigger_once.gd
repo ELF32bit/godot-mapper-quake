@@ -17,17 +17,18 @@ func _on_body_entered(body: Node3D) -> void:
 	# ignoring same events on the same frame
 	if has_fired:
 		return
-	# disabling area on the next frame
+	# disabling area at the end of the frame
 	set_deferred("monitoring", false)
 	has_fired = true
 	_on_trigger_fired()
 
 
 func _on_trigger_fired() -> void:
-	trigger_sound_player.play()
 	# checking trigger timer before starting
 	if is_instance_valid(delay_timer):
 		delay_timer.start()
+	# playing trigger sound without delay
+	trigger_sound_player.play()
 
 
 func _on_delay_timer_timeout() -> void:
