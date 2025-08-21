@@ -4,6 +4,6 @@ extends "trigger_once.gd"
 
 
 func _on_trigger_fired() -> void:
-	if not is_registered:
+	if is_registered:
 		return
 	super()
