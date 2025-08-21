@@ -25,22 +25,22 @@ State | Classname | Commentary
 ✅ | light_*                | No light flickering.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
-✅ | func_door              | **`quake_health: int`**<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
+✅ | func_door              | Might be driven by **`quake_health: int`**<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
 🟨 | func_door_secret       | Game script is not implemented.<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_wall              | **Uses extended alternative texture system.**
-✅ | func_button            | **`quake_health: int`**
+✅ | func_button            | Might be driven by **`quake_health: int`**
 ✅ | func_train             | **`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_plat              | **`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_illusionary       |
 ❌ | func_episodegate       | Unnecessary story entity.
 ❌ | func_bossgate          | Unnecessary story entity.
 ✅ | trigger_changelevel    | Does not change current `map`.
-✅ | trigger_once           | **`quake_health: int`**
-✅ | trigger_multiple       | **`quake_health: int`**
-❌ | trigger_onlyregistered | Game script is not implemented.
-❌ | trigger_secret         | Game script is not implemented.
+✅ | trigger_once           | Might be driven by **`quake_health: int`**
+✅ | trigger_multiple       | Might be driven by **`quake_health: int`**
+✅ | trigger_onlyregistered | Uses map **`game_registered`** option.
+✅ | trigger_secret         | Does not award a secret credit.
 ✅ | trigger_teleport       | **`_quake_push(velocity: Vector3)`**
-✅ | trigger_setskill       | Does not set skill, use map **`game_mode`** instead.
+✅ | trigger_setskill       | Does not set skill, use map **`game_mode`** option instead.
 ✅ | trigger_relay          |
 ✅ | trigger_monsterjump    | **`_quake_monsterjump(velocity: Vector3, height: float)`**
 ✅ | trigger_counter        |

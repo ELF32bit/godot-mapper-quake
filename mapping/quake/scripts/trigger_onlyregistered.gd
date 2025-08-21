@@ -1,16 +1,9 @@
-extends Area3D
+extends "trigger_once.gd"
 
-signal generic
+@export var is_registered: bool = true
 
-@export var message: String = ""
 
-@export_node_path("Timer") var _delay_timer: NodePath
-@onready var delay_timer: Timer = get_node_or_null(_delay_timer)
-
-@export_node_path("AudioStreamPlayer3D") var _trigger_sound_player: NodePath
-@onready var trigger_sound_player: AudioStreamPlayer3D = get_node(_trigger_sound_player)
-
-@warning_ignore("shadowed_variable")
-func _message(message: String) -> void:
-	if not message.is_empty():
-		print(message)
+func _on_trigger_fired() -> void:
+	if not is_registered:
+		return
+	super()

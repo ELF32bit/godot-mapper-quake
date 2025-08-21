@@ -47,5 +47,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# binding trigger_onlyregistered properties
 	bind_trigger_base(entity)
+	node.set("is_registered", map.settings.options.get("game_registered", true))
 
-	return null
+	return node
