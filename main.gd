@@ -2,10 +2,14 @@ extends Node3D
 
 
 func _ready() -> void:
-	var map_resource: MapperMapResource = null
-	map_resource = MapperMapResource.load_from_file("res://mapping/quake/maps/e1m1.map")
+	call_deferred("load_map", "start")
+
+
+func load_map(map_name: String) -> void:
+	var map_resource := MapperMapResource.load_from_file("res://mapping/quake/maps/%s.map" % map_name)
 	var animated_wad := MapperWadResource.load_from_file("res://mapping/quake/wads/quake101.wad")
 
+	# required quake map options
 	var map_options := {}
 	map_options["game_directory"] = "res://mapping/quake"
 	map_options["game_loader"] = MapperSettings.QUAKE_GAME_LOADER
@@ -25,9 +29,12 @@ func _ready() -> void:
 	var settings := MapperSettings.new(map_options)
 	var factory := MapperFactory.new(settings)
 	var packed_scene := factory.build_map(map_resource, [animated_wad])
+	var packed_scene_instance := packed_scene.instantiate()
 
-	self.add_child(packed_scene.instantiate())
-	_spawn_player()
+	for child in get_children():
+		child.queue_free()
+	add_child(packed_scene_instance)
+	call_deferred("_spawn_player")
 
 
 func _spawn_player() -> void:

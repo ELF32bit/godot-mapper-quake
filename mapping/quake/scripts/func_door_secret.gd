@@ -16,8 +16,20 @@ signal generic
 		var previous_health := int(quake_health)
 		quake_health = clampi(value, 0, max_health)
 		if quake_health == 0 and quake_health != previous_health:
-			generic.emit()
+			_on_activated()
 
+
+func _on_activated() -> void:
+	animation_player.play("open")
+	_message(message)
+	generic.emit()
+
+
+func _on_animation_finished(animation_name: StringName) -> void:
+	if animation_name == "open":
+		animation_player.play("opened")
+	elif animation_name == "close":
+		animation_player.play("closed")
 
 @warning_ignore("unused_parameter", "shadowed_variable")
 func _on_crushing(object: Object, damage: int) -> void:
@@ -34,6 +46,10 @@ func _on_crushing_character(character: CharacterBody3D, damage: int) -> void:
 	if is_instance_valid(character):
 		_crush(character, damage)
 	_on_crushing(character, damage)
+
+
+func _on_wait_timer_timeout() -> void:
+	animation_player.play("close")
 
 @warning_ignore("shadowed_variable")
 func _crush(object: Object, damage: int) -> void:

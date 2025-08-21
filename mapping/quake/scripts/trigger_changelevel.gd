@@ -8,7 +8,9 @@ func _on_trigger_fired() -> void:
 
 
 func _on_delay_timer_timeout() -> void:
-	pass # change map after the delay
+	var main := get_tree().root.get_child(0)
+	if main.has_method("load_map"):
+		main.call("load_map", map)
 
 
 func _on_generic_signal() -> void:
