@@ -16,5 +16,5 @@ func _on_wait_timer_timeout() -> void:
 
 @warning_ignore("shadowed_variable")
 func _hurt(body: Node3D, damage: int) -> void:
-	if body.has_method("quake_hurt"):
-		body.call("quake_hurt", damage)
+	if body.has_method("_quake_hurt"):
+		body.call("_quake_hurt", damage)

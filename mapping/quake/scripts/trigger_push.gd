@@ -31,5 +31,5 @@ func _on_body_entered(body: Node3D) -> void:
 
 @warning_ignore("shadowed_variable")
 func _push(body: Node3D, velocity: Vector3) -> void:
-	if body.has_method("quake_push"):
-		body.call("quake_push", velocity)
+	if body.has_method("_quake_push"):
+		body.call("_quake_push", velocity)

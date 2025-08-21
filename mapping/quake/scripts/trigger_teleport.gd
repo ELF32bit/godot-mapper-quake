@@ -56,5 +56,5 @@ func _on_generic_signal() -> void:
 
 
 func _push(body: Node3D, velocity: Vector3) -> void:
-	if body.has_method("quake_push"):
-		body.call("quake_push", velocity)
+	if body.has_method("_quake_push"):
+		body.call("_quake_push", velocity)

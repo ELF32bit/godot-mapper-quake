@@ -39,8 +39,8 @@ func _on_crushing_character(character: CharacterBody3D, damage: int) -> void:
 
 @warning_ignore("shadowed_variable")
 func _crush(object: Object, damage: int) -> void:
-	if object.has_method("quake_crush"):
-		object.call("quake_crush", self, damage)
+	if object.has_method("_quake_crush"):
+		object.call("_quake_crush", self, damage)
 
 @warning_ignore("shadowed_variable")
 func _message(message: String) -> void:

@@ -1,6 +1,6 @@
 extends Area3D
 
-@export var liquid: int = 0
+@export_range(0, 3) var liquid: int = 0
 @export var planes: Array[Plane] = []
 
 @warning_ignore("unused_parameter")
@@ -37,5 +37,5 @@ func is_point_inside(point: Vector3) -> bool:
 
 @warning_ignore("shadowed_variable")
 func _submerge(body: Node3D, liquid: int) -> void:
-	if body.has_method("quake_submerge"):
-		body.call("quake_submerge", self, liquid)
+	if body.has_method("_quake_submerge"):
+		body.call("_quake_submerge", self, liquid)

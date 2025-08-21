@@ -10,5 +10,5 @@ func _on_body_entered(body: Node3D) -> void:
 
 @warning_ignore("shadowed_variable")
 func _monsterjump(body: Node3D, velocity: Vector3, height: float) -> void:
-	if body.has_method("quake_monsterjump"):
-		body.call("quake_monsterjump", velocity, height)
+	if body.has_method("_quake_monsterjump"):
+		body.call("_quake_monsterjump", velocity, height)

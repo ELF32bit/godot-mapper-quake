@@ -18,19 +18,19 @@ Change **layers.gd** file to integrate entities into an existing project.<br>
 
 State | Classname | Commentary
 -- | ---------------------- | ----------------------------------------------------------- |
-🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>**`quake_submerge(area: Area3D, liquid: int)`**
+🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>**`_quake_submerge(area: Area3D, liquid: int)`**
 ✅ | info_*                 | Does not implement `progs.dat` hacks.
 🟨 | item_*                 | Can't be picked up.
 🟨 | weapon_*               | Can't be picked up.
 ✅ | light_*                | No light flickering.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
-✅ | func_door              | **Might be driven by `health` property.**<br>**`quake_crush(body: PhysicsBody3D, damage: int)`**
-🟨 | func_door_secret       | Game script is not implemented.<br>**`quake_crush(body: PhysicsBody3D, damage: int)`**
+✅ | func_door              | **Might be driven by `health` property.**<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
+🟨 | func_door_secret       | Game script is not implemented.<br>**`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_wall              | **Uses extended alternative texture system.**
 ✅ | func_button            | **Might be driven by `health` property.**
-✅ | func_train             | **`quake_crush(body: PhysicsBody3D, damage: int)`**
-✅ | func_plat              | **`quake_crush(body: PhysicsBody3D, damage: int)`**
+✅ | func_train             | **`_quake_crush(body: PhysicsBody3D, damage: int)`**
+✅ | func_plat              | **`_quake_crush(body: PhysicsBody3D, damage: int)`**
 ✅ | func_illusionary       |
 ❌ | func_episodegate       | Unnecessary story entity.
 ❌ | func_bossgate          | Unnecessary story entity.
@@ -39,13 +39,13 @@ State | Classname | Commentary
 ❌ | trigger_multiple       | **Will be driven by `health` property.**
 ❌ | trigger_onlyregistered | Game script is not implemented.
 ❌ | trigger_secret         | Game script is not implemented.
-✅ | trigger_teleport       | **`quake_push(velocity: Vector3)`**
+✅ | trigger_teleport       | **`_quake_push(velocity: Vector3)`**
 ✅ | trigger_setskill       | Does not set skill, use map **`game_mode`** instead.
 ✅ | trigger_relay          |
-✅ | trigger_monsterjump    | **`quake_monsterjump(velocity: Vector3, height: float)`**
+✅ | trigger_monsterjump    | **`_quake_monsterjump(velocity: Vector3, height: float)`**
 ✅ | trigger_counter        |
-✅ | trigger_push           | **`quake_push(velocity: Vector3)`**
-✅ | trigger_hurt           | **`quake_hurt(damage: int)`**
+✅ | trigger_push           | **`_quake_push(velocity: Vector3)`**
+✅ | trigger_hurt           | **`_quake_hurt(damage: int)`**
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
 ✅ | misc_explobox*         | Does not have script to explode.
