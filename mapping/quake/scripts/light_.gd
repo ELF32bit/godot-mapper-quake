@@ -1,33 +1,77 @@
+@tool
 extends Light3D
 
+enum QuakeLightStyle {
+	NONE,
+	FLICKER_A,
+	SLOW_STRONG_PULSE,
+	CANDLE_A,
+	FAST_STROBE,
+	GENTLE_PULSE,
+	FLICKER_B,
+	CANDLE_B,
+	CANDLE_C,
+	SLOW_STROBE,
+	FLUORESCENT_FLICKER,
+	SLOW_PULSE,
+}
 
-'''
-if entity.get_int_property("style", 0):
+@export var style := QuakeLightStyle.NONE:
+	set(value):
+		_set_animation_table(value)
+		style = value
+@export var animation_speed: float = 10.0
+@export var animation_fade_speed: float = 30.0
+@export var animation_time_offset: float = 0.0
+
+var _animation_time: float = 0.0
+var _animation_table: String = ""
+var _flicker_multiplier: float = 1.0
+
+@onready var _light_energy := float(light_energy)
+
+
+func _ready() -> void:
+	_set_animation_table(style)
+
+@warning_ignore("shadowed_variable")
+func _set_animation_table(style: int) -> void:
+	# 'm' is normal light, 'a' is no light, 'z' is double bright
+	match style:
 		0: # normal
-			light.remove_child(_lamp_component)
-			light.remove_child(_flicker_component)
-			_lamp_component.free()
-			_flicker_component.free()
+			_animation_table = ""
 		10: # fluorescent flicker
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.FluorescentFlicker)
-		2 : # slow, strong pulse
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.SlowStrongPulse)
+			_animation_table = "mmamammmmammamamaaamammma"
+		2: # slow, strong pulse
+			_animation_table = "abcdefghijklmnopqrstuvwxyzyxwvutsrqponmlkjihgfedcba"
 		11: # slow pulse, noblack
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.SlowPulse)
-		5 : # gentle pulse
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.GentlePulse1)
-		1 : # flicker A
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.Flicker1)
-		6 : # flicker B
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.Flicker2)
-		3 : # candle A
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.Candle1)
-		7 : # candle B
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.Candle2)
-		8 : # candle C
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.Candle3)
-		4 : # fast strobe
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.FastStrobe)
-		9 : # slow strobe
-			_flicker_component.set("Preset", cFlickerComponent.AnimationTablePreset.SlowStrobe)
-'''
+			_animation_table = "abcdefghijklmnopqrrqponmlkjihgfedcba"
+		5: # gentle pulse
+			_animation_table = "jklmnopqrstuvwxyzyxwvutsrqponmlkj"
+		1: # flicker A
+			_animation_table = "mmnmmommommnonmmonqnmmo"
+		6: # flicker B
+			_animation_table = "nmonqnmomnmomomno"
+		3: # candle A
+			_animation_table = "mmmmmaaaaammmmmaaaaaabcdefgabcdefg"
+		7: # candle B
+			_animation_table = "mmmaaaabcdefgmmmmaaaammmaamm"
+		8: # candle C
+			_animation_table = "mmmaaammmaaammmabcdefaaaammmmabcdefmmmaaaa"
+		4: # fast strobe
+			_animation_table = "mamamamamama"
+		9: # slow strobe
+			_animation_table = "aaaaaaaazzzzzzzz"
+		_:
+			_animation_table = ""
+	set_physics_process(not _animation_table.is_empty())
+
+
+func _physics_process(delta: float) -> void:
+	_animation_time += delta
+	var offset_animation_time := animation_time_offset + _animation_time
+	var frame_index := int(offset_animation_time * animation_speed) % _animation_table.length()
+	var target_multiplier := float(_animation_table.unicode_at(frame_index) - 97) * (2.0 / 25.0)
+	var flicker_multiplier := lerpf(_flicker_multiplier, target_multiplier, animation_fade_speed * delta)
+	light_energy = _light_energy * flicker_multiplier
+	_flicker_multiplier = flicker_multiplier

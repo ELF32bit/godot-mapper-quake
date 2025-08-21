@@ -40,8 +40,10 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		light.omni_attenuation *= entity.get_float_property("wait", 1.0)
 
 	# handling light flickering styles
-	if entity.get_int_property("style", 0) > 0:
+	var light_style: int = entity.get_int_property("style", 0)
+	if light_style > 0:
 		light.set_script(preload("../scripts/light_.gd"))
+		light.set("style", light_style)
 
 	if entity.get_int_property("spawnflags", 0) & 1: # start off
 		light.visible = false
