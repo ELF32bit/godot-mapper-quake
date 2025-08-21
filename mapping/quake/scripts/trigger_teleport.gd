@@ -52,7 +52,7 @@ func _play_sounds(target: Node3D) -> void:
 
 
 func _on_generic_signal() -> void:
-	self.monitoring = true
+	set_deferred("monitoring", true)
 
 
 func _push(body: Node3D, velocity: Vector3) -> void:

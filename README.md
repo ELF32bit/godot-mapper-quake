@@ -34,7 +34,7 @@ State | Classname | Commentary
 ✅ | func_illusionary       |
 ❌ | func_episodegate       | Unnecessary story entity.
 ❌ | func_bossgate          | Unnecessary story entity.
-✅ | trigger_changelevel    | Requires custom logic to change `map`.
+✅ | trigger_changelevel    | Requires game specific logic to change `map`.
 ✅ | trigger_once           | Might be driven by `quake_health: int`
 ✅ | trigger_multiple       | Might be driven by `quake_health: int`
 ✅ | trigger_onlyregistered | Uses map `game_registered` option.

@@ -1,3 +1,3 @@
 extends Node3D
 
-@export var speed: float = 1.25
+@export var speed: float = 40.0 / 32.0
