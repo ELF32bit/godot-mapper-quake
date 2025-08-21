@@ -1,15 +1,17 @@
 [remap]
 
-importer="mapper.map.resource"
-type="Resource"
+importer="mapper.map.scene"
+type="PackedScene"
 uid="uid://bbn8blxen5mh5"
-path="res://.godot/imported/start.map-c7fa3ae94ad547b8a4c5aca62acf13cc.res"
+path="res://.godot/imported/start.map-c7fa3ae94ad547b8a4c5aca62acf13cc.scn"
 
 [deps]
 
 source_file="res://mapping/quake/maps/start.map"
-dest_files=["res://.godot/imported/start.map-c7fa3ae94ad547b8a4c5aca62acf13cc.res"]
+dest_files=["res://.godot/imported/start.map-c7fa3ae94ad547b8a4c5aca62acf13cc.scn"]
 
 [params]
 
+game=1
 wads=[]
+options={}

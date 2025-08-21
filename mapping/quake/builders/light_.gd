@@ -39,31 +39,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	else:
 		light.omni_attenuation *= entity.get_float_property("wait", 1.0)
 
-	match entity.get_int_property("style", 0):
-		0: # normal
-			pass
-		10: # fluorescent flicker
-			pass
-		2 : # slow, strong pulse
-			pass
-		11: # slow pulse, noblack
-			pass
-		5 : # gentle pulse
-			pass
-		1 : # flicker A
-			pass
-		6 : # flicker B
-			pass
-		3 : # candle A
-			pass
-		7 : # candle B
-			pass
-		8 : # candle C
-			pass
-		4 : # fast strobe
-			pass
-		9 : # slow strobe
-			pass
+	# handling light flickering styles
+	if entity.get_int_property("style", 0) > 0:
+		light.set_script(preload("../scripts/light_.gd"))
 
 	if entity.get_int_property("spawnflags", 0) & 1: # start off
 		light.visible = false

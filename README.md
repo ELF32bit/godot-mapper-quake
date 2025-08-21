@@ -22,7 +22,7 @@ State | Classname | Commentary
 ✅ | info_*                 | Does not implement **progs.dat** hacks.
 🟨 | item_*                 | Can't be picked up.
 🟨 | weapon_*               | Can't be picked up.
-✅ | light_*                | No light flickering.
+✅ | light_*                | Light flickering is implemented.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
 ✅ | func_door              | Might be driven by `quake_health: int`<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
