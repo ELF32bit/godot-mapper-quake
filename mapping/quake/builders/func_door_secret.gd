@@ -14,6 +14,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# setting func_door_secret script
 	node.set_script(preload("../scripts/func_door_secret.gd"))
+	node.connect("crushing_object", Callable(node, "_on_crushing_object"), CONNECT_PERSIST)
+	node.connect("crushing_character", Callable(node, "_on_crushing_character"), CONNECT_PERSIST)
 
 	# creating func_door_secret sound players
 	var move_sound_player := AudioStreamPlayer3D.new()
@@ -55,6 +57,13 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(animation_player, map.settings.readable_node_names)
 	node.set("_animation_player", node.get_path_to(animation_player))
 
+	# creating func_door_secret delay timer
+	var delay_time: float = 0.15
+	var delay_timer := create_safe_timer(map, node, delay_time)
+	delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
+	node.set("_delay_timer", node.get_path_to(delay_timer))
+	delay_timer.one_shot = true
+
 	# creating wait timer
 	var wait_time: float = entity.get_float_property("wait", 2.0)
 	if not wait_time < 0.0:
@@ -78,12 +87,14 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating reset animation for the animation library
 	MapperUtilities.create_reset_animation(animation_player, animation_library)
 
-	#1 : "Open once" : 0
-	if entity.get_int_property("spawnflags", 0) & 8: # not shootable
-		pass
+	var spawnflags: int = entity.get_int_property("spawnflags", 0)
+	if spawnflags & 1: # open once
+		node.set("open_once", true)
+	if spawnflags & 8: # not shootable
+		node.set("max_health", 0)
 	elif not entity.get_string_property("targetname", "").is_empty():
-		if entity.get_int_property("spawnflags", 0) & 16: # always shootable
-			pass
+		if spawnflags & 16: # always shootable
+			node.set("max_health", 1)
 
 	# binding func_door_secret properties
 	bind_target_base(entity)
