@@ -41,7 +41,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# handling light flickering styles
 	var light_style: int = entity.get_int_property("style", 0)
-	if light_style > 0:
+	if light_style > 0 and light_style <= 11:
 		light.set_script(preload("../scripts/light_.gd"))
 		light.set("style", light_style)
 

@@ -19,9 +19,9 @@ func load_map(map_name: String) -> void:
 	# using external lightmap:
 	# import E1M1 as scene and bake lightmap
 	# runtime constructed map will be using this lightmap
-	# also enable lightmap_unwrap if using custom editor
+	# also lightmap_unwrap can freeze if not using custom editor
 	# compile Godot editor with XA_MULTITHREADED 0
-	map_options["lightmap_unwrap"] = false
+	map_options["lightmap_unwrap"] = true
 	map_options["__lightmap_external"] = true
 	map_options["print_progress_verbose"] = false
 	map_options["print_progress"] = true
