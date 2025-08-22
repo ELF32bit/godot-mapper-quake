@@ -27,14 +27,14 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# loading func_door_secret default sounds
 	match entity.get_int_property("sounds", 3):
 		1: # medieval
-			move_sound_player.stream = preload("../sounds/doors/winch2.wav")
-			stop_sound_player.stream = preload("../sounds/doors/drclos4.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/doors/winch2")
+			stop_sound_player.stream = map.loader.load_sound("sounds/doors/drclos4")
 		2: # metal
-			move_sound_player.stream = preload("../sounds/doors/airdoor1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/airdoor2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/doors/airdoor1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/doors/airdoor2")
 		3: # base
-			move_sound_player.stream = preload("../sounds/doors/basesec1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/basesec2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/doors/basesec1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/doors/basesec2")
 
 	# using custom func_door_secret sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)

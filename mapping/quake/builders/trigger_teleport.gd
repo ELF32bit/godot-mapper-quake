@@ -24,11 +24,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# loading trigger_teleport default sounds
 	var teleport_sounds: Array[AudioStream] = [
-		preload("../sounds/misc/r_tele1.wav"),
-		preload("../sounds/misc/r_tele2.wav"),
-		preload("../sounds/misc/r_tele3.wav"),
-		preload("../sounds/misc/r_tele4.wav"),
-		preload("../sounds/misc/r_tele5.wav"),
+		map.loader.load_sound("sounds/misc/r_tele1"),
+		map.loader.load_sound("sounds/misc/r_tele2"),
+		map.loader.load_sound("sounds/misc/r_tele3"),
+		map.loader.load_sound("sounds/misc/r_tele4"),
+		map.loader.load_sound("sounds/misc/r_tele5"),
 	]
 	node.set("teleport_sounds", teleport_sounds)
 

@@ -23,7 +23,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	push_sound_player.autoplay = true
 
 	# loading trigger_push default sounds
-	push_sound_player.stream = preload("../sounds/ambience/windfly.wav")
+	push_sound_player.stream = map.loader.load_sound("sounds/ambience/windfly")
 	var noise: AudioStream = entity.get_sound_property("noise", null)
 	if noise:
 		push_sound_player.stream = noise

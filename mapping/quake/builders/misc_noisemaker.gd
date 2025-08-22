@@ -9,16 +9,16 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.autoplay = true
 
 	var enforcer_sounds: Array[AudioStream] = [
-		preload("../sounds/enforcer/enfire.wav"),
-		preload("../sounds/enforcer/enfstop.wav"),
-		preload("../sounds/enforcer/sight1.wav"),
-		preload("../sounds/enforcer/sight2.wav"),
-		preload("../sounds/enforcer/sight3.wav"),
-		preload("../sounds/enforcer/sight4.wav"),
-		preload("../sounds/enforcer/pain1.wav"),
-		preload("../sounds/enforcer/pain2.wav"),
-		preload("../sounds/enforcer/death1.wav"),
-		preload("../sounds/enforcer/idle1.wav"),
+		map.loader.load_sound("sounds/enforcer/enfire"),
+		map.loader.load_sound("sounds/enforcer/enfstop"),
+		map.loader.load_sound("sounds/enforcer/sight1"),
+		map.loader.load_sound("sounds/enforcer/sight2"),
+		map.loader.load_sound("sounds/enforcer/sight3"),
+		map.loader.load_sound("sounds/enforcer/sight4"),
+		map.loader.load_sound("sounds/enforcer/pain1"),
+		map.loader.load_sound("sounds/enforcer/pain2"),
+		map.loader.load_sound("sounds/enforcer/death1"),
+		map.loader.load_sound("sounds/enforcer/idle1"),
 	]
 	node.set("noises", enforcer_sounds)
 

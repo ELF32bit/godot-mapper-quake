@@ -48,11 +48,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			move_sound_player.stream = null
 			stop_sound_player.stream = null
 		1: # base fast
-			move_sound_player.stream = preload("../sounds/plats/plat1.wav")
-			stop_sound_player.stream = preload("../sounds/plats/plat2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/plats/plat1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/plats/plat2")
 		2: # chain slow
-			move_sound_player.stream = preload("../sounds/plats/medplat1.wav")
-			stop_sound_player.stream = preload("../sounds/plats/medplat2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/plats/medplat1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/plats/medplat2")
 
 	# using custom sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)

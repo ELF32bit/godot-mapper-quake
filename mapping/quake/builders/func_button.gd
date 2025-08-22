@@ -69,13 +69,13 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# loading func_button default sounds
 	match entity.get_int_property("sounds", 0):
 		0: # steam metal
-			press_sound_player.stream = preload("../sounds/buttons/airbut1.wav")
+			press_sound_player.stream = map.loader.load_sound("sounds/buttons/airbut1")
 		1: # wooden clunk
-			press_sound_player.stream = preload("../sounds/buttons/switch21.wav")
+			press_sound_player.stream = map.loader.load_sound("sounds/buttons/switch21")
 		2: # metallic clink
-			press_sound_player.stream = preload("../sounds/buttons/switch02.wav")
+			press_sound_player.stream = map.loader.load_sound("sounds/buttons/switch02")
 		3: # in-out
-			press_sound_player.stream = preload("../sounds/buttons/switch04.wav")
+			press_sound_player.stream = map.loader.load_sound("sounds/buttons/switch04")
 
 	# using custom func_button sounds if they are loading
 	var noise: AudioStream = entity.get_sound_property("noise", null)

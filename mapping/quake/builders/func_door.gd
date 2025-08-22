@@ -28,17 +28,17 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			move_sound_player.stream = null
 			stop_sound_player.stream = null
 		1: # stone
-			move_sound_player.stream = preload("../sounds/doors/doormv1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/drclos4.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/doors/doormv1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/doors/drclos4")
 		2: # machine
-			move_sound_player.stream = preload("../sounds/doors/hydro1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/hydro2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/doors/hydro1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/doors/hydro2")
 		3: # stone chain
-			move_sound_player.stream = preload("../sounds/doors/stndr1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/stndr2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/doors/stndr1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/doors/stndr2")
 		4: # screechy metal
-			move_sound_player.stream = preload("../sounds/doors/ddoor1.wav")
-			stop_sound_player.stream = preload("../sounds/doors/ddoor2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/doors/ddoor1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/doors/ddoor2")
 
 	# using custom sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)

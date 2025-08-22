@@ -27,11 +27,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		0: # none
 			trigger_sound_player.stream = null
 		1: # secret sound
-			trigger_sound_player.stream = preload("../sounds/misc/secret.wav")
+			trigger_sound_player.stream = map.loader.load_sound("sounds/misc/secret")
 		2: # beep beep
-			trigger_sound_player.stream = preload("../sounds/misc/talk.wav")
+			trigger_sound_player.stream = map.loader.load_sound("sounds/misc/talk")
 		3: # large switch
-			trigger_sound_player.stream = preload("../sounds/misc/trigger1.wav")
+			trigger_sound_player.stream = map.loader.load_sound("sounds/misc/trigger1")
 
 	# creating trigger_changelevel delay timer
 	var delay_time: float = entity.get_float_property("delay", 0.0)

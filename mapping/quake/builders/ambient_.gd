@@ -11,23 +11,23 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	match entity.get_classname_property():
 		"ambient_drip": # dripping sound
-			node.stream = preload("../sounds/ambience/drip1.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/drip1")
 		"ambient_drone": # engine/machinery sound
-			node.stream = preload("../sounds/ambience/drone6.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/drone6")
 		"ambient_comp_hum": # computer background sounds
-			node.stream = preload("../sounds/ambience/comp1.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/comp1")
 		"ambient_flouro_buzz": # fluorescent buzzing sound
-			node.stream = preload("../sounds/ambience/buzz1.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/buzz1")
 		"ambient_light_buzz": # buzzing sound from light
-			node.stream = preload("../sounds/ambience/fl_hum1.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/fl_hum1")
 		"ambient_suck_wind": # wind sound
-			node.stream = preload("../sounds/ambience/suck1.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/suck1")
 		"ambient_swamp1": # frogs croaking
-			node.stream = preload("../sounds/ambience/swamp1.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/swamp1")
 		"ambient_swamp2": # frogs croaking B
-			node.stream = preload("../sounds/ambience/swamp2.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/swamp2")
 		"ambient_thunder": # thunder sound
-			node.stream = preload("../sounds/ambience/thunder1.wav")
+			node.stream = map.loader.load_sound("sounds/ambience/thunder1")
 		_:
 			node.stream = entity.get_sound_property("noise", null)
 

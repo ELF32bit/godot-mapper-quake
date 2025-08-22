@@ -25,9 +25,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# loading trigger_secret default sounds
 	match entity.get_int_property("sounds", 1):
 		1: # secret sound
-			trigger_sound_player.stream = preload("../sounds/misc/secret.wav")
+			trigger_sound_player.stream = map.loader.load_sound("sounds/misc/secret")
 		2: # beep beep
-			trigger_sound_player.stream = preload("../sounds/misc/talk.wav")
+			trigger_sound_player.stream = map.loader.load_sound("sounds/misc/talk")
 
 	# creating trigger_secret delay timer
 	var delay_time: float = entity.get_float_property("delay", 0.0)

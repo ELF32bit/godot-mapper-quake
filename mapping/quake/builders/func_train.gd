@@ -32,8 +32,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			move_sound_player.stream = null
 			stop_sound_player.stream = null
 		1: # ratchet metal
-			move_sound_player.stream = preload("../sounds/plats/train1.wav")
-			stop_sound_player.stream = preload("../sounds/plats/train2.wav")
+			move_sound_player.stream = map.loader.load_sound("sounds/plats/train1")
+			stop_sound_player.stream = map.loader.load_sound("sounds/plats/train2")
 
 	# using custom sounds if they are loading
 	var noise1: AudioStream = entity.get_sound_property("noise1", null)
