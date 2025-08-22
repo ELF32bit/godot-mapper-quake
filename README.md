@@ -14,6 +14,8 @@ Change **layers.gd** file to integrate entities into an existing project.<br>
 * Animation states are stored inside a map.
 * Most spawnflags are supported.
 
+> Requires compiling Godot editor with **XA_MULTITHREADED 0** for lightmapping.
+
 ## Entity implementation table
 
 State | Classname | Commentary
@@ -25,18 +27,18 @@ State | Classname | Commentary
 ✅ | light_*                | Light flickering is implemented.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
-✅ | func_door              | Might be driven by `quake_health: int`<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
-✅ | func_door_secret       | Is driven by `quake_health: int`<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
+✅ | func_door              | Might have `quake_health: int` property.<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
+✅ | func_door_secret       | Has `quake_health: int` property.<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
 ✅ | func_wall              | **Uses extended alternative texture system.**
-✅ | func_button            | Might be driven by `quake_health: int`
+✅ | func_button            | Might have `quake_health: int` property.
 ✅ | func_train             | `_quake_crush(body: PhysicsBody3D, damage: int)`
 ✅ | func_plat              | `_quake_crush(body: PhysicsBody3D, damage: int)`
 ✅ | func_illusionary       |
 ❌ | func_episodegate       | Unnecessary story entity.
 ❌ | func_bossgate          | Unnecessary story entity.
 ✅ | trigger_changelevel    | Requires game specific logic to change `map`.
-✅ | trigger_once           | Might be driven by `quake_health: int`
-✅ | trigger_multiple       | Might be driven by `quake_health: int`
+✅ | trigger_once           | Might have `quake_health: int` property.
+✅ | trigger_multiple       | Might have `quake_health: int` property.
 ✅ | trigger_onlyregistered | Uses map `game_registered` option.
 ✅ | trigger_secret         | Does not award a secret credit.
 ✅ | trigger_teleport       | `_quake_push(velocity: Vector3)`
@@ -48,7 +50,7 @@ State | Classname | Commentary
 ✅ | trigger_hurt           | `_quake_hurt(damage: int)`
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
-✅ | misc_explobox*         | Does not have script to explode.
+❌ | misc_explobox*         | Does not have script to explode.<br>`_quake_explode(damage: int)`
 🟨 | misc_fireball          | Does not move or deal damage.
 ✅ | misc_noisemaker        |
 ✅ | path_corner            |
