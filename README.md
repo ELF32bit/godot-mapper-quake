@@ -14,7 +14,7 @@ Change **layers.gd** file to integrate entities into an existing project.<br>
 * Animation states are stored inside a map.
 * Most spawnflags are supported.
 
-> Requires compiling Godot editor with **XA_MULTITHREADED 0** for lightmapping.
+> Requires compiling Godot editor with **`XA_MULTITHREADED 0`** for lightmapping.
 
 ## Entity implementation table
 
