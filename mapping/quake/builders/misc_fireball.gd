@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 
 	var fireball_instance := fireball.instantiate()
-	fireball_instance.set_script(preload("../scripts/misc_fireball.gd"))
+	fireball_instance.set_script(map.loader.load_script("scripts/misc_fireball"))
 
 	# binding misc_fireball properties
 	entity.bind_unit_property("speed", "speed")

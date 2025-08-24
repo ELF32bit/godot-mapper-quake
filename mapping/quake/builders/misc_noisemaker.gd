@@ -4,7 +4,7 @@ extends "__classes.gd"
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# debug entity: continuously plays enforcer sounds
 	var node := AudioStreamPlayer3D.new()
-	node.set_script(preload("../scripts/misc_noisemaker.gd"))
+	node.set_script(map.loader.load_script("scripts/misc_noisemaker"))
 	node.max_distance = 320.0 / map.settings.unit_size
 	node.autoplay = true
 

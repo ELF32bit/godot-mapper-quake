@@ -13,7 +13,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["trigger_teleport-PhysicsBody3D"])
 
 	# setting trigger_teleport script and connecting signals
-	node.set_script(preload("../scripts/trigger_teleport.gd"))
+	node.set_script(map.loader.load_script("scripts/trigger_teleport"))
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
 

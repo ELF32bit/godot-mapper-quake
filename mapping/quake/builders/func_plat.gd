@@ -14,11 +14,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating root node
 	var root_node := Node3D.new()
-	root_node.set_script(preload("../scripts/func_plat.gd"))
+	root_node.set_script(map.loader.load_script("scripts/func_plat"))
 	root_node.transform = node.transform
 
 	# parenting node to root node
-	node.set_script(preload("../scripts/classes/crushing.gd"))
+	node.set_script(map.loader.load_script("scripts/classes/crushing"))
 	MapperUtilities.add_global_child(node, root_node, map.settings)
 
 	# creating func_plat area

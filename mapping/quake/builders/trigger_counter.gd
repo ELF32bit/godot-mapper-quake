@@ -6,7 +6,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	# trigger: counter
 	var node := Marker3D.new()
-	node.set_script(preload("../scripts/trigger_counter.gd"))
+	node.set_script(map.loader.load_script("scripts/trigger_counter"))
 
 	# creating trigger_counter delay timer
 	var delay_time: float = entity.get_float_property("delay", 0.0)

@@ -6,7 +6,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	# trigger: relay
 	var node := Node3D.new()
-	node.set_script(preload("../scripts/trigger_relay.gd"))
+	node.set_script(map.loader.load_script("scripts/trigger_relay"))
 
 	# creating trigger_relay sound player
 	var trigger_sound_player := AudioStreamPlayer3D.new()

@@ -69,7 +69,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 				child.visible = false
 
 		# finishing constructing liquid area
-		area.set_script(preload("../scripts/worldspawn-liquid.gd"))
+		area.set_script(map.loader.load_script("scripts/worldspawn-liquid"))
 		area.body_entered.connect(Callable(area, "_on_body_entered"), CONNECT_PERSIST)
 		area.body_exited.connect(Callable(area, "_on_body_exited"), CONNECT_PERSIST)
 		area.set("planes", brush.get_planes(true)) # only visible planes are required

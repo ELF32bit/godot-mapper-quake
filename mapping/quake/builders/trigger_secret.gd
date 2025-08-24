@@ -13,7 +13,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["trigger_secret-PhysicsBody3D"])
 
 	# setting trigger_secret script and connecting signals
-	node.set_script(preload("../scripts/trigger_secret.gd"))
+	node.set_script(map.loader.load_script("scripts/trigger_secret"))
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
 

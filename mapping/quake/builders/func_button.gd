@@ -15,7 +15,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating func_button root node
 	var root_node := Node3D.new()
-	root_node.set_script(preload("../scripts/func_button.gd"))
+	root_node.set_script(map.loader.load_script("scripts/func_button"))
 	root_node.transform = node.transform
 
 	# parenting func_button node to root node
@@ -50,7 +50,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		var alternative_speed_scale: Variant = node.get("alternative_speed_scale")
 		var alternative_textures: Variant = node.get("alternative_textures")
 		var affected_materials: Variant = node.get("affected_materials")
-		node.set_script(preload("../scripts/func_button-health.gd"))
+		node.set_script(map.loader.load_script("scripts/func_button-health"))
 		node.set("alternative_texture", alternative_texture)
 		node.set("alternative_speed_scale", alternative_speed_scale)
 		node.set("alternative_textures", alternative_textures)

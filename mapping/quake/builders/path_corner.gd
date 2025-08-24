@@ -6,7 +6,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	# waypoint for platforms and monsters
 	var node := Marker3D.new()
-	node.set_script(preload("../scripts/path_corner.gd"))
+	node.set_script(map.loader.load_script("scripts/path_corner"))
 
 	# binding path_corner properties
 	bind_targetname_base(entity)

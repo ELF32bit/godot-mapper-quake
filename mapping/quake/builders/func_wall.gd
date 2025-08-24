@@ -39,18 +39,18 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			var unique_base_material := create_unique_material(map, base_material, alternative_textures_size)
 			if unique_base_material and unique_base_material != base_material:
 				mesh_instance.mesh.surface_set_material(surface_index, unique_base_material)
-				unique_base_material.set_script(preload("../scripts/func_wall-material.gd"))
+				unique_base_material.set_script(map.loader.load_script("scripts/func_wall-material"))
 				animated_materials.append(unique_base_material)
 
 			# creating unique override material if alternative textures have the same size per slot
 			var unique_override_material := create_unique_material(map, override_material, alternative_textures_size)
 			if unique_override_material and unique_override_material != override_material:
 				mesh_instance.set_surface_override_material(surface_index, unique_override_material)
-				unique_override_material.set_script(preload("../scripts/func_wall-material.gd"))
+				unique_override_material.set_script(map.loader.load_script("scripts/func_wall-material"))
 				animated_materials.append(unique_override_material)
 
 	# setting func_wall script
-	node.set_script(preload("../scripts/func_wall.gd"))
+	node.set_script(map.loader.load_script("scripts/func_wall"))
 	node.set("alternative_textures", alternative_textures_size)
 	node.set("affected_materials", animated_materials)
 

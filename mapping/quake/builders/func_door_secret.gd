@@ -13,7 +13,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["func_door-CharacterBody3D", "func_door-Object"])
 
 	# setting func_door_secret script
-	node.set_script(preload("../scripts/func_door_secret.gd"))
+	node.set_script(map.loader.load_script("scripts/func_door_secret"))
 	node.connect("crushing_object", Callable(node, "_on_crushing_object"), CONNECT_PERSIST)
 	node.connect("crushing_character", Callable(node, "_on_crushing_character"), CONNECT_PERSIST)
 

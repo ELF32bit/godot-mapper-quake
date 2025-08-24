@@ -6,7 +6,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	# wildcard entity
 	var node := Node3D.new()
-	node.set_script(preload("../scripts/info_notnull.gd"))
+	node.set_script(map.loader.load_script("scripts/info_notnull"))
 
 	# binding info_notnull properties
 	bind_target_base(entity)

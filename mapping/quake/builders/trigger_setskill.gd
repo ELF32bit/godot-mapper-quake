@@ -13,7 +13,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["trigger_setskill-PhysicsBody3D"])
 
 	# setting trigger_setskill script and connecting signals
-	node.set_script(preload("../scripts/trigger_setskill.gd"))
+	node.set_script(map.loader.load_script("scripts/trigger_setskill"))
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
 

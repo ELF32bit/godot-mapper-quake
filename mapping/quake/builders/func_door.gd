@@ -13,7 +13,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["func_door-CharacterBody3D", "func_door-Object"])
 
 	# setting func_door script
-	node.set_script(preload("../scripts/func_door-health.gd"))
+	node.set_script(map.loader.load_script("scripts/func_door-health"))
 
 	# creating func_door sound players
 	var move_sound_player := AudioStreamPlayer3D.new()
@@ -75,7 +75,7 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 	var root_node := Node3D.new()
 	root_node.position = linked_aabb_center
 	MapperUtilities.add_global_child(root_node, entity.node.get_parent(), map.settings)
-	root_node.set_script(preload("../scripts/func_door.gd"))
+	root_node.set_script(map.loader.load_script("scripts/func_door"))
 
 	# creating func_door activation area
 	var area := Area3D.new()

@@ -5,7 +5,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if bind_appearflags_base(map, entity):
 		return null
 	# trigger: change level
-	var node: Area3D = MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
+	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D", false, true, false)
 	if not node:
 		return null
 	set_collision_layer_mask(node,
@@ -13,7 +13,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["trigger_changelevel-PhysicsBody3D"])
 
 	# setting trigger_changelevel script and connecting signals
-	node.set_script(preload("../scripts/trigger_changelevel.gd"))
+	node.set_script(map.loader.load_script("scripts/trigger_changelevel"))
 	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 	node.monitorable = false
 

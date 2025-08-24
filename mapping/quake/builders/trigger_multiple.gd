@@ -26,9 +26,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# setting trigger_multiple script and connecting signals
 	if has_health:
-		node.set_script(preload("../scripts/trigger_multiple-health.gd"))
+		node.set_script(map.loader.load_script("scripts/trigger_multiple-health"))
 	else:
-		node.set_script(preload("../scripts/trigger_multiple.gd"))
+		node.set_script(map.loader.load_script("scripts/trigger_multiple"))
 		node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
 		node.monitorable = false
 
