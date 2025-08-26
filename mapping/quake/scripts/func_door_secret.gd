@@ -7,8 +7,8 @@ signal generic
 @export_node_path("AnimationPlayer") var _animation_player: NodePath
 @onready var animation_player: AnimationPlayer = get_node(_animation_player)
 
-@export_node_path("Timer") var _delay_timer: NodePath
-@onready var delay_timer: Timer = get_node(_delay_timer)
+@export_node_path("Timer") var _crush_timer: NodePath
+@onready var crush_timer: Timer = get_node(_crush_timer)
 
 @export_node_path("Timer") var _wait_timer: NodePath
 @onready var wait_timer: Timer = get_node_or_null(_wait_timer)
@@ -41,12 +41,12 @@ func _on_animation_finished(animation_name: StringName) -> void:
 
 @warning_ignore("unused_parameter", "shadowed_variable")
 func _on_crushing(object: Object, damage: int) -> void:
-	if not delay_timer.is_stopped():
+	if not crush_timer.is_stopped():
 		return
 	var time := animation_player.current_animation_position
 	animation_player.play_backwards(animation_player.current_animation)
 	animation_player.seek(time)
-	delay_timer.start()
+	crush_timer.start()
 
 @warning_ignore("shadowed_variable")
 func _on_crushing_object(object: Object, damage: int) -> void:
@@ -66,7 +66,7 @@ func _on_wait_timer_timeout() -> void:
 		animation_player.play("close")
 
 
-func _on_delay_timer_timeout() -> void:
+func _on_crush_timer_timeout() -> void:
 	var time := animation_player.current_animation_position
 	animation_player.play(animation_player.current_animation)
 	animation_player.seek(time)

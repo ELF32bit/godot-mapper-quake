@@ -59,12 +59,12 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(animation_player, map.settings.readable_node_names)
 	node.set("_animation_player", node.get_path_to(animation_player))
 
-	# creating func_door_secret delay timer
+	# creating func_door_secret crush timer
 	var delay_time: float = 0.15
-	var delay_timer := create_safe_timer(map, node, delay_time, "DelayTimer")
-	delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
-	node.set("_delay_timer", node.get_path_to(delay_timer))
-	delay_timer.one_shot = true
+	var crush_timer := create_safe_timer(map, node, delay_time, "CrushTimer")
+	crush_timer.timeout.connect(Callable(node, "_on_crush_timer_timeout"), CONNECT_PERSIST)
+	node.set("_crush_timer", node.get_path_to(crush_timer))
+	crush_timer.one_shot = true
 
 	# creating wait timer
 	var wait_time: float = entity.get_float_property("wait", 2.0)
