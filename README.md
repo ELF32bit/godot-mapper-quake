@@ -50,7 +50,7 @@ State | Classname | Commentary
 ✅ | trigger_hurt           | `_quake_hurt(damage: int)`
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
-❌ | misc_explobox*         | Does not have script to explode.<br>`_quake_explode(damage: int)`
+❌ | misc_explobox*         | Has `quake_health: int` property.<br>`_quake_explode(damage: int)`
 🟨 | misc_fireball          | Does not move or deal damage.
 ✅ | misc_noisemaker        |
 ✅ | path_corner            |

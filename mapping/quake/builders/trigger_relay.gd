@@ -10,6 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating trigger_relay sound player
 	var trigger_sound_player := AudioStreamPlayer3D.new()
+	trigger_sound_player.name = "TriggerSoundPlayer3D"
 	node.add_child(trigger_sound_player, map.settings.readable_node_names)
 	node.set("_trigger_sound_player", node.get_path_to(trigger_sound_player))
 

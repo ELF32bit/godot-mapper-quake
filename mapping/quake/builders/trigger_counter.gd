@@ -11,7 +11,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating trigger_counter delay timer
 	var delay_time: float = entity.get_float_property("delay", 0.0)
 	if not delay_time < 0.0:
-		var delay_timer := create_safe_timer(map, node, delay_time)
+		var delay_timer := create_safe_timer(map, node, delay_time, "DelayTimer")
 		delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
 		node.set("_delay_timer", node.get_path_to(delay_timer))
 		delay_timer.one_shot = true

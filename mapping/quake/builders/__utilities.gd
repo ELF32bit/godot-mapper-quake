@@ -16,8 +16,10 @@ static func set_collision_layer_mask(node: CollisionObject3D, layers: Array[Stri
 		node.set_collision_mask_value(PHYSICS_LAYERS_3D[mask], true)
 
 
-static func create_safe_timer(map: MapperMap, parent: Node, wait_time: float = 1.0) -> Timer:
+static func create_safe_timer(map: MapperMap, parent: Node, wait_time: float = 1.0, name: String = "WaitTimer") -> Timer:
 	var timer := Timer.new()
+	if not name.is_empty():
+		timer.name = name
 	parent.add_child(timer, map.settings.readable_node_names)
 	timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
 	# Godot timers don't work correctly with small wait times

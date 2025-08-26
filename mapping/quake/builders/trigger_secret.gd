@@ -19,6 +19,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating trigger_once sound player
 	var trigger_sound_player := AudioStreamPlayer3D.new()
+	trigger_sound_player.name = "TriggerSoundPlayer3D"
 	node.add_child(trigger_sound_player, map.settings.readable_node_names)
 	node.set("_trigger_sound_player", node.get_path_to(trigger_sound_player))
 
@@ -32,7 +33,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating trigger_secret delay timer
 	var delay_time: float = entity.get_float_property("delay", 0.0)
 	if not delay_time < 0.0:
-		var delay_timer := create_safe_timer(map, node, delay_time)
+		var delay_timer := create_safe_timer(map, node, delay_time, "DelayTimer")
 		delay_timer.timeout.connect(Callable(node, "_on_delay_timer_timeout"), CONNECT_PERSIST)
 		node.set("_delay_timer", node.get_path_to(delay_timer))
 		delay_timer.one_shot = true

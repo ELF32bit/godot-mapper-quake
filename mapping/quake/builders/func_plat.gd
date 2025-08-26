@@ -37,9 +37,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating func_plat sound players
 	var move_sound_player := AudioStreamPlayer3D.new()
+	move_sound_player.name = "MoveSoundPlayer3D"
 	node.add_child(move_sound_player, map.settings.readable_node_names)
 
 	var stop_sound_player := AudioStreamPlayer3D.new()
+	stop_sound_player.name = "StopSoundPlayer3D"
 	node.add_child(stop_sound_player, map.settings.readable_node_names)
 
 	# loading func_plat default sounds

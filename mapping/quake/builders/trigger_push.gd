@@ -19,6 +19,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating trigger_push sound player
 	var push_sound_player := AudioStreamPlayer3D.new()
+	push_sound_player.name = "PushSoundPlayer3D"
 	node.add_child(push_sound_player, map.settings.readable_node_names)
 	push_sound_player.autoplay = true
 
