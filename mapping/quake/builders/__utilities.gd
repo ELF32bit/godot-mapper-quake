@@ -16,7 +16,7 @@ static func set_collision_layer_mask(node: CollisionObject3D, layers: Array[Stri
 		node.set_collision_mask_value(PHYSICS_LAYERS_3D[mask], true)
 
 
-static func create_safe_timer(map: MapperMap, parent: Node, wait_time: float = 1.0, name: String = "WaitTimer") -> Timer:
+static func create_safe_timer(map: MapperMap, parent: Node, wait_time: float = 1.0, name: String = "") -> Timer:
 	var timer := Timer.new()
 	if not name.is_empty():
 		timer.name = name

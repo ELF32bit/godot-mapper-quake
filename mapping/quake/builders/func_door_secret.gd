@@ -69,7 +69,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# creating wait timer
 	var wait_time: float = entity.get_float_property("wait", 2.0)
 	if not wait_time < 0.0:
-		var wait_timer := create_safe_timer(map, node, wait_time)
+		var wait_timer := create_safe_timer(map, node, wait_time, "WaitTimer")
 		wait_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 		node.set("_wait_timer", node.get_path_to(wait_timer))
 		wait_timer.one_shot = true

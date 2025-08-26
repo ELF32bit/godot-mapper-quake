@@ -19,7 +19,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating trigger_hurt wait timer
 	var wait_time: float = 0.5
-	var wait_timer := create_safe_timer(map, node, wait_time)
+	var wait_timer := create_safe_timer(map, node, wait_time, "WaitTimer")
 	wait_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 	node.set("_wait_timer", node.get_path_to(wait_timer))
 	wait_timer.one_shot = false
