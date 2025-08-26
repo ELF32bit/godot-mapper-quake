@@ -3,9 +3,11 @@ extends "classes/crushing+targets.gd"
 signal path_corner_reached(path_corner: Node3D)
 
 @export var speed: float = 2.0
-@export var damage_interval: float = 0.25
 @export var is_waiting_for_signal := false
 @onready var target: Node3D = null
+
+@export_node_path("Timer") var _crush_timer: NodePath
+@onready var crush_timer: Timer = get_node(_crush_timer)
 
 @export_node_path("Timer") var _wait_timer: NodePath
 @onready var wait_timer: Timer = get_node(_wait_timer)
@@ -71,8 +73,7 @@ func _on_crushing(object: Object, damage: int) -> void:
 	move_sound_player.playing = false
 	stop_sound_player.playing = true
 	set_physics_process(false)
-	# starting damage timer shount not interfere with path_corner wait timer
-	wait_timer.start(clampf(damage_interval, 0.05, INF))
+	crush_timer.start()
 
 @warning_ignore("shadowed_variable")
 func _on_crushing_object(object: Object, damage: int) -> void:

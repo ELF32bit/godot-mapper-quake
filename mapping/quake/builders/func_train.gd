@@ -46,6 +46,13 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		if noise2:
 			stop_sound_player.stream = noise2
 
+	# creating func_train crush timer
+	var crush_time: float = 0.25
+	var crush_timer := create_safe_timer(map, node, crush_time, "CrushTimer")
+	crush_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
+	node.set("_crush_timer", node.get_path_to(crush_timer))
+	crush_timer.one_shot = true
+
 	# creating generic wait timer for path_corner
 	var wait_timer := create_safe_timer(map, node)
 	wait_timer.timeout.connect(Callable(node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
@@ -66,8 +73,5 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	entity.bind_node_path_array_property("target", "targetname", "_targets", "path_corner")
 	node.set("speed", entity.get_unit_property("speed", 64.0))
 	node.set("damage", entity.get_int_property("dmg", 2))
-
-	# implementation specific property
-	entity.bind_float_property("wait", "damage_interval")
 
 	return node

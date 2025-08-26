@@ -11,7 +11,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["worldspawn-StaticBody3D"],
 		[])
 
-	# setting misc_explobox script
+	# setting misc_explobox2 script
 	node.set_script(map.loader.load_script("scripts/misc_explobox"))
 
 	# loading sub-map with an additional option
