@@ -24,7 +24,7 @@ State | Classname | Commentary
 ✅ | info_*                 | Does not implement **progs.dat** hacks.
 🟨 | item_*                 | Can't be picked up.
 🟨 | weapon_*               | Can't be picked up.
-✅ | light_*                | Light flickering is implemented.
+✅ | light_*                | Light flickering is visible in Forward+ renderer.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
 ✅ | func_door              | Might have `quake_health: int` property.<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
