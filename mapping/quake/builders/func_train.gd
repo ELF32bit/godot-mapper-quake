@@ -12,7 +12,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		["worldspawn-StaticBody3D"],
 		["func_train-CharacterBody3D", "func_train-Object"])
 
-	# setting trigger_train script and connecting signals
+	# setting func_train script and connecting signals
 	node.set_script(map.loader.load_script("scripts/func_train"))
 	node.connect("crushing_character", Callable(node, "_on_crushing_character"), CONNECT_PERSIST)
 	node.connect("crushing_object", Callable(node, "_on_crushing_object"), CONNECT_PERSIST)

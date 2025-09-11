@@ -14,7 +14,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		"info_player_start2": # player episode return point
 			node.add_to_group("info_player_start2", true)
 		"info_player_deathmatch": # deathmatch start
-			node.add_to_group("info_player_start2", true)
+			node.add_to_group("info_player_deathmatch", true)
 		_:
 			node.free()
 			return null
