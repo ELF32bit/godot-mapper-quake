@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.mdl.scene"
+type="PackedScene"
+uid="uid://c87yp55gkfk57"
+path="res://.godot/imported/grenade.mdl-9811dfd9c4fd3d3cd48345d11a39e373.scn"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/projectiles/grenade.mdl"
+dest_files=["res://.godot/imported/grenade.mdl-9811dfd9c4fd3d3cd48345d11a39e373.scn"]
+
+[params]
+
+palette=""
+options={}

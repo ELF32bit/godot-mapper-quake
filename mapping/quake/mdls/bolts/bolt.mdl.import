@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.mdl.scene"
+type="PackedScene"
+uid="uid://chh7d0rgjbeqf"
+path="res://.godot/imported/bolt.mdl-5827c836f364526542fda9c742a19f15.scn"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/bolts/bolt.mdl"
+dest_files=["res://.godot/imported/bolt.mdl-5827c836f364526542fda9c742a19f15.scn"]
+
+[params]
+
+palette=""
+options={}

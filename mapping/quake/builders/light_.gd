@@ -113,19 +113,19 @@ static func load_model(map: MapperMap, entity: MapperEntity) -> Node3D:
 		"light_fluorospark": # sparking fluorescent light
 			pass
 		"light_globe": # globe light
-			model = map.loader.load_mdl("mdls/misc/s_light")
+			model = map.loader.load_mdl("mdls/lights/s_light")
 			model_animation = "frame"
 		"light_flame_large_yellow": # large yellow flame
-			model = map.loader.load_mdl("mdls/misc/flame2")
+			model = map.loader.load_mdl("mdls/lights/flame2")
 			model_animation = "flameb"
 		"light_flame_small_yellow": # small yellow flame
-			model = map.loader.load_mdl("mdls/misc/flame2")
+			model = map.loader.load_mdl("mdls/lights/flame2")
 			model_animation = "flame"
 		"light_flame_small_white": # small white flame
-			model = map.loader.load_mdl("mdls/misc/flame2")
+			model = map.loader.load_mdl("mdls/lights/flame2")
 			model_animation = "flame"
 		"light_torch_small_walltorch": # small walltorch
-			model = map.loader.load_mdl("mdls/misc/flame")
+			model = map.loader.load_mdl("mdls/lights/flame")
 			model_animation = "flame"
 	if model:
 		var model_instance := model.instantiate()

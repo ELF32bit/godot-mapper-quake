@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.mdl.scene"
+type="PackedScene"
+uid="uid://dco43fnl7abxd"
+path="res://.godot/imported/s_spike.mdl-f80bf991f847fcee15d80bc1a352228b.scn"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/projectiles/s_spike.mdl"
+dest_files=["res://.godot/imported/s_spike.mdl-f80bf991f847fcee15d80bc1a352228b.scn"]
+
+[params]
+
+palette=""
+options={}

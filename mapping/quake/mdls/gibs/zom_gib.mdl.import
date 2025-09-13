@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.mdl.scene"
+type="PackedScene"
+uid="uid://dhsnoktb3bqj8"
+path="res://.godot/imported/zom_gib.mdl-eeee9365d4cc14401cc6ff94b8db357d.scn"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/gibs/zom_gib.mdl"
+dest_files=["res://.godot/imported/zom_gib.mdl-eeee9365d4cc14401cc6ff94b8db357d.scn"]
+
+[params]
+
+palette=""
+options={}

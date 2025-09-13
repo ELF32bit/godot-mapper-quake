@@ -8,11 +8,11 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var trap_spikeshooter: PackedScene = null
 	match entity.get_int_property("spawnflags", 0):
 		0: # spike 9 HP
-			trap_spikeshooter = map.loader.load_mdl("mdls/misc/s_spike.mdl")
+			trap_spikeshooter = map.loader.load_mdl("mdls/projectiles/s_spike.mdl")
 		1: # superspike 18 HP
-			trap_spikeshooter = map.loader.load_mdl("mdls/misc/s_spike.mdl")
+			trap_spikeshooter = map.loader.load_mdl("mdls/projectiles/s_spike.mdl")
 		2: # laser 15 HP
-			trap_spikeshooter = map.loader.load_mdl("mdls/misc/laser.mdl")
+			trap_spikeshooter = map.loader.load_mdl("mdls/projectiles/laser.mdl")
 	if not trap_spikeshooter:
 		return null
 

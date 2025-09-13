@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.mdl.scene"
+type="PackedScene"
+uid="uid://jahoam7im7ey"
+path="res://.godot/imported/flame.mdl-33c9bd56ba2c6f576eace072a467a27f.scn"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/lights/flame.mdl"
+dest_files=["res://.godot/imported/flame.mdl-33c9bd56ba2c6f576eace072a467a27f.scn"]
+
+[params]
+
+palette=""
+options={}

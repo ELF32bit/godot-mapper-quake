@@ -1,0 +1,16 @@
+[remap]
+
+importer="mapper.mdl.scene"
+type="PackedScene"
+uid="uid://00mqyfnxewnd"
+path="res://.godot/imported/gib1.mdl-d1bb4ea17da41fd70019609b48aef491.scn"
+
+[deps]
+
+source_file="res://mapping/quake/mdls/gibs/gib1.mdl"
+dest_files=["res://.godot/imported/gib1.mdl-d1bb4ea17da41fd70019609b48aef491.scn"]
+
+[params]
+
+palette=""
+options={}
