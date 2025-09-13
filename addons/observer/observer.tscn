@@ -66,6 +66,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Label" type="Label" parent="ScreenEffects"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -95.0
+offset_right = 383.0
+offset_bottom = -20.0
+grow_vertical = 0
+text = "Press Space to deal damage.
+Press Tab to fly through walls.
+Scroll MouseWheel for third person view.
+Scroll Ctrl+MouseWheel to test being crushed.
+Press Ctrl+MiddleMouseButton to reset size."
+
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 light_energy = 4.0
 spot_range = 20.0
