@@ -21,7 +21,8 @@ Change **layers.gd** file to integrate entities into an existing project.<br>
 State | Classname | Commentary
 -- | ---------------------- | ----------------------------------------------------------- |
 🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>`_quake_submerge(area: Area3D, liquid: int)`
-✅ | info_*                 | Does not implement **progs.dat** hacks.
+✅ | info_*                 |
+❌ | info_notnull           | Does not implement **progs.dat** hacks.
 🟨 | item_*                 | Can't be picked up.
 🟨 | weapon_*               | Can't be picked up.
 ✅ | light_*                | Light flickering is visible in Forward+ renderer.
