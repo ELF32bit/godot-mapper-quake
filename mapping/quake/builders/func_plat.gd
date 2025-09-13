@@ -9,7 +9,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if not node:
 		return null
 	set_collision_layer_mask(node,
-		["worldspawn-StaticBody3D"],
+		["func_plat-AnimatableBody3D"],
 		["func_plat-CharacterBody3D", "func_plat-Object"])
 
 	# creating root node

@@ -16,29 +16,36 @@ const PHYSICS_LAYERS_3D := {
 	"worldspawn-liquid-PhysicsBody3D": 3, # bodies that can enter areas
 	"worldspawn-liquid-StaticBody3D": 4, # OPTIONAL: camera blocking bodies
 
+	"func_door-AnimatableBody3D": 1,
 	"func_door-Area3D": 5, # areas that can be entered
 	"func_door-CharacterBody3D": 6, # crushable characters that can enter areas
 	"func_door-Object": 7, # other crushable objects
 
+	"func_door_secret-AnimatableBody3D": 1,
 	"func_door_secret-CharacterBody3D": 6, # crushable characters
 	"func_door_secret-Object": 7, # other crushable objects
 
+	"func_plat-AnimatableBody3D": 1,
 	"func_plat-Area3D": 5, # areas that can be entered
 	"func_plat-CharacterBody3D": 6, # crushable characters that can enter areas
 	"func_plat-Object": 7, # other crushable objects
 
+	"func_button-AnimatableBody3D": 1,
 	"func_button-Area3D": 5, # areas that can be entered
 	"func_button-CharacterBody3D": 6, # characters that can enter areas
 
+	"func_train-AnimatableBody3D": 1,
 	"func_train-CharacterBody3D": 6, # crushable characters
 	"func_train-Object": 7, # other crushable objects
 
 	"trigger_changelevel-Area3D": 5, # areas that can be entered
 	"trigger_changelevel-PhysicsBody3D": 6, # bodies that can enter areas
 
+	"trigger_once-StaticBody3D": 1, # health version
 	"trigger_once-Area3D": 5, # areas that can be entered
 	"trigger_once-PhysicsBody3D": 6, # bodies that can enter areas
 
+	"trigger_multiple-StaticBody3D": 1, # health version
 	"trigger_multiple-Area3D": 5, # areas that can be entered
 	"trigger_multiple-PhysicsBody3D": 6, # bodies that can enter areas
 
@@ -62,6 +69,10 @@ const PHYSICS_LAYERS_3D := {
 
 	"trigger_hurt-Area3D": 5, # areas that can be entered
 	"trigger_hurt-PhysicsBody3D": 6, # bodies that can enter areas
+
+	"misc_explobox-StaticBody3D": 1,
+	"func_detail-StaticBody3D": 1,
+	"func_wall-StaticBody3D": 1,
 }
 
 const NAVIGATION_LAYERS_3D := {

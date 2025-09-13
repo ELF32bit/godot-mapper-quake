@@ -8,7 +8,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := StaticBody3D.new()
 	MapperUtilities.apply_entity_transform(entity, node, true)
 	set_collision_layer_mask(node,
-		["worldspawn-StaticBody3D"],
+		["misc_explobox-StaticBody3D"],
 		[])
 
 	# setting misc_explobox script

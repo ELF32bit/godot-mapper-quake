@@ -10,7 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	node = MapperUtilities.change_node_type(node, "AnimatableBody3D")
 	set_collision_layer_mask(node,
-		["worldspawn-StaticBody3D"],
+		["func_button-AnimatableBody3D"],
 		[])
 
 	# creating func_button root node
