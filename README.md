@@ -23,7 +23,7 @@ State | Classname | Commentary
 🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>`_quake_submerge(area: Area3D, liquid: int)`
 ✅ | info_*                 |
 ❌ | info_notnull           | Does not implement **progs.dat** hacks.
-🟨 | item_*                 | Can't be picked up.
+🟨 | item_*                 | MDL based items can't be picked up.
 🟨 | weapon_*               | Can't be picked up.
 ✅ | light_*                | Light flickering is visible in Forward+ renderer.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.

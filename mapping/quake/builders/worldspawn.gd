@@ -3,7 +3,8 @@ extends "__classes.gd"
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if map.settings.options.get("_map_is_item", false):
-		return MapperUtilities.create_merged_brush_entity(entity, "Node3D", true, false, true)
+		return build_item(map, entity)
+
 	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
 	if not node:
 		return null
@@ -98,6 +99,30 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		audio_stream_player.autoplay = true
 
 	return root_node
+
+
+static func build_item(map: MapperMap, entity: MapperEntity) -> Node:
+	var item_class := "Area3D"
+	match map.name:
+		"b_explob", "b_exbox2":
+			item_class = "StaticBody3D"
+
+	var node := MapperUtilities.create_merged_brush_entity(entity, item_class)
+	if not node:
+		return null
+	if item_class == "StaticBody3D":
+		return node
+	set_collision_layer_mask(node,
+		["%s-Area3D" % map.name],
+		["%s-PhysicsBody3D" % map.name])
+
+	# setting item script and connecting signals
+	map.node.set_script(map.loader.load_script("scripts/item"))
+	node.body_entered.connect(Callable(map.node, "_on_body_entered"), CONNECT_PERSIST)
+	node.monitorable = false
+
+	map.node.set("item_name", map.name)
+	return node
 
 
 static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void:

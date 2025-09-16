@@ -11,6 +11,7 @@ const RENDER_LAYERS_3D := {
 }
 
 const PHYSICS_LAYERS_3D := {
+	## Entities
 	"worldspawn-StaticBody3D": 1, # worldspawn
 	"worldspawn-liquid-Area3D": 2, # areas that can be entered
 	"worldspawn-liquid-PhysicsBody3D": 3, # bodies that can enter areas
@@ -73,6 +74,34 @@ const PHYSICS_LAYERS_3D := {
 	"misc_explobox-StaticBody3D": 1,
 	"func_detail-StaticBody3D": 1,
 	"func_wall-StaticBody3D": 1,
+
+	## Items
+	"b_batt0-Area3D": 5, # areas that can be entered
+	"b_batt0-PhysicsBody3D": 6, # bodies that can enter areas
+	"b_batt1-Area3D": 5, # areas that can be entered
+	"b_batt1-PhysicsBody3D": 6, # bodies that can enter areas
+
+	"b_rock0-Area3D": 5, # areas that can be entered
+	"b_rock0-PhysicsBody3D": 6, # bodies that can enter areas
+	"b_rock1-Area3D": 5, # areas that can be entered
+	"b_rock1-PhysicsBody3D": 6, # bodies that can enter areas
+
+	"b_shell0-Area3D": 5, # areas that can be entered
+	"b_shell0-PhysicsBody3D": 6, # bodies that can enter areas
+	"b_shell1-Area3D": 5, # areas that can be entered
+	"b_shell1-PhysicsBody3D": 6, # bodies that can enter areas
+
+	"b_nail0-Area3D": 5, # areas that can be entered
+	"b_nail0-PhysicsBody3D": 6, # bodies that can enter areas
+	"b_nail1-Area3D": 5, # areas that can be entered
+	"b_nail1-PhysicsBody3D": 6, # bodies that can enter areas
+
+	"b_bh10-Area3D": 5, # areas that can be entered
+	"b_bh10-PhysicsBody3D": 6, # bodies that can enter areas
+	"b_bh25-Area3D": 5, # areas that can be entered
+	"b_bh25-PhysicsBody3D": 6, # bodies that can enter areas
+	"b_bh100-Area3D": 5, # areas that can be entered
+	"b_bh100-PhysicsBody3D": 6, # bodies that can enter areas
 }
 
 const NAVIGATION_LAYERS_3D := {
