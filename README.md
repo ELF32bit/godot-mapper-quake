@@ -35,8 +35,8 @@ State | Classname | Commentary
 ✅ | func_train             | `_quake_crush(body: PhysicsBody3D, damage: int)`
 ✅ | func_plat              | `_quake_crush(body: PhysicsBody3D, damage: int)`
 ✅ | func_illusionary       |
-❌ | func_episodegate       | Unnecessary story entity.
-❌ | func_bossgate          | Unnecessary story entity.
+🟨 | func_episodegate       | Unnecessary story entity.
+🟨 | func_bossgate          | Unnecessary story entity.
 ✅ | trigger_changelevel    | Requires game specific logic to change `map`.
 ✅ | trigger_once           | Might have `quake_health: int` property.
 ✅ | trigger_multiple       | Might have `quake_health: int` property.
@@ -56,6 +56,6 @@ State | Classname | Commentary
 ✅ | misc_noisemaker        |
 ✅ | path_corner            |
 ✅ | testplayerstart        |
-❌ |trap_shooter            | **Will require method on a character.**
-❌ |trap_spikeshooter       | **Will require method on a character.**
+❌ |trap_shooter            | Does not shoot.
+❌ |trap_spikeshooter       | Does not shoot.
 ✅ | viewthing              |
