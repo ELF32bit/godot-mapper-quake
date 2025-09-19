@@ -19,8 +19,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating trigger_teleport sound player
 	var teleport_sound_player := AudioStreamPlayer3D.new()
-	teleport_sound_player.name = "TeleportSoundPlayer3D"
 	node.add_child(teleport_sound_player, map.settings.readable_node_names)
+	teleport_sound_player.name = "TeleportSoundPlayer3D"
+
 	node.set("_teleport_sound_player", node.get_path_to(teleport_sound_player))
 
 	# loading trigger_teleport default sounds

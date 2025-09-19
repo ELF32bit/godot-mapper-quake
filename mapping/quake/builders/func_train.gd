@@ -19,13 +19,14 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating func_train sound players
 	var move_sound_player := AudioStreamPlayer3D.new()
-	move_sound_player.name = "MoveSoundPlayer3D"
 	node.add_child(move_sound_player, map.settings.readable_node_names)
-	node.set("_move_sound_player", node.get_path_to(move_sound_player))
+	move_sound_player.name = "MoveSoundPlayer3D"
 
 	var stop_sound_player := AudioStreamPlayer3D.new()
-	stop_sound_player.name = "StopSoundPlayer3D"
 	node.add_child(stop_sound_player, map.settings.readable_node_names)
+	stop_sound_player.name = "StopSoundPlayer3D"
+
+	node.set("_move_sound_player", node.get_path_to(move_sound_player))
 	node.set("_stop_sound_player", node.get_path_to(stop_sound_player))
 
 	# setting default quake sounds

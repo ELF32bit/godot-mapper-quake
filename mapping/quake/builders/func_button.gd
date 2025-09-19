@@ -63,8 +63,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# creating func_button sound player
 	var press_sound_player := AudioStreamPlayer3D.new()
-	press_sound_player.name = "PressSoundPlayer3D"
 	node.add_child(press_sound_player, map.settings.readable_node_names)
+	press_sound_player.name = "PressSoundPlayer3D"
+
 	root_node.set("_press_sound_player", root_node.get_path_to(press_sound_player))
 
 	# loading func_button default sounds
