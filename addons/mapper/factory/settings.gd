@@ -12,6 +12,7 @@ const SHADER_TEXTURE_SLOTS := {
 	BaseMaterial3D.TEXTURE_ROUGHNESS: "roughness_texture",
 	BaseMaterial3D.TEXTURE_EMISSION: "emission_texture",
 	BaseMaterial3D.TEXTURE_NORMAL: "normal_texture",
+	#BaseMaterial3D.TEXTURE_BENT_NORMAL: "bent_normal_texture",
 	BaseMaterial3D.TEXTURE_RIM: "rim_texture",
 	BaseMaterial3D.TEXTURE_CLEARCOAT: "clearcoat_texture",
 	BaseMaterial3D.TEXTURE_FLOWMAP: "anisotropy_flowmap",
@@ -33,6 +34,7 @@ const TEXTURE_SUFFIXES := {
 	BaseMaterial3D.TEXTURE_ROUGHNESS: "_roughness",
 	BaseMaterial3D.TEXTURE_EMISSION: "_emission",
 	BaseMaterial3D.TEXTURE_NORMAL: "_normal",
+	#BaseMaterial3D.TEXTURE_BENT_NORMAL: "_bnormal",
 	BaseMaterial3D.TEXTURE_RIM: "_rim",
 	BaseMaterial3D.TEXTURE_CLEARCOAT: "_clearcoat",
 	BaseMaterial3D.TEXTURE_FLOWMAP: "_anisotropy",
@@ -78,6 +80,7 @@ var options: Dictionary
 
 @export var store_base_materials := true
 @export var base_materials_texture_filter := BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+@export var reference_override_materials := false
 @export var store_unique_animated_textures := false
 @export var animated_textures_frame_duration: float = 0.2
 @export var shader_texture_slots := SHADER_TEXTURE_SLOTS

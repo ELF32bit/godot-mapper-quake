@@ -542,6 +542,8 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 						material.set_feature(BaseMaterial3D.FEATURE_EMISSION, true)
 					BaseMaterial3D.TEXTURE_NORMAL:
 						material.set_feature(BaseMaterial3D.FEATURE_NORMAL_MAPPING, true)
+					#BaseMaterial3D.TEXTURE_BENT_NORMAL:
+					#	material.set_feature(BaseMaterial3D.FEATURE_BENT_NORMAL_MAPPING, true)
 					BaseMaterial3D.TEXTURE_RIM:
 						material.set_feature(BaseMaterial3D.FEATURE_RIM, true)
 					BaseMaterial3D.TEXTURE_CLEARCOAT:
@@ -571,7 +573,10 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			var override_material: Material = game_loader.load_material(path)
 
 			if override_material:
-				override_material = override_material.duplicate()
+				if override_material.get_meta("__mapper_reference", false):
+					override_material.remove_meta("__mapper_reference")
+				else:
+					override_material = override_material.duplicate()
 				map_structure.materials[material].base = base_material
 				map_structure.materials[material].override = override_material
 			else:
@@ -990,24 +995,23 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			for entity in map_structure.classnames[classname]:
 				if class_builder.has_method("build"):
 					entity.node = class_builder.call("build", map_structure, entity)
-				if not entity.node:
-					continue
 
-				# setting node properties on created node
-				for node_property in entity.node_properties:
-					# checking node name property before setting
-					if node_property == "name":
-						var name: Variant = entity.node_properties[node_property]
-						if name is String or name is StringName:
-							if name.validate_node_name().strip_edges().is_empty():
-								continue
-					entity.node.set(node_property, entity.node_properties[node_property])
-
-		# setting entity groups after creating all nodes
+		# setting bound entity properties and groups after creating all nodes
 		for entity in map_structure.entities:
-			if entity.node:
-				for group_name in entity.node_groups:
-					entity.node.add_to_group(group_name, true)
+			if not entity.node:
+				continue
+
+			for node_property in entity.node_properties:
+				# checking node name property before setting
+				if node_property == "name":
+					var name: Variant = entity.node_properties[node_property]
+					if name is String or name is StringName:
+						if name.validate_node_name().strip_edges().is_empty():
+							continue
+				entity.node.set(node_property, entity.node_properties[node_property])
+
+			for group_name in entity.node_groups:
+				entity.node.add_to_group(group_name, true)
 
 	var generate_scene_tree := func() -> void:
 		for classname in map_structure.classnames:
