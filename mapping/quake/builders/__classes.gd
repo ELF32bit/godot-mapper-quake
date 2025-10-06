@@ -54,15 +54,6 @@ static func bind_trigger_base(entity: MapperEntity) -> void:
 	bind_target_base(entity)
 	bind_targetname_base(entity)
 	entity.bind_int_property("sounds", "sounds")
-	match entity.get_int_property("sounds", 0):
-		0: # none
-			pass
-		1: # secret sound
-			pass
-		2: # beep beep
-			pass
-		3: # large switch
-			pass
 	entity.bind_float_property("delay", "delay_time")
 	entity.bind_string_property("message", "message")
 
