@@ -76,6 +76,9 @@ const PHYSICS_LAYERS_3D := {
 	"trap_spikeshooter-Area3D": 1, # projectile areas
 	"trap_spikeshooter-PhysicsBody3D": 1, # bodies that can be shot
 
+	"misc_fireball-Area3D": 1, # projectile areas
+	"misc_fireball-PhysicsBody3D": 1, # bodies that can be shot
+
 	"misc_explobox-StaticBody3D": 1,
 	"func_detail-StaticBody3D": 1,
 	"func_wall-StaticBody3D": 1,

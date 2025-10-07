@@ -52,7 +52,7 @@ State | Classname | Commentary
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
 ❌ | misc_explobox*         | Has `quake_health: int` property.<br>`_quake_explode(damage: int)`
-🟨 | misc_fireball          | Does not move or deal damage.
+✅ | misc_fireball          | `_quake_hurt(damage: int)`
 ✅ | misc_noisemaker        |
 ✅ | path_corner            |
 ✅ | testplayerstart        |
