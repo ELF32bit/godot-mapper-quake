@@ -70,6 +70,12 @@ const PHYSICS_LAYERS_3D := {
 	"trigger_hurt-Area3D": 5, # areas that can be entered
 	"trigger_hurt-PhysicsBody3D": 6, # bodies that can enter areas
 
+	"trap_shooter-Area3D": 1, # projectile areas
+	"trap_shooter-PhysicsBody3D": 1, # bodies that can be shot
+
+	"trap_spikeshooter-Area3D": 1, # projectile areas
+	"trap_spikeshooter-PhysicsBody3D": 1, # bodies that can be shot
+
 	"misc_explobox-StaticBody3D": 1,
 	"func_detail-StaticBody3D": 1,
 	"func_wall-StaticBody3D": 1,

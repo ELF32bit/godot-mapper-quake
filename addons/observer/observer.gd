@@ -132,3 +132,7 @@ func _quake_submerge(area: Area3D, liquid: int) -> void:
 
 func _quake_push(push_velocity: Vector3) -> void:
 	_push_velocity = push_velocity * 10.0
+
+
+func _quake_hurt(damage: int) -> void:
+	print("Received %s damage" % damage)

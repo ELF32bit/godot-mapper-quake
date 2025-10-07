@@ -56,6 +56,6 @@ State | Classname | Commentary
 ✅ | misc_noisemaker        |
 ✅ | path_corner            |
 ✅ | testplayerstart        |
-❌ |trap_shooter            | Does not shoot.
-❌ |trap_spikeshooter       | Does not shoot.
+✅ |trap_shooter            | `_quake_hurt(damage: int)`
+✅ |trap_spikeshooter       | `_quake_hurt(damage: int)`
 ✅ | viewthing              |
