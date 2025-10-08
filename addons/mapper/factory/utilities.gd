@@ -543,8 +543,11 @@ static func create_brush(entity: MapperEntity, brush: MapperBrush, node_class: S
 		return null
 
 	var node := ClassDB.instantiate(node_class)
+	var is_rigid_body := ClassDB.is_parent_class(node_class, "RigidBody3D")
+	var is_static_body := ClassDB.is_parent_class(node_class, "StaticBody3D")
 	var has_collision := ClassDB.is_parent_class(node_class, "CollisionObject3D")
 	var is_lightmap_scene := bool(entity.factory.settings.options.get("__lightmap_scene", false))
+	var use_approximate_mass := bool(entity.factory.settings.options.get("__mass_approximate", true))
 	var properties := entity.factory.settings.override_material_metadata_properties
 	node.position = brush.center
 	var has_children := false
@@ -590,6 +593,11 @@ static func create_brush(entity: MapperEntity, brush: MapperBrush, node_class: S
 		instance.bake_mask = brush.get_uniform_property(properties.occluder_mask, 0xFFFFFFFF)
 
 	if has_children:
+		if is_static_body or is_rigid_body:
+			node.physics_material_override = brush.get_uniform_physics_material()
+		if is_rigid_body:
+			var mass := brush.get_mass(use_approximate_mass)
+			if mass > 0.0: node.mass = mass
 		return node
 
 	node.free()
@@ -607,8 +615,11 @@ static func create_brush_entity(entity: MapperEntity, node_class: StringName = "
 		return null
 
 	var node: Node3D = ClassDB.instantiate(node_class)
+	var is_rigid_body := ClassDB.is_parent_class(node_class, "RigidBody3D")
+	var use_approximate_mass := bool(entity.factory.settings.options.get("__mass_approximate", true))
 	apply_entity_transform(entity, node)
 	var has_children := false
+	var children_are_siblings := false
 
 	if not brush_node_class.is_empty():
 		for brush in entity.brushes:
@@ -616,7 +627,7 @@ static func create_brush_entity(entity: MapperEntity, node_class: StringName = "
 			if brush_node:
 				add_global_child(brush_node, node, entity.factory.settings)
 				has_children = true
-	else:
+	else: # creating brush nodes siblings under the entity node
 		for brush in entity.brushes:
 			var brush_node := create_brush(entity, brush, node_class, mesh_instance, collision_shape, occluder_instance)
 			if brush_node:
@@ -626,8 +637,12 @@ static func create_brush_entity(entity: MapperEntity, node_class: StringName = "
 					add_global_child(child, node, entity.factory.settings)
 				brush_node.free()
 				has_children = true
+				children_are_siblings = true
 
 	if has_children:
+		if children_are_siblings and is_rigid_body:
+			var mass := entity.get_mass(use_approximate_mass)
+			if mass > 0.0: node.mass = mass
 		entity.node_properties.erase("position")
 		entity.node_properties.erase("rotation")
 		entity.node_properties.erase("scale")
@@ -648,8 +663,10 @@ static func create_merged_brush_entity(entity: MapperEntity, node_class: StringN
 		return null
 
 	var node: Node3D = ClassDB.instantiate(node_class)
+	var is_rigid_body := ClassDB.is_parent_class(node_class, "RigidBody3D")
 	var has_collision := ClassDB.is_parent_class(node_class, "CollisionObject3D")
 	var is_lightmap_scene := bool(entity.factory.settings.options.get("__lightmap_scene", false))
+	var use_approximate_mass := bool(entity.factory.settings.options.get("__mass_approximate", true))
 	apply_entity_transform(entity, node)
 	var has_children := false
 
@@ -687,6 +704,9 @@ static func create_merged_brush_entity(entity: MapperEntity, node_class: StringN
 		has_children = true
 
 	if has_children:
+		if is_rigid_body:
+			var mass := entity.get_mass(use_approximate_mass)
+			if mass > 0.0: node.mass = mass
 		entity.node_properties.erase("position")
 		entity.node_properties.erase("rotation")
 		entity.node_properties.erase("scale")
@@ -713,8 +733,10 @@ static func create_csg_merged_brush_entity(entity: MapperEntity, brushes: Array[
 				return null
 
 	var node: Node3D = ClassDB.instantiate(node_class)
+	var is_rigid_body := ClassDB.is_parent_class(node_class, "RigidBody3D")
 	var has_collision := ClassDB.is_parent_class(node_class, "CollisionObject3D")
 	var is_lightmap_scene := bool(entity.factory.settings.options.get("__lightmap_scene", false))
+	var use_approximate_mass := bool(entity.factory.settings.options.get("__mass_approximate", true))
 	var properties := entity.factory.settings.override_material_metadata_properties
 	apply_entity_transform(entity, node)
 	var has_children := false
@@ -890,6 +912,9 @@ static func create_csg_merged_brush_entity(entity: MapperEntity, brushes: Array[
 		has_children = true
 
 	if has_children:
+		if is_rigid_body:
+			var mass := entity.get_mass(use_approximate_mass)
+			if mass > 0.0: node.mass = mass
 		entity.node_properties.erase("position")
 		entity.node_properties.erase("rotation")
 		entity.node_properties.erase("scale")

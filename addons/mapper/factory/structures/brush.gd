@@ -51,20 +51,31 @@ func get_uniform_property(property: StringName, default: Variant = null, _metada
 	if not is_uniform():
 		return default
 	var surface_name := mesh.surface_get_name(0)
-	var override_material: Material = materials[surface_name].override
-	if not override_material:
-		return default
-	return override_material.get_meta(property, default)
+	return materials[surface_name].get_metadata(property, default)
 
 
 func get_uniform_property_list() -> PackedStringArray:
 	if not is_uniform():
 		return PackedStringArray()
 	var surface_name := mesh.surface_get_name(0)
-	var override_material: Material = materials[surface_name].override
-	if not override_material:
-		return PackedStringArray()
-	return override_material.get_meta_list()
+	return materials[surface_name].get_metadata_list()
+
+
+func get_uniform_physics_material() -> PhysicsMaterial:
+	if not is_uniform():
+		return null
+	var surface_name := mesh.surface_get_name(0)
+	return materials[surface_name].physics
+
+
+func get_matching_surfaces(surfaces: PackedStringArray) -> PackedStringArray:
+	var matching_brush_surfaces := PackedStringArray()
+	for brush_surface in self.surfaces:
+		for surface in surfaces:
+			if brush_surface.matchn(surface):
+				matching_brush_surfaces.append(brush_surface)
+				break
+	return matching_brush_surfaces
 
 
 func get_min_point_penetration(point: Vector3, epsilon: float) -> Variant:
@@ -103,6 +114,56 @@ func get_relative_point_penetration(point: Vector3, epsilon: float) -> Variant:
 	return min_distance / max_distance
 
 
+func get_surface_area(from_mesh: bool = true) -> float:
+	var properties := factory.settings.override_material_metadata_properties
+	if from_mesh and get_uniform_property(properties.mesh_disabled, false):
+		return 0.0
+	var area: float = 0.0
+	for face in faces:
+		if face.skip and from_mesh:
+			continue
+		area += face.get_area()
+	return area
+
+
+func get_surfaces_area(surfaces: PackedStringArray) -> float:
+	var area: float = 0.0
+	for brush_surface in get_matching_surfaces(surfaces):
+		for face in self.surfaces[brush_surface]:
+			area += face.get_area()
+	return area
+
+
+func get_volume(from_aabb: bool = true) -> float:
+	if from_aabb:
+		return aabb.get_volume()
+	var volume: float = 0.0
+	for face in faces:
+		var face_area := face.get_area()
+		var distance := absf(face.plane.distance_to(center))
+		volume += (distance * face_area) / 3.0
+	return volume
+
+
+func get_mass(from_aabb: bool = true) -> float:
+	var properties := factory.settings.override_material_metadata_properties
+	if get_uniform_property(properties.mesh_disabled, false):
+		return 0.0
+	var scale: float = factory.settings.mass_scale
+	if from_aabb:
+		var density: float = get_uniform_property(properties.mass_density, 1.0)
+		return density * aabb.get_volume() * scale
+	var mass: float = 0.0
+	for face in faces:
+		if face.skip:
+			continue
+		var face_area := face.get_area()
+		var distance := absf(face.plane.distance_to(center))
+		var density: float = face.material.get_metadata(properties.mass_density, 1.0)
+		mass += density * (distance * face_area) / 3.0
+	return mass * scale
+
+
 func generate_surface_distribution(surfaces: PackedStringArray, density: float, min_floor_angle: float = 0.0, max_floor_angle: float = 45.0, even_distribution: bool = false, world_space: bool = false, seed: int = 0, _use_map_basis: bool = true) -> PackedVector3Array:
 	var triangles := PackedVector3Array()
 	var normals := PackedVector3Array()
@@ -110,6 +171,7 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 
 	# clamping input values and converting angles to radians
 	var max_density := factory.settings.max_distribution_density
+	density = density * factory.settings.distribution_density_scale
 	if max_density >= 1.0:
 		density = clampf(density, 0.0, pow(max_density, 2.0))
 	elif max_density > 0.0:
@@ -143,14 +205,7 @@ func generate_surface_distribution(surfaces: PackedStringArray, density: float, 
 		return a.length() * b.length() * sin(a.angle_to(b)) / 2.0
 
 	# collecting triangles and normals from matching brush surfaces
-	var matching_brush_surfaces := PackedStringArray()
-	for brush_surface in self.surfaces:
-		for surface in surfaces:
-			if brush_surface.matchn(surface):
-				matching_brush_surfaces.append(brush_surface)
-				break
-
-	for brush_surface in matching_brush_surfaces:
+	for brush_surface in get_matching_surfaces(surfaces):
 		for face in self.surfaces[brush_surface]:
 			# calculating face normal angle to up vector
 			var angle: float = face.plane.normal.angle_to(up)
@@ -245,6 +300,7 @@ func generate_volume_distribution(density: float, min_penetration: float = 0.0, 
 
 	# clamping density and penetration range values
 	var max_density := factory.settings.max_distribution_density
+	density = density * factory.settings.distribution_density_scale
 	if max_density >= 1.0:
 		density = clampf(density, 0.0, pow(max_density, 3.0))
 	elif max_density > 0.0:
