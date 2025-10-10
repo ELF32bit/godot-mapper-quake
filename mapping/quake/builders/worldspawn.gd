@@ -4,7 +4,8 @@ extends "__classes.gd"
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if map.settings.options.get("_map_is_item", false):
 		return MapperUtilities.create_merged_brush_entity(entity, "Node3D", true, false, true)
-	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
+	# BUG: creating worldspawn as AnimatableBody3D instead of StaticBody3D to fix projectile collisions
+	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
 		return null
 	set_collision_layer_mask(node,
