@@ -2,6 +2,8 @@
 static func build(map: MapperMap) -> void:
 	if map.settings.options.get("_map_is_item", false):
 		return
+	if map.settings.options.get("_map_is_explobox", false):
+		return
 
 	# creating lightmapGI
 	var lightmap_gi := MapperUtilities.create_lightmap_gi(map, map.node)

@@ -5,19 +5,17 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if bind_appearflags_base(map, entity):
 		return null
 	# large exploding container
-	var node := StaticBody3D.new()
+	var node := Area3D.new()
 	MapperUtilities.apply_entity_transform(entity, node, true)
 	set_collision_layer_mask(node,
-		["misc_explobox-StaticBody3D"],
-		[])
-
-	# setting misc_explobox script
-	node.set_script(map.loader.load_script("scripts/misc_explobox"))
+		["misc_explobox-Area3D"],
+		["misc_explobox-PhysicsBody3D"])
+	node.monitorable = false
 
 	# loading sub-map with an additional option
-	map.settings.options["_map_is_item"] = true
+	map.settings.options["_map_is_explobox"] = true
 	var explobox := map.loader.load_map_raw("maps/items/b_explob.map")
-	map.settings.options.erase("_map_is_item")
+	map.settings.options.erase("_map_is_explobox")
 
 	if explobox:
 		var explobox_instance := explobox.instantiate()
@@ -26,13 +24,25 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		node.free()
 		return null
 
-	# creating misc_explobox collision shape
-	var collision_shape = CollisionShape3D.new()
-	collision_shape.position = node.position - Vector3(16, 0, 16) / map.settings.unit_size
-	MapperUtilities.add_global_child(collision_shape, node, map.settings)
+	# removing unnecessary map node
+	var map_node := node.get_child(0)
+	for child in map_node.get_children():
+		child.owner = null
+		map_node.remove_child(child)
+		node.add_child(child, map.settings.readable_node_names)
+	map_node.free()
 
-	collision_shape.shape = BoxShape3D.new()
-	collision_shape.shape.size = Vector3(32, 64, 32) / map.settings.unit_size
-	collision_shape.position += Vector3.UP * collision_shape.shape.size.y / 2
+	# creating misc_explobox explosion shape
+	var sphere_shape := SphereShape3D.new()
+	sphere_shape.radius = 160 / map.settings.unit_size
+
+	var collision_shape := CollisionShape3D.new()
+	node.add_child(collision_shape, map.settings.readable_node_names)
+	collision_shape.shape = sphere_shape
+
+	# setting misc_explobox explosion area
+	var explobox_body := node.get_child(0).get_child(0)
+	explobox_body.set("_area", explobox_body.get_path_to(node))
+	explobox_body.set("damage", 80)
 
 	return node

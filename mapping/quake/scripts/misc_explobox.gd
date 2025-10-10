@@ -8,6 +8,14 @@ extends StaticBody3D
 		if quake_health == 0 and quake_health != previous_health:
 			_explode()
 
+@export var damage: int = 80
+
+@export_node_path("Area3D") var _area: NodePath
+@onready var area: Area3D = get_node(_area)
+
 
 func _explode() -> void:
-	queue_free()
+	for body in area.get_overlapping_bodies():
+		if body.has_method("_quake_explode"):
+			body.call("_quake_explode", damage)
+	area.queue_free()

@@ -134,5 +134,9 @@ func _quake_push(push_velocity: Vector3) -> void:
 	_push_velocity = push_velocity * 10.0
 
 
+func _quake_explode(damage: int) -> void:
+	print("Received %s explosion damage" % damage)
+
+
 func _quake_hurt(damage: int) -> void:
 	print("Received %s damage" % damage)

@@ -3,7 +3,9 @@ extends "__classes.gd"
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if map.settings.options.get("_map_is_item", false):
-		return MapperUtilities.create_merged_brush_entity(entity, "Node3D", true, false, true)
+		return build_item(map, entity)
+	if map.settings.options.get("_map_is_explobox", false):
+		return build_explobox(map, entity)
 	# BUG: creating worldspawn as AnimatableBody3D instead of StaticBody3D to fix projectile collisions
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
@@ -99,6 +101,49 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		audio_stream_player.autoplay = true
 
 	return root_node
+
+
+static func build_item(map: MapperMap, entity: MapperEntity) -> Node:
+	var node := MapperUtilities.create_merged_brush_entity(entity, "Area3D")
+	if not node:
+		return null
+	set_collision_layer_mask(node,
+		["item_-Area3D"],
+		["item_-PhysicsBody3D"])
+
+	# creating item area
+	node.set_script(map.loader.load_script("scripts/item"))
+	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
+	node.monitorable = false
+
+	# creating item pickup sound player
+	var pickup_sound_player := AudioStreamPlayer3D.new()
+	node.add_child(pickup_sound_player, map.settings.readable_node_names)
+	pickup_sound_player.name = "PickupSoundPlayer3D"
+
+	# loading item sounds TODO: load correct sounds
+	pickup_sound_player.stream = map.loader.load_sound("sounds/items/health1")
+
+	# connecting pickup sound player finished signal
+	pickup_sound_player.finished.connect(
+		Callable(node, "_on_pickup_sound_finished"), CONNECT_PERSIST)
+	node.set("_pickup_sound_player", node.get_path_to(pickup_sound_player))
+
+	# binding item properties
+	node.set("item_name", map.name)
+	return node
+
+
+static func build_explobox(map: MapperMap, entity: MapperEntity) -> Node:
+	var node := MapperUtilities.create_merged_brush_entity(entity, "StaticBody3D")
+	if not node:
+		return null
+	set_collision_layer_mask(node,
+		["misc_explobox-StaticBody3D"],
+		[])
+	# setting misc_explobox script
+	node.set_script(map.loader.load_script("scripts/misc_explobox"))
+	return node
 
 
 static func post_build_environment(map: MapperMap, entity: MapperEntity) -> void:

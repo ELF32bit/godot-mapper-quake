@@ -63,7 +63,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 
 	var monster_instance := monster.instantiate()
-	monster_instance.set_script(preload("../scripts/editor/monster.gd"))
+	monster_instance.set_script(map.loader.load_script("scripts/monster"))
 	monster_instance.set("classname", entity.get_classname_property())
 	monster_instance.set("animation_name", monster_animation)
 

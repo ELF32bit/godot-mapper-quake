@@ -52,13 +52,19 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 			else:
 				item = map.loader.load_mdl("mdls/items/end1.mdl")
 	if item:
+		# creating rotating item instance
 		var item_instance := item.instantiate()
-		item_instance.set_script(preload("../scripts/editor/item.gd"))
+		MapperUtilities.apply_entity_transform(entity, item_instance)
+		item_instance.set_script(map.loader.load_script("scripts/item-rotating"))
 		item_instance.set("classname", entity.get_classname_property())
 		item_instance.set("skin", item_skin)
+		# creating item pickup area
+		var node := build_mdl_item(map, entity)
+		MapperUtilities.add_global_child(item_instance, node, map.settings)
+		node.move_child(item_instance, 0)
 		# binding item properties
 		bind_item_base(entity)
-		return item_instance
+		return node
 
 	# loading sub-map with an additional option
 	map.settings.options["_map_is_item"] = true
@@ -99,3 +105,41 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return item_instance
 
 	return null
+
+
+static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3 = Vector3(32.0, 32.0, 32.0), offset: Vector3 = Vector3(0.0, 32.0, 0.0)) -> Node:
+	var node := Area3D.new()
+	MapperUtilities.apply_entity_transform(entity, node, true)
+	node.position += offset / map.settings.unit_size
+	set_collision_layer_mask(node,
+		["item_-Area3D"],
+		["item_-PhysicsBody3D"])
+	node.monitorable = false
+
+	# creating item area
+	node.set_script(map.loader.load_script("scripts/item"))
+	node.body_entered.connect(Callable(node, "_on_body_entered"), CONNECT_PERSIST)
+	node.monitorable = false
+
+	# creating item area collision shape
+	var collision_shape := CollisionShape3D.new()
+	collision_shape.shape = BoxShape3D.new()
+	collision_shape.shape.size = size / map.settings.unit_size
+	node.add_child(collision_shape, map.settings.readable_node_names)
+
+	# creating item pickup sound player
+	var pickup_sound_player := AudioStreamPlayer3D.new()
+	node.add_child(pickup_sound_player, map.settings.readable_node_names)
+	pickup_sound_player.name = "PickupSoundPlayer3D"
+
+	# loading item sounds TODO: load correct sounds
+	pickup_sound_player.stream = map.loader.load_sound("sounds/items/health1")
+
+	# connecting pickup sound player finished signal
+	pickup_sound_player.finished.connect(
+		Callable(node, "_on_pickup_sound_finished"), CONNECT_PERSIST)
+	node.set("_pickup_sound_player", node.get_path_to(pickup_sound_player))
+
+	# binding item properties
+	node.set("item_name", entity.get_classname_property(""))
+	return node

@@ -22,11 +22,18 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if not weapon:
 		return null
 
+	# creating rotating weapon instance
 	var weapon_instance := weapon.instantiate()
-	weapon_instance.set_script(preload("../scripts/editor/item.gd"))
+	MapperUtilities.apply_entity_transform(entity, weapon_instance)
+	weapon_instance.set_script(map.loader.load_script("scripts/item-rotating"))
 	weapon_instance.set("classname", entity.get_classname_property())
+
+	# creating weapon pickup area
+	var node := preload("item_.gd").build_mdl_item(map, entity)
+	MapperUtilities.add_global_child(weapon_instance, node, map.settings)
+	node.move_child(weapon_instance, 0)
 
 	# binding weapon properties
 	bind_weapon_base(entity)
 
-	return weapon_instance
+	return node

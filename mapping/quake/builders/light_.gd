@@ -42,7 +42,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# handling light flickering styles
 	var light_style: int = entity.get_int_property("style", 0)
 	if light_style > 0 and light_style <= 11:
-		light.set_script(map.loader.load_script("scripts/light"))
+		light.set_script(map.loader.load_script("scripts/light-style"))
 		light.set("style", light_style)
 
 	if entity.get_int_property("spawnflags", 0) & 1: # start off
@@ -129,7 +129,7 @@ static func load_model(map: MapperMap, entity: MapperEntity) -> Node3D:
 			model_animation = "flame"
 	if model:
 		var model_instance := model.instantiate()
-		model_instance.set_script(preload("../scripts/editor/light.gd"))
+		model_instance.set_script(map.loader.load_script("scripts/light"))
 		model_instance.set("classname", entity.get_classname_property())
 		model_instance.set("animation_name", model_animation)
 		return model_instance
