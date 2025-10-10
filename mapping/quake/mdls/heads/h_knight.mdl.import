@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/h_knight.mdl-2aff4ed5994d50b5ea599e1b4dc52512
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "",
+"mdls_skin": 0
+}

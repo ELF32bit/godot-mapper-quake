@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/zombie.mdl-2e053bd31d1f4c551711bea3085a5a61.s
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "stand",
+"mdls_skin": 0
+}

@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/dog.mdl-7366a8316fe6788228baaaf8d8b34cb9.scn"
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "stand",
+"mdls_skin": 0
+}

@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/g_light.mdl-40171c5826227f4e840eb757286816ac.
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "",
+"mdls_skin": 0
+}

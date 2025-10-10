@@ -14,5 +14,6 @@ dest_files=["res://.godot/imported/armor.mdl-b6c05a4df0f93c2a6696ce4d09a2dd88.sc
 
 palette=""
 options={
+"mdls_autoplay": "",
 "mdls_skin": 0
 }

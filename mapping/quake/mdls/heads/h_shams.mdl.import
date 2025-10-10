@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/h_shams.mdl-72623237acc4992cb62a5876a38a8720.
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "",
+"mdls_skin": 0
+}

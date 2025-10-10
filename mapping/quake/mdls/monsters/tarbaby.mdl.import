@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/tarbaby.mdl-39891b4bb33e4dd1d5b587f953ddb349.
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "walk",
+"mdls_skin": 0
+}

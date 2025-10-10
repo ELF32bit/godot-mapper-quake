@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/boss.mdl-9adb621247e3a09d5e22e5ecc3652687.scn
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "walk",
+"mdls_skin": 0
+}

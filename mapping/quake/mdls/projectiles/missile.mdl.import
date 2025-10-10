@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/missile.mdl-e3c8cc4d4f07f31669d9efa5864d7948.
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "",
+"mdls_skin": 0
+}

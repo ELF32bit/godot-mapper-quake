@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/h_ogre.mdl-0af0ecf792d74079f67368746b00cd3b.s
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "",
+"mdls_skin": 0
+}

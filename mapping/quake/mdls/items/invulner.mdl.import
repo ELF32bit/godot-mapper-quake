@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/invulner.mdl-830a555098953cb4e0c6cbd35e2ae83e
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "",
+"mdls_skin": 0
+}

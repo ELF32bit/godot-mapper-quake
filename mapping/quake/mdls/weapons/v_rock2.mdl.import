@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/v_rock2.mdl-78aef6861496f8ac6f2559ecfa909431.
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "shot",
+"mdls_skin": 0
+}

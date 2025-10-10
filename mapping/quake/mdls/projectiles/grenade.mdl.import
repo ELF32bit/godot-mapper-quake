@@ -13,4 +13,7 @@ dest_files=["res://.godot/imported/grenade.mdl-9811dfd9c4fd3d3cd48345d11a39e373.
 [params]
 
 palette=""
-options={}
+options={
+"mdls_autoplay": "",
+"mdls_skin": 0
+}
