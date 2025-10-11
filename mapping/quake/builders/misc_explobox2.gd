@@ -9,7 +9,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# loading sub-map with an additional option
 	map.settings.options["_map_is_explobox"] = true
-	var explobox := map.loader.load_map_raw("maps/items/b_exbox2.map")
+	var explobox := map.loader.load_map_raw("maps/items/b_exbox2")
 	map.settings.options.erase("_map_is_explobox")
 	if not explobox:
 		return null

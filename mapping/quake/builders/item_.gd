@@ -71,31 +71,31 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	match entity.get_classname_property():
 		"item_cells": # thunderbolt ammo
 			if spawnflags & 1: # large box
-				item = map.loader.load_map_raw("maps/items/b_batt1.map")
+				item = map.loader.load_map_raw("maps/items/b_batt1")
 			else:
-				item = map.loader.load_map_raw("maps/items/b_batt0.map")
+				item = map.loader.load_map_raw("maps/items/b_batt0")
 		"item_rockets": # rockets
 			if spawnflags & 1: # large box
-				item = map.loader.load_map_raw("maps/items/b_rock1.map")
+				item = map.loader.load_map_raw("maps/items/b_rock1")
 			else:
-				item = map.loader.load_map_raw("maps/items/b_rock0.map")
+				item = map.loader.load_map_raw("maps/items/b_rock0")
 		"item_shells": # shells
 			if spawnflags & 1: # large box
-				item = map.loader.load_map_raw("maps/items/b_shell1.map")
+				item = map.loader.load_map_raw("maps/items/b_shell1")
 			else:
-				item = map.loader.load_map_raw("maps/items/b_shell0.map")
+				item = map.loader.load_map_raw("maps/items/b_shell0")
 		"item_spikes": # nailgun/perforator ammo
 			if spawnflags & 1: # large box
-				item = map.loader.load_map_raw("maps/items/b_nail1.map")
+				item = map.loader.load_map_raw("maps/items/b_nail1")
 			else:
-				item = map.loader.load_map_raw("maps/items/b_nail0.map")
+				item = map.loader.load_map_raw("maps/items/b_nail0")
 		"item_health": # health pack
 			if spawnflags & 2: # megahealth
-				item = map.loader.load_map_raw("maps/items/b_bh100.map")
+				item = map.loader.load_map_raw("maps/items/b_bh100")
 			elif spawnflags & 1: # rotten
-				item = map.loader.load_map_raw("maps/items/b_bh10.map")
+				item = map.loader.load_map_raw("maps/items/b_bh10")
 			else:
-				item = map.loader.load_map_raw("maps/items/b_bh25.map")
+				item = map.loader.load_map_raw("maps/items/b_bh25")
 	map.settings.options.erase("_map_is_item")
 	if item:
 		var item_instance := item.instantiate()
