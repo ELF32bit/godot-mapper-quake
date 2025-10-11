@@ -23,13 +23,13 @@ static func bind_targetname_base(entity: MapperEntity) -> void:
 	entity.bind_string_property("targetname", "name")
 
 
-static func bind_target_base(entity: MapperEntity, classname: String = "*") -> void:
-	entity.bind_node_path_property("target", "targetname", "_target", classname)
-	entity.bind_node_path_property("killtarget", "targetname", "_kill_target", classname)
-	entity.bind_node_path_array_property("target", "targetname", "_targets", classname)
-	entity.bind_node_path_array_property("killtarget", "targetname", "_kill_targets", classname)
-	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal", classname)
-	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free", classname)
+static func bind_target_base(entity: MapperEntity, target_classname: String = "*") -> void:
+	entity.bind_node_path_property("target", "targetname", "_target", target_classname)
+	entity.bind_node_path_property("killtarget", "targetname", "_kill_target", target_classname)
+	entity.bind_node_path_array_property("target", "targetname", "_targets", target_classname)
+	entity.bind_node_path_array_property("killtarget", "targetname", "_kill_targets", target_classname)
+	entity.bind_signal_property("target", "targetname", "generic", "_on_generic_signal", target_classname)
+	entity.bind_signal_property("killtarget", "targetname", "generic", "queue_free", target_classname)
 
 
 static func bind_item_base(entity: MapperEntity) -> void:

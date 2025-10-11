@@ -93,7 +93,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# binding worldspawn properties
 	entity.bind_string_property("message", "message")
-	map.settings.options["_world_type"] = entity.get_int_property("worldtype", 0)
+	if entity.get_int_property("worldtype", null) != null:
+		map.settings.options["_world_type"] = entity.get_int_property("worldtype", 0)
 	if entity.get_int_property("sounds", 0) > 0:
 		var audio_stream_player := AudioStreamPlayer.new()
 		node.add_child(audio_stream_player, map.settings.readable_node_names)
