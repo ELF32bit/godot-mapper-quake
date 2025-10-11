@@ -5,7 +5,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if bind_appearflags_base(map, entity):
 		return null
 	# small fireball
-	var projectile := map.loader.load_mdl("mdls/misc/lavaball.mdl")
+	var projectile := map.loader.load_mdl("mdls/misc/lavaball")
 	if not projectile:
 		return null
 

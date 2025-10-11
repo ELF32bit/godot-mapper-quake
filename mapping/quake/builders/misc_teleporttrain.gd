@@ -5,7 +5,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if bind_appearflags_base(map, entity):
 		return null
 	# flying teleporter destination
-	var teleport_train := map.loader.load_mdl("mdls/misc/teleport.mdl")
+	var teleport_train := map.loader.load_mdl("mdls/misc/teleport")
 	if not teleport_train:
 		return null
 

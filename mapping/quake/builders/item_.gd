@@ -10,47 +10,47 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var item: PackedScene = null
 	match entity.get_classname_property():
 		"item_artifact_envirosuit": # environmental protection
-			item = map.loader.load_mdl("mdls/items/suit.mdl")
+			item = map.loader.load_mdl("mdls/items/suit")
 		"item_artifact_super_damage": # quad damage
-			item = map.loader.load_mdl("mdls/items/quaddama.mdl")
+			item = map.loader.load_mdl("mdls/items/quaddama")
 		"item_artifact_invulnerability": # pentagram of protection
-			item = map.loader.load_mdl("mdls/items/invulner.mdl")
+			item = map.loader.load_mdl("mdls/items/invulner")
 		"item_artifact_invisibility": # ring of shadows
-			item = map.loader.load_mdl("mdls/items/invisibl.mdl")
+			item = map.loader.load_mdl("mdls/items/invisibl")
 		"item_armorInv": # red armor (200%)
-			item = map.loader.load_mdl("mdls/items/armor.mdl")
+			item = map.loader.load_mdl("mdls/items/armor")
 			item_skin = 2
 		"item_armor2": # yellow armor (150%)
-			item = map.loader.load_mdl("mdls/items/armor.mdl")
+			item = map.loader.load_mdl("mdls/items/armor")
 			item_skin = 1
 		"item_armor1": # green armor (100%)
-			item = map.loader.load_mdl("mdls/items/armor.mdl")
+			item = map.loader.load_mdl("mdls/items/armor")
 			item_skin = 0
 		"item_key1": # silver key
 			match map.settings.options.get("_worldtype", 0):
 				0: # medieval (wizard)
-					item = map.loader.load_mdl("mdls/keys/w_s_key.mdl")
+					item = map.loader.load_mdl("mdls/keys/w_s_key")
 				1: # metal (runic)
-					item = map.loader.load_mdl("mdls/keys/m_s_key.mdl")
+					item = map.loader.load_mdl("mdls/keys/m_s_key")
 				2: # base (tech)
-					item = map.loader.load_mdl("mdls/keys/b_s_key.mdl")
+					item = map.loader.load_mdl("mdls/keys/b_s_key")
 		"item_key2": # gold key
 			match map.settings.options.get("_world_type", 0):
 				0: # medieval (wizard)
-					item = map.loader.load_mdl("mdls/keys/w_g_key.mdl")
+					item = map.loader.load_mdl("mdls/keys/w_g_key")
 				1: # metal (runic)
-					item = map.loader.load_mdl("mdls/keys/m_g_key.mdl")
+					item = map.loader.load_mdl("mdls/keys/m_g_key")
 				2: # base (tech)
-					item = map.loader.load_mdl("mdls/keys/b_g_key.mdl")
+					item = map.loader.load_mdl("mdls/keys/b_g_key")
 		"item_sigil": # sigil
 			if spawnflags & 8:
-				item = map.loader.load_mdl("mdls/items/end4.mdl")
+				item = map.loader.load_mdl("mdls/items/end4")
 			elif spawnflags & 4:
-				item = map.loader.load_mdl("mdls/items/end3.mdl")
+				item = map.loader.load_mdl("mdls/items/end3")
 			elif spawnflags & 2:
-				item = map.loader.load_mdl("mdls/items/end2.mdl")
+				item = map.loader.load_mdl("mdls/items/end2")
 			else:
-				item = map.loader.load_mdl("mdls/items/end1.mdl")
+				item = map.loader.load_mdl("mdls/items/end1")
 	if item:
 		# creating rotating item instance
 		var item_instance := item.instantiate()
@@ -107,7 +107,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	return null
 
 
-static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3 = Vector3(32.0, 32.0, 32.0), offset: Vector3 = Vector3(0.0, 32.0, 0.0)) -> Node:
+static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3 = Vector3(32.0, 32.0, 32.0), offset: Vector3 = Vector3(0.0, 32.0, 0.0)) -> Node3D:
 	var node := Area3D.new()
 	MapperUtilities.apply_entity_transform(entity, node, true)
 	node.position += offset / map.settings.unit_size

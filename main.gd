@@ -55,4 +55,3 @@ func _spawn_player() -> void:
 	var spawns = get_tree().get_nodes_in_group("info_player_start")
 	if spawns.size() != 0:
 		player_instance.transform = spawns[randi() % spawns.size()].transform
-

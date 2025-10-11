@@ -39,7 +39,7 @@ func _on_animation_finished(animation_name: StringName) -> void:
 		animation_player.play("closed")
 		quake_health = max_health
 
-@warning_ignore("unused_parameter", "shadowed_variable")
+@warning_ignore("unused_parameter", "shadowed_variable_base_class")
 func _on_crushing(object: Object, damage: int) -> void:
 	if not crush_timer.is_stopped():
 		return
@@ -48,13 +48,13 @@ func _on_crushing(object: Object, damage: int) -> void:
 	animation_player.seek(time)
 	crush_timer.start()
 
-@warning_ignore("shadowed_variable")
+@warning_ignore("shadowed_variable_base_class")
 func _on_crushing_object(object: Object, damage: int) -> void:
 	if is_instance_valid(object):
 		_crush(object, damage)
 	_on_crushing(object, damage)
 
-@warning_ignore("shadowed_variable")
+@warning_ignore("shadowed_variable_base_class")
 func _on_crushing_character(character: CharacterBody3D, damage: int) -> void:
 	if is_instance_valid(character):
 		_crush(character, damage)
@@ -71,7 +71,7 @@ func _on_crush_timer_timeout() -> void:
 	animation_player.play(animation_player.current_animation)
 	animation_player.seek(time)
 
-@warning_ignore("shadowed_variable")
+@warning_ignore("shadowed_variable_base_class")
 func _crush(object: Object, damage: int) -> void:
 	if object.has_method("_quake_crush"):
 		object.call("_quake_crush", self, damage)

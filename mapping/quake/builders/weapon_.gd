@@ -8,17 +8,17 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var weapon: PackedScene = null
 	match entity.get_classname_property():
 		"weapon_supershotgun": # double-barrelled shotgun
-			weapon = map.loader.load_mdl("mdls/items/g_shot.mdl")
+			weapon = map.loader.load_mdl("mdls/items/g_shot")
 		"weapon_nailgun": # nailgun
-			weapon = map.loader.load_mdl("mdls/items/g_nail.mdl")
+			weapon = map.loader.load_mdl("mdls/items/g_nail")
 		"weapon_supernailgun": # super nailgun
-			weapon = map.loader.load_mdl("mdls/items/g_nail2.mdl")
+			weapon = map.loader.load_mdl("mdls/items/g_nail2")
 		"weapon_grenadelauncher": # grenade launcher
-			weapon = map.loader.load_mdl("mdls/items/g_rock.mdl")
+			weapon = map.loader.load_mdl("mdls/items/g_rock")
 		"weapon_rocketlauncher": # rocket launcher
-			weapon = map.loader.load_mdl("mdls/items/g_rock2.mdl")
+			weapon = map.loader.load_mdl("mdls/items/g_rock2")
 		"weapon_lightning": # thunderbolt
-			weapon = map.loader.load_mdl("mdls/items/g_light.mdl")
+			weapon = map.loader.load_mdl("mdls/items/g_light")
 	if not weapon:
 		return null
 

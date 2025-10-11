@@ -10,52 +10,52 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var monster_animation: String = ""
 	match entity.get_classname_property():
 		"monster_army": # grunt
-			monster = map.loader.load_mdl("mdls/monsters/soldier.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/soldier")
 			monster_animation = "stand"
 		"monster_dog": # nasty doggie
-			monster = map.loader.load_mdl("mdls/monsters/dog.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/dog")
 			monster_animation = "stand"
 		"monster_ogre": # ogre
-			monster = map.loader.load_mdl("mdls/monsters/ogre.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/ogre")
 			monster_animation = "stand"
 		"monster_ogre_marksman": # ogre marksman
-			monster = map.loader.load_mdl("mdls/monsters/ogre.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/ogre")
 			monster_animation = "stand"
 		"monster_knight": # knight
-			monster = map.loader.load_mdl("mdls/monsters/knight.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/knight")
 			monster_animation = "stand"
 		"monster_hell_knight": # hell knight
-			monster = map.loader.load_mdl("mdls/monsters/hknight.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/hknight")
 			monster_animation = "stand"
 		"monster_wizard": # scrag
-			monster = map.loader.load_mdl("mdls/monsters/wizard.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/wizard")
 			monster_animation = "hover"
 		"monster_demon1": # fiend
-			monster = map.loader.load_mdl("mdls/monsters/demon.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/demon")
 			monster_animation = "stand"
 		"monster_shambler": # shambler
-			monster = map.loader.load_mdl("mdls/monsters/shambler.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/shambler")
 			monster_animation = "stand"
 		"monster_boss": # chthon
-			monster = map.loader.load_mdl("mdls/monsters/boss.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/boss")
 			monster_animation = "walk"
 		"monster_enforcer": # enforcer
-			monster = map.loader.load_mdl("mdls/monsters/enforcer.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/enforcer")
 			monster_animation = "stand"
 		"monster_shalrath": # vore
-			monster = map.loader.load_mdl("mdls/monsters/shalrath.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/shalrath")
 			monster_animation = "walk"
 		"monster_tarbaby": # spawn
-			monster = map.loader.load_mdl("mdls/monsters/tarbaby.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/tarbaby")
 			monster_animation = "walk"
 		"monster_fish": # rotfish
-			monster = map.loader.load_mdl("mdls/monsters/fish.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/fish")
 			monster_animation = "swim"
 		"monster_oldone": # shub-niggurath
-			monster = map.loader.load_mdl("mdls/monsters/oldone.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/oldone")
 			monster_animation = "old"
 		"monster_zombie": # zombie
-			monster = map.loader.load_mdl("mdls/monsters/zombie.mdl")
+			monster = map.loader.load_mdl("mdls/monsters/zombie")
 			monster_animation = "stand"
 			if spawnflags & 1: # frame 192
 				monster_animation = "cruc_"

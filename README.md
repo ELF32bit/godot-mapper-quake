@@ -23,17 +23,17 @@ State | Classname | Commentary
 🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>`_quake_submerge(area: Area3D, liquid: int)`
 ✅ | info_*                 |
 ❌ | info_notnull           | Does not implement **progs.dat** hacks.
-✅ | item_*                 |
+✅ | item_*                 | MDL items have incorrect pickup area size.
 ✅ | weapon_*               | Does not have correct pickup area size.
 ✅ | light_*                | Light flickering is visible in Forward+ renderer.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
-✅ | func_door              | Might have `quake_health: int` property.<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
-✅ | func_door_secret       | Has `quake_health: int` property.<br>`_quake_crush(body: PhysicsBody3D, damage: int)`
+✅ | func_door              | Might have `quake_health: int` property.<br>`_quake_crush(body: Node3D, damage: int)`
+✅ | func_door_secret       | Has `quake_health: int` property.<br>`_quake_crush(body: Node3D, damage: int)`
 ✅ | func_wall              | **Uses extended alternative texture system.**
 ✅ | func_button            | Might have `quake_health: int` property.
-✅ | func_train             | `_quake_crush(body: PhysicsBody3D, damage: int)`
-✅ | func_plat              | `_quake_crush(body: PhysicsBody3D, damage: int)`
+✅ | func_train             | `_quake_crush(body: Node3D, damage: int)`
+✅ | func_plat              | `_quake_crush(body: Node3D, damage: int)`
 ✅ | func_illusionary       |
 🟨 | func_episodegate       | Unnecessary story entity.
 🟨 | func_bossgate          | Unnecessary story entity.

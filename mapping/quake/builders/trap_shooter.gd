@@ -6,14 +6,14 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		return null
 	# continuous shooter
 	var spawnflags: int = entity.get_int_property("spawnflags", 0)
-	var projectile := map.loader.load_mdl("mdls/projectiles/s_spike.mdl")
+	var projectile := map.loader.load_mdl("mdls/projectiles/s_spike")
 	var damage: int = 9
 
 	if spawnflags & 1: # superspike 18 HP
-		projectile = map.loader.load_mdl("mdls/projectiles/s_spike.mdl")
+		projectile = map.loader.load_mdl("mdls/projectiles/s_spike")
 		damage = 18
 	elif spawnflags & 2: # laser 15 HP
-		projectile = map.loader.load_mdl("mdls/projectiles/laser.mdl")
+		projectile = map.loader.load_mdl("mdls/projectiles/laser")
 		damage = 15
 	if not projectile:
 		return null

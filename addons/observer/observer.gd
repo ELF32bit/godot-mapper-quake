@@ -130,8 +130,16 @@ func _quake_submerge(area: Area3D, liquid: int) -> void:
 		_set_distortion_effect(0)
 
 
-func _quake_push(push_velocity: Vector3) -> void:
-	_push_velocity = push_velocity * 10.0
+func _quake_push(velocity: Vector3) -> void:
+	_push_velocity = velocity * 10.0
+
+
+func _quake_monsterjump(velocity: Vector3, height: float) -> void:
+	_push_velocity = velocity * 10.0
+
+
+func _quake_crush(body: Node3D, damage: int) -> void:
+	print("Received %s crush damage" % damage)
 
 
 func _quake_explode(damage: int) -> void:
