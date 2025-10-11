@@ -135,7 +135,7 @@ func _quake_push(velocity: Vector3) -> void:
 
 
 func _quake_monsterjump(velocity: Vector3, height: float) -> void:
-	_push_velocity = velocity * 10.0
+	pass
 
 
 func _quake_crush(body: Node3D, damage: int) -> void:
