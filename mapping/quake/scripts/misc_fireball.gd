@@ -1,5 +1,7 @@
 extends Node3D
 
+const SOFT_BOUNDS: float = 8192.0 / 32.0
+
 @export var projectile: PackedScene = null
 @export var projectile_speed: float = 40.0 / 32.0
 @export var projectile_radius: float = 0.25
@@ -44,7 +46,7 @@ func _physics_process(delta: float) -> void:
 
 		if overlapping_bodies.size():
 			child.queue_free()
-		elif global_position.distance_to(child.global_position) > 256.0:
+		elif global_position.distance_to(child.global_position) > SOFT_BOUNDS:
 			child.queue_free()
 
 		var velocity: Vector3 = child.get_meta("velocity", Vector3.ZERO)

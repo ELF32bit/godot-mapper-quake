@@ -18,4 +18,4 @@ func _explode() -> void:
 	for body in area.get_overlapping_bodies():
 		if body.has_method("_quake_explode"):
 			body.call("_quake_explode", damage)
-	area.queue_free()
+	area.get_parent().queue_free()

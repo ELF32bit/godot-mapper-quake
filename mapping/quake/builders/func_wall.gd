@@ -9,7 +9,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if not node:
 		return null
 	set_collision_layer_mask(node,
-		["func_wall-StaticBody3D"],
+		["worldspawn-StaticBody3D"],
 		[])
 
 	# func_wall does not cast shadow

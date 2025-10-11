@@ -83,11 +83,8 @@ const PHYSICS_LAYERS_3D := {
 	"item-PhysicsBody3D": 6, # bodies that can pick up items
 
 	"misc_explobox-StaticBody3D": 1,
-	"misc_explobox-Area3D": 5,
-	"misc_explobox-PhysicsBody3D": 6,
-
-	"func_detail-StaticBody3D": 1,
-	"func_wall-StaticBody3D": 1,
+	"misc_explobox-Area3D": 5, # explosion area
+	"misc_explobox-PhysicsBody3D": 6, # bodies that can be exploded
 }
 
 const NAVIGATION_LAYERS_3D := {

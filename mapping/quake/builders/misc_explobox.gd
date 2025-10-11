@@ -5,44 +5,35 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if bind_appearflags_base(map, entity):
 		return null
 	# large exploding container
-	var node := Area3D.new()
-	MapperUtilities.apply_entity_transform(entity, node, true)
-	set_collision_layer_mask(node,
-		["misc_explobox-Area3D"],
-		["misc_explobox-PhysicsBody3D"])
-	node.monitorable = false
+	var node: Node3D = null
 
 	# loading sub-map with an additional option
 	map.settings.options["_map_is_explobox"] = true
 	var explobox := map.loader.load_map_raw("maps/items/b_explob.map")
 	map.settings.options.erase("_map_is_explobox")
-
-	if explobox:
-		var explobox_instance := explobox.instantiate()
-		node.add_child(explobox_instance, map.settings.readable_node_names)
-	else:
-		node.free()
+	if not explobox:
 		return null
+	node = explobox.instantiate()
 
-	# removing unnecessary map node
-	var map_node := node.get_child(0)
-	for child in map_node.get_children():
-		child.owner = null
-		map_node.remove_child(child)
-		node.add_child(child, map.settings.readable_node_names)
-	map_node.free()
+	# creating misc_explobox explosion area
+	var area := Area3D.new()
+	node.add_child(area, map.settings.readable_node_names)
+	set_collision_layer_mask(area,
+		["misc_explobox-Area3D"],
+		["misc_explobox-PhysicsBody3D"])
+	area.monitorable = false
+	node.move_child(area, 0)
 
 	# creating misc_explobox explosion shape
-	var sphere_shape := SphereShape3D.new()
-	sphere_shape.radius = 160 / map.settings.unit_size
-
 	var collision_shape := CollisionShape3D.new()
-	node.add_child(collision_shape, map.settings.readable_node_names)
-	collision_shape.shape = sphere_shape
+	collision_shape.shape = SphereShape3D.new()
+	collision_shape.shape.radius = 160.0 / map.settings.unit_size
+	area.add_child(collision_shape, map.settings.readable_node_names)
 
 	# setting misc_explobox explosion area
-	var explobox_body := node.get_child(0).get_child(0)
-	explobox_body.set("_area", explobox_body.get_path_to(node))
+	var explobox_body := node.get_node("worldspawn").get_child(0)
+	explobox_body.set("_area", explobox_body.get_path_to(area))
 	explobox_body.set("damage", 80)
 
+	area.position = explobox_body.position
 	return node
