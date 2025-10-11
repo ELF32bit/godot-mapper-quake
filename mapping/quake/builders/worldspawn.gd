@@ -108,8 +108,8 @@ static func build_item(map: MapperMap, entity: MapperEntity) -> Node:
 	if not node:
 		return null
 	set_collision_layer_mask(node,
-		["item_-Area3D"],
-		["item_-PhysicsBody3D"])
+		["item-Area3D"],
+		["item-PhysicsBody3D"])
 
 	# creating item area
 	node.set_script(map.loader.load_script("scripts/item"))
@@ -121,8 +121,8 @@ static func build_item(map: MapperMap, entity: MapperEntity) -> Node:
 	node.add_child(pickup_sound_player, map.settings.readable_node_names)
 	pickup_sound_player.name = "PickupSoundPlayer3D"
 
-	# loading item sounds TODO: load correct sounds
-	pickup_sound_player.stream = map.loader.load_sound("sounds/items/health1")
+	# loading item sounds
+	pickup_sound_player.stream = preload("item_.gd").load_item_sounds(map, entity)
 
 	# connecting pickup sound player finished signal
 	pickup_sound_player.finished.connect(

@@ -23,8 +23,8 @@ State | Classname | Commentary
 🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>`_quake_submerge(area: Area3D, liquid: int)`
 ✅ | info_*                 |
 ❌ | info_notnull           | Does not implement **progs.dat** hacks.
-✅ | item_*                 | Does not play correct sounds when picked up.
-✅ | weapon_*               | Does not play correct sounds when picked up.
+✅ | item_*                 |
+✅ | weapon_*               | Does not have correct pickup area size.
 ✅ | light_*                | Light flickering is visible in Forward+ renderer.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |

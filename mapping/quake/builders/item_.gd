@@ -112,8 +112,8 @@ static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3 =
 	MapperUtilities.apply_entity_transform(entity, node, true)
 	node.position += offset / map.settings.unit_size
 	set_collision_layer_mask(node,
-		["item_-Area3D"],
-		["item_-PhysicsBody3D"])
+		["item-Area3D"],
+		["item-PhysicsBody3D"])
 	node.monitorable = false
 
 	# creating item area
@@ -132,8 +132,8 @@ static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3 =
 	node.add_child(pickup_sound_player, map.settings.readable_node_names)
 	pickup_sound_player.name = "PickupSoundPlayer3D"
 
-	# loading item sounds TODO: load correct sounds
-	pickup_sound_player.stream = map.loader.load_sound("sounds/items/health1")
+	# loading item sounds
+	pickup_sound_player.stream = load_item_sounds(map, entity)
 
 	# connecting pickup sound player finished signal
 	pickup_sound_player.finished.connect(
@@ -143,3 +143,41 @@ static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3 =
 	# binding item properties
 	node.set("item_name", entity.get_classname_property(""))
 	return node
+
+
+static func load_item_sounds(map: MapperMap, entity: MapperEntity) -> AudioStream:
+	match entity.get_classname_property():
+		"item_armor1", "item_armor2", "item_armorInv":
+			return map.loader.load_sound("sounds/items/armor1")
+		"item_key1", "item_key2":
+			match map.settings.options.get("_worldtype", 0):
+				0: # medieval (wizard)
+					return map.loader.load_sound("sounds/misc/medkey")
+				1: # metal (runic)
+					return map.loader.load_sound("sounds/misc/runekey")
+				2: # base (tech)
+					return map.loader.load_sound("sounds/misc/basekey")
+		"item_sigil":
+			return map.loader.load_sound("sounds/misc/runekey")
+		"item_artifact_invulnerability":
+			return map.loader.load_sound("sounds/items/protect")
+		"item_artifact_envirosuit":
+			return map.loader.load_sound("sounds/items/suit")
+		"item_artifact_invisibility":
+			return map.loader.load_sound("sounds/items/inv1")
+		"item_artifact_super_damage":
+			return map.loader.load_sound("sounds/items/damage")
+		"worldspawn": # loaded as map prefabs
+			match map.name:
+				"b_bh10":
+					return map.loader.load_sound("sounds/items/r_item1")
+				"b_bh25":
+					return map.loader.load_sound("sounds/items/health1")
+				"b_bh100":
+					return map.loader.load_sound("sounds/items/r_item2")
+				_: # ammo
+					return map.loader.load_sound("sounds/weapons/lock4")
+		_: # weapons
+			if entity.get_classname_property("").begins_with("weapon"):
+				return map.loader.load_sound("sounds/weapons/pkup")
+	return null

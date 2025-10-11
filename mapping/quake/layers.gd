@@ -79,8 +79,8 @@ const PHYSICS_LAYERS_3D := {
 	"misc_fireball-Area3D": 1, # projectile areas
 	"misc_fireball-PhysicsBody3D": 1, # bodies that can be shot
 
-	"item_-Area3D": 5, # item areas
-	"item_-PhysicsBody3D": 6, # bodies that can pick up items
+	"item-Area3D": 5, # item areas
+	"item-PhysicsBody3D": 6, # bodies that can pick up items
 
 	"misc_explobox-StaticBody3D": 1,
 	"misc_explobox-Area3D": 5,
