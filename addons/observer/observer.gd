@@ -86,8 +86,7 @@ func _physics_process(delta: float) -> void:
 				velocity += teleport_direction.normalized() * speed_teleport
 		elif ray_cast.is_colliding():
 			var teleport_object := ray_cast.get_collider()
-			if "quake_health" in teleport_object:
-				teleport_object.quake_health -= 1
+			_quake_damage(teleport_object)
 		ray_cast.target_position = Vector3.ZERO
 
 	if input.is_noclip_pressed:
@@ -121,6 +120,11 @@ func _set_distortion_effect(liquid: int) -> void:
 			distortion.visible = true
 		_:
 			distortion.visible = false
+
+
+func _quake_damage(object: Object) -> void:
+	if "quake_health" in object:
+		object.quake_health -= 1
 
 
 func _quake_submerge(area: Area3D, liquid: int) -> void:

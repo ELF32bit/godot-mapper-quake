@@ -80,7 +80,7 @@ func load_material(material: String) -> Material:
 
 func load_base_material() -> BaseMaterial3D:
 	var material := StandardMaterial3D.new()
-	material.texture_filter = settings.base_materials_texture_filter
+	material.texture_filter = settings.texture_filter
 
 	material.roughness = 1.0
 	material.metallic = 0.0
@@ -388,6 +388,9 @@ func generate_matching_paths(path: String) -> PackedStringArray:
 
 	if not path.is_empty():
 		paths.append(path)
+	if settings.post_build_script_enabled:
+		if filename == settings.post_build_script_name:
+			return paths
 	while not filename.is_empty():
 		var suffix: String = right.call(filename, "_")
 		filename = filename.rstrip("0123456789")
