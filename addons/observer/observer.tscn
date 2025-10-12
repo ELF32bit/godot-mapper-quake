@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bj2rif776mhnx"]
+[gd_scene load_steps=9 format=3 uid="uid://bj2rif776mhnx"]
 
 [ext_resource type="Script" path="res://addons/observer/observer.gd" id="1_n5atq"]
 [ext_resource type="Script" path="res://addons/observer/input.gd" id="2_3wleo"]
 [ext_resource type="Shader" path="res://addons/observer/shaders/distortion.gdshader" id="3_5u8b8"]
+[ext_resource type="PackedScene" uid="uid://bb838lh3i61w6" path="res://mapping/quake/mdls/weapons/v_axe.mdl" id="4_4ri5b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfwpu"]
 metallic_specular = 0.0
@@ -85,3 +86,5 @@ Press Ctrl+MiddleMouseButton to reset size."
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 light_energy = 4.0
 spot_range = 20.0
+
+[node name="v_axe" parent="." instance=ExtResource("4_4ri5b")]

@@ -27,6 +27,7 @@ var _push_velocity := Vector3.ZERO
 
 func _ready() -> void:
 	spring_arm.add_excluded_object(get_rid())
+	get_node("v_axe").get_child(0).play("RESET")
 
 
 func _physics_process(delta: float) -> void:
@@ -125,6 +126,11 @@ func _set_distortion_effect(liquid: int) -> void:
 func _quake_damage(object: Object) -> void:
 	if "quake_health" in object:
 		object.quake_health -= 1
+	# hacky way to play some animation
+	var animation_player = get_node("v_axe").get_child(0)
+	animation_player.play("frame")
+	get_tree().create_timer(1.0).timeout.connect(
+		Callable(animation_player, "play").bind("RESET"))
 
 
 func _quake_submerge(area: Area3D, liquid: int) -> void:
