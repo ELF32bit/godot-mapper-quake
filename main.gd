@@ -1,6 +1,6 @@
 extends Node3D
 
-
+## Basic game launcher
 func _ready() -> void:
 	call_deferred("load_map", "start")
 
@@ -31,10 +31,11 @@ func load_map(map_name: String) -> void:
 	var packed_scene := factory.build_map(map_resource, [animated_wad])
 	var packed_scene_instance := packed_scene.instantiate()
 
+	# changing scene and spawning player
 	for child in get_children():
 		child.queue_free()
 	add_child(packed_scene_instance)
-	call_deferred("_spawn_player")
+	get_tree().create_timer(0.1).timeout.connect(_spawn_player)
 
 
 func _spawn_player() -> void:
