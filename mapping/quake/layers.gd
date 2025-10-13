@@ -70,21 +70,21 @@ const PHYSICS_LAYERS_3D := {
 	"trigger_hurt-Area3D": 5, # areas that can be entered
 	"trigger_hurt-PhysicsBody3D": 6, # bodies that can enter areas
 
+	"item-Area3D": 5, # item areas
+	"item-PhysicsBody3D": 6, # bodies that can pick up items
+
 	"trap_shooter-Area3D": 1, # projectile areas
 	"trap_shooter-PhysicsBody3D": 1, # bodies that can be shot
 
 	"trap_spikeshooter-Area3D": 1, # projectile areas
 	"trap_spikeshooter-PhysicsBody3D": 1, # bodies that can be shot
 
-	"misc_fireball-Area3D": 1, # projectile areas
-	"misc_fireball-PhysicsBody3D": 1, # bodies that can be shot
-
-	"item-Area3D": 5, # item areas
-	"item-PhysicsBody3D": 6, # bodies that can pick up items
-
 	"misc_explobox-StaticBody3D": 1,
 	"misc_explobox-Area3D": 5, # explosion area
 	"misc_explobox-PhysicsBody3D": 6, # bodies that can be exploded
+
+	"misc_fireball-Area3D": 1, # projectile areas
+	"misc_fireball-PhysicsBody3D": 1, # bodies that can be shot
 }
 
 const NAVIGATION_LAYERS_3D := {

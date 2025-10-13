@@ -27,6 +27,6 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 	# binding trigger_hurt properties
 	bind_targetname_base(entity)
-	node.set("damage", entity.get_int_property("damage", 5))
+	node.set("damage", entity.get_int_property("dmg", 5))
 
 	return node

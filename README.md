@@ -23,8 +23,8 @@ State | Classname | Commentary
 🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>`_quake_submerge(area: Area3D, liquid: int)`
 ✅ | info_*                 |
 ❌ | info_notnull           | Does not implement **progs.dat** hacks.
-✅ | item_*                 | MDL items have incorrect pickup area size.
-✅ | weapon_*               | Does not have correct pickup area size.
+✅ | item_*                 | Keys are not registered for opening doors.<br>Some items are loaded as sub-maps.
+✅ | weapon_*               |
 ✅ | light_*                | Light flickering is visible in Forward+ renderer.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
 ✅ | ambient_*              |
@@ -52,8 +52,9 @@ State | Classname | Commentary
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
 ✅ | misc_explobox*         | Has `quake_health: int` property.<br>`_quake_explode(damage: int)`
-✅ | misc_fireball          | `_quake_hurt(damage: int)`
+✅ | misc_fireball          | Does not use exact speed and gravity.<br>`_quake_hurt(damage: int)`
 ✅ | misc_noisemaker        |
+✅ | misc_teleporttrain     |
 ✅ | path_corner            |
 ✅ | testplayerstart        |
 ✅ |trap_shooter            | `_quake_hurt(damage: int)`

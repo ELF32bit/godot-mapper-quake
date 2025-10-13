@@ -58,10 +58,18 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		item_instance.set_script(map.loader.load_script("scripts/item-rotating"))
 		item_instance.set("classname", entity.get_classname_property())
 		item_instance.set("skin", item_skin)
+
 		# creating item pickup area
-		var node := build_mdl_item(map, entity)
+		var offset := Vector3.ZERO
+		match entity.get_classname_property():
+			"item_armor1", "item_armor2", "item_armorInv":
+				offset = Vector3(0.0, 28.0, 0.0)
+			_:
+				offset = Vector3(0.0, 4.0, 0.0)
+		var node := build_mdl_item(map, entity, Vector3(32.0, 56.0, 32.0), offset)
 		MapperUtilities.add_global_child(item_instance, node, map.settings)
 		node.move_child(item_instance, 0)
+
 		# binding item properties
 		bind_item_base(entity)
 		return node
@@ -107,7 +115,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	return null
 
 
-static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3 = Vector3(32.0, 32.0, 32.0), offset: Vector3 = Vector3(0.0, 32.0, 0.0)) -> Node3D:
+static func build_mdl_item(map: MapperMap, entity: MapperEntity, size: Vector3, offset: Vector3) -> Node3D:
 	var node := Area3D.new()
 	MapperUtilities.apply_entity_transform(entity, node, true)
 	node.position += offset / map.settings.unit_size

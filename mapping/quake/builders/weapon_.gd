@@ -29,7 +29,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	weapon_instance.set("classname", entity.get_classname_property())
 
 	# creating weapon pickup area
-	var node := preload("item_.gd").build_mdl_item(map, entity)
+	var node := preload("item_.gd").build_mdl_item(map, entity,
+		Vector3(32.0, 56.0, 32.0), Vector3(0.0, 28.0, 0.0))
 	MapperUtilities.add_global_child(weapon_instance, node, map.settings)
 	node.move_child(weapon_instance, 0)
 

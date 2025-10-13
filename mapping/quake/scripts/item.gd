@@ -18,4 +18,7 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _on_pickup_sound_finished() -> void:
-	queue_free()
+	if get_parent().name == "worldspawn":
+		get_parent().get_parent().queue_free()
+	else:
+		queue_free()
