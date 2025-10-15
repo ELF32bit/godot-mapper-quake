@@ -8,8 +8,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := MapperUtilities.create_merged_brush_entity(entity, "AnimatableBody3D")
 	if not node:
 		return null
-	set_collision_layer_mask(node,
-		["func_train-AnimatableBody3D"],
+	set_collision_layer_mask(node, # func_train can collide with each other!
+		["func_train-AnimatableBody3D"], # ",func_train-Object"
 		["func_train-CharacterBody3D", "func_train-Object"])
 
 	# setting func_train script and connecting signals

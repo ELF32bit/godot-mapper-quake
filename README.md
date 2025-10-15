@@ -1,6 +1,5 @@
 # Quake game profile for [godot-mapper](https://github.com/ELF32bit/godot-mapper) plugin
 ![Demonstration](screenshots/demonstration.webp)<br>
-
 Collision layers driven Quake entities with generic methods.<br>
 Refer to the entity implementation table for the list of methods.<br>
 Change **layers.gd** file to integrate entities into an existing project.<br>
