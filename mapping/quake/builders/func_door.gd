@@ -97,6 +97,18 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 		if not linked_entity.get_string_property("targetname", "").is_empty():
 			area.monitoring = false
 
+	# handling door keys and toggle spawnflags
+	var is_toggled := false
+	for linked_entity in linked_entities:
+		var spawnflags: int = linked_entity.get_int_property("spawnflags", 0)
+		if spawnflags & 8: # gold key required
+			root_node.set("gold_key_required", true)
+		if spawnflags & 16: # silver key required
+			root_node.set("silver_key_required", true)
+		if spawnflags & 32: # toggle between opened and closed states
+			root_node.set("toggle", true)
+			is_toggled = true
+
 	# creating func_door activation area collision shape
 	var collision_shape := CollisionShape3D.new()
 	collision_shape.position = linked_aabb_center
@@ -115,7 +127,7 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 
 	# creating wait timer
 	var wait_time: float = entity.get_float_property("wait", 3.0)
-	if not wait_time < 0.0:
+	if not wait_time < 0.0 and not is_toggled:
 		var wait_timer := create_safe_timer(map, root_node, wait_time, "WaitTimer")
 		wait_timer.timeout.connect(Callable(root_node, "_on_wait_timer_timeout"), CONNECT_PERSIST)
 		root_node.set("_wait_timer", root_node.get_path_to(wait_timer))

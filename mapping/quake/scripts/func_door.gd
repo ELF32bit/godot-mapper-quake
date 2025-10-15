@@ -12,6 +12,10 @@ signal closing
 @export_node_path("Timer") var _wait_timer: NodePath
 @onready var wait_timer: Timer = get_node_or_null(_wait_timer)
 
+@export var gold_key_required := false # TODO: not implemented
+@export var silver_key_required := false # TODO: not implemented
+@export var toggle := false
+
 var has_crushed := false
 
 
@@ -29,7 +33,10 @@ func _physics_process(delta: float) -> void:
 
 @warning_ignore("unused_parameter")
 func _on_body_entered(body: Node3D) -> void:
-	if animation_player.assigned_animation == "closed":
+	if toggle and animation_player.assigned_animation == "opened":
+		animation_player.play("close")
+		closing.emit()
+	elif animation_player.assigned_animation == "closed":
 		animation_player.play("open")
 		opening.emit()
 	elif animation_player.assigned_animation == "close":
@@ -44,7 +51,7 @@ func _on_animation_finished(animation_name: StringName) -> void:
 		# checking if timer exists and disabling area forever otherwise
 		if is_instance_valid(wait_timer):
 			set_physics_process(true)
-		else:
+		elif not toggle:
 			area.monitoring = false
 		animation_player.play("opened")
 	elif animation_name == "close":
