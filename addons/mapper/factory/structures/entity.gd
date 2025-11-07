@@ -60,20 +60,20 @@ func bind_property(method: StringName, property: StringName, node_property: Stri
 		node_properties[node_property] = value
 
 
-func bind_node_path_property(property: StringName, target_source_property: StringName, node_property: StringName, classname: String = "*") -> void:
-	var parameters: Array[Variant] = [property, target_source_property, node_property, classname, true]
+func bind_node_path_property(destination_property: StringName, source_property: StringName, node_property: StringName, classname: String = "*") -> void:
+	var parameters: Array[Variant] = [destination_property, source_property, node_property, classname, true]
 	if not parameters in node_paths:
 		node_paths.append(parameters)
 
 
-func bind_node_path_array_property(property: StringName, target_source_property: StringName, node_property: StringName, classname: String = "*") -> void:
-	var parameters: Array[Variant] = [property, target_source_property, node_property, classname, false]
+func bind_node_path_array_property(destination_property: StringName, source_property: StringName, node_property: StringName, classname: String = "*") -> void:
+	var parameters: Array[Variant] = [destination_property, source_property, node_property, classname, false]
 	if not parameters in node_paths:
 		node_paths.append(parameters)
 
 
-func bind_signal_property(property: StringName, target_source_property: StringName, signal_name: StringName, method: StringName, classname: String = "*", flags: int = 0) -> void:
-	var parameters: Array[Variant] = [property, target_source_property, signal_name, method, classname, flags]
+func bind_signal_property(destination_property: StringName, source_property: StringName, signal_name: StringName, method: StringName, classname: String = "*", flags: int = 0) -> void:
+	var parameters: Array[Variant] = [destination_property, source_property, signal_name, method, classname, flags]
 	if not parameters in signals:
 		signals.append(parameters)
 
@@ -140,6 +140,10 @@ func get_vector3i_property(property: StringName, default: Variant = null) -> Var
 	return get_property("convert_vector3i", property, default)
 
 
+func get_vector4i_property(property: StringName, default: Variant = null) -> Variant:
+	return get_property("convert_vector4i", property, default)
+
+
 func get_float_property(property: StringName, default: Variant = null) -> Variant:
 	return get_property("convert_float", property, default)
 
@@ -150,6 +154,10 @@ func get_vector2_property(property: StringName, default: Variant = null) -> Vari
 
 func get_vector3_property(property: StringName, default: Variant = null) -> Variant:
 	return get_property("convert_vector3", property, default)
+
+
+func get_vector4_property(property: StringName, default: Variant = null) -> Variant:
+	return get_property("convert_vector4", property, default)
 
 
 func get_sound_property(property: StringName, default: Variant = null) -> Variant:
@@ -212,6 +220,10 @@ func bind_vector3i_property(property: StringName, node_property: StringName) -> 
 	bind_property("convert_vector3i", property, node_property)
 
 
+func bind_vector4i_property(property: StringName, node_property: StringName) -> void:
+	bind_property("convert_vector4i", property, node_property)
+
+
 func bind_float_property(property: StringName, node_property: StringName) -> void:
 	bind_property("convert_float", property, node_property)
 
@@ -222,6 +234,10 @@ func bind_vector2_property(property: StringName, node_property: StringName) -> v
 
 func bind_vector3_property(property: StringName, node_property: StringName) -> void:
 	bind_property("convert_vector3", property, node_property)
+
+
+func bind_vector4_property(property: StringName, node_property: StringName) -> void:
+	bind_property("convert_vector4", property, node_property)
 
 
 func bind_sound_property(property: StringName, node_property: StringName) -> void:
