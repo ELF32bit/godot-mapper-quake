@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/gib1.mdl-d1bb4ea17da41fd70019609b48aef491.scn
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0

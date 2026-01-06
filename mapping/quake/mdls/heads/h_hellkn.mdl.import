@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/h_hellkn.mdl-0a25b41ba5ac034bfd7e2474af19b645
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0

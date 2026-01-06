@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/backpack.mdl-389f1368cef9d22adf307da926149ae5
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0

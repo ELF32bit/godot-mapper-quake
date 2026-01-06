@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/player.mdl-c01f7392d1e351d2279f5cd9865105ac.s
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "stand",
-"mdls_skin": 0
-}
+autoplay="stand"
+skin=0

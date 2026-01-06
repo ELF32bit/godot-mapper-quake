@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/m_s_key.mdl-22a8b364e1a15620b89ba8b6624f6e9b.
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0

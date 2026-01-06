@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/h_dog.mdl-add3e45372a5ac3fcb43fffb032aa29f.sc
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0

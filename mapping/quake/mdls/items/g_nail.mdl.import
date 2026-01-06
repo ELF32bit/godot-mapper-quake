@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/g_nail.mdl-da42a3b1b5a92dae0831e33545d7dabe.s
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0

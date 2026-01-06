@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/soldier.mdl-d36882586dd5f8c0e11bbc8dedf3e1cf.
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "stand",
-"mdls_skin": 0
-}
+autoplay="stand"
+skin=0

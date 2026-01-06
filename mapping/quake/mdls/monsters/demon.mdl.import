@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/demon.mdl-5c1b4aa721035587742997ad1b734f52.sc
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "stand",
-"mdls_skin": 0
-}
+autoplay="stand"
+skin=0

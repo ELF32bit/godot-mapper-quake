@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/bolt3.mdl-08ee1c9964d9d08a6f4ddc42c3ea803e.sc
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0

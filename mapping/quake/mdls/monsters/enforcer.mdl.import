@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/enforcer.mdl-bb7949974f6aae6e46d96d53a1f8dcc1
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "stand",
-"mdls_skin": 0
-}
+autoplay="stand"
+skin=0

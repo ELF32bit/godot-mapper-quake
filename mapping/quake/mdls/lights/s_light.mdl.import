@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/s_light.mdl-b4dcb34ed23444035ce7a18d8f199500.
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "frame",
-"mdls_skin": 0
-}
+autoplay="frame"
+skin=0

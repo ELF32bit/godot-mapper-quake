@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/shambler.mdl-d637320d7d980097e4fd8bf946a58835
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "stand",
-"mdls_skin": 0
-}
+autoplay="stand"
+skin=0

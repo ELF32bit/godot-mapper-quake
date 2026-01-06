@@ -13,7 +13,5 @@ dest_files=["res://.godot/imported/zom_gib.mdl-eeee9365d4cc14401cc6ff94b8db357d.
 [params]
 
 palette=""
-options={
-"mdls_autoplay": "",
-"mdls_skin": 0
-}
+autoplay=""
+skin=0
