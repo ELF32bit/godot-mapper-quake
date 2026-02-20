@@ -12,8 +12,8 @@ signal closing
 @export_node_path("Timer") var _wait_timer: NodePath
 @onready var wait_timer: Timer = get_node_or_null(_wait_timer)
 
-@export var gold_key_required := false # TODO: not implemented
-@export var silver_key_required := false # TODO: not implemented
+@export var gold_key_required := false
+@export var silver_key_required := false
 @export var toggle := false
 
 var has_crushed := false
@@ -33,6 +33,12 @@ func _physics_process(delta: float) -> void:
 
 @warning_ignore("unused_parameter")
 func _on_body_entered(body: Node3D) -> void:
+	if is_instance_valid(body): # checking if character has keys
+		if gold_key_required and not body.get_meta("has_gold_key", true):
+			return
+		if silver_key_required and not body.get_meta("has_silver_key", true):
+			return
+	# playing door open animation or closing if toggled
 	if toggle and animation_player.assigned_animation == "opened":
 		animation_player.play("close")
 		closing.emit()
