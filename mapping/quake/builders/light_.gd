@@ -80,7 +80,7 @@ static func build_spot_light(map: MapperMap, entity: MapperEntity) -> SpotLight3
 	var origin: Vector3 = entity.get_origin_property(entity.center)
 	var target_origin: Vector3 = target.get_origin_property(target.center)
 
-	# obtating target direction and rotation
+	# obtaining target direction and rotation
 	var direction := Vector3(target_origin - origin)
 	var direction_normalized := direction.normalized()
 	var entity_rotation: Vector3 = entity.node_properties.get("rotation", Vector3.ZERO)
