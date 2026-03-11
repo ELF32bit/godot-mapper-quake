@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/wizard.mdl-dee2fcd33ec792ead3f250724373b4de.s
 
 [params]
 
+skin=0
 palette=""
 autoplay="hover"
-skin=0
+options={}

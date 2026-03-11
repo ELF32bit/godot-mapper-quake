@@ -13,4 +13,5 @@ dest_files=["res://.godot/imported/medieval.wad-5b8d510c5a8baf2b23d959d5ad0c5d35
 [params]
 
 palette=""
+emission_suffix="_emission"
 use_threads=false

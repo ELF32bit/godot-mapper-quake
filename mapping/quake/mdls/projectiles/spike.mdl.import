@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/spike.mdl-3384d1ff3c952764456fe7be36967efd.sc
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

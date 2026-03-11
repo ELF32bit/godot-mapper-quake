@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/h_zombie.mdl-7ef90b6708ed1aa6a332bd8c514c9505
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

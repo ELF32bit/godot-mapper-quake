@@ -13,4 +13,5 @@ dest_files=["res://.godot/imported/metal.wad-d5ef5a0e996fad8966a88b0e16597e3b.re
 [params]
 
 palette=""
+emission_suffix="_emission"
 use_threads=false

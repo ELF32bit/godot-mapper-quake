@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/oldone.mdl-f0650a9517a0f549a435350aa9e060f8.s
 
 [params]
 
+skin=0
 palette=""
 autoplay="old"
-skin=0
+options={}

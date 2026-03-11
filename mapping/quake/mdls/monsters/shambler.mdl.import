@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/shambler.mdl-d637320d7d980097e4fd8bf946a58835
 
 [params]
 
+skin=0
 palette=""
 autoplay="stand"
-skin=0
+options={}

@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/shalrath.mdl-ca757131a11acf6060691f9974096f49
 
 [params]
 
+skin=0
 palette=""
 autoplay="walk"
-skin=0
+options={}

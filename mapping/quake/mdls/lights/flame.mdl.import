@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/flame.mdl-33c9bd56ba2c6f576eace072a467a27f.sc
 
 [params]
 
+skin=0
 palette=""
 autoplay="flame"
-skin=0
+options={}

@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/laser.mdl-8b4091777913d46cd6046735d15d407b.sc
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

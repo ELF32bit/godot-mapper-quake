@@ -13,4 +13,5 @@ dest_files=["res://.godot/imported/base.wad-b07aee0c958e277c31afe7f98d774006.res
 [params]
 
 palette=""
+emission_suffix="_emission"
 use_threads=false

@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/v_light.mdl-442ea5594e2051e5b14cdef6d4da2c79.
 
 [params]
 
+skin=0
 palette=""
 autoplay="shot"
-skin=0
+options={}

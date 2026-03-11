@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/h_shal.mdl-a55830ba20bc3ee4e745ad6e50b0d475.s
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

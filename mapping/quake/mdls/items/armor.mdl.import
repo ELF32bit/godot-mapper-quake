@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/armor.mdl-b6c05a4df0f93c2a6696ce4d09a2dd88.sc
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

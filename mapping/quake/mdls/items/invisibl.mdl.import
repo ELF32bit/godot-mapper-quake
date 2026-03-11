@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/invisibl.mdl-4785e45836c45fb2df673d4e681fb092
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

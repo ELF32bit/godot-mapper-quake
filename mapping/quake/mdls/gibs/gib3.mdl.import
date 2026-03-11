@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/gib3.mdl-14e648c4838b7b32ba29418ebc62fd8e.scn
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

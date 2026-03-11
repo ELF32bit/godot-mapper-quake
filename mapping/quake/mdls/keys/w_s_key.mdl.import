@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/w_s_key.mdl-d19f01508720c00166e7c1846b651475.
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

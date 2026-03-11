@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/g_rock2.mdl-bb6b3d78688408b92780c47ac6d273fd.
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

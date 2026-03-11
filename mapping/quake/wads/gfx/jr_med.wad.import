@@ -13,4 +13,5 @@ dest_files=["res://.godot/imported/jr_med.wad-067f7d8ba3e8217af65fb7658af9006b.r
 [params]
 
 palette=""
+emission_suffix="_emission"
 use_threads=false

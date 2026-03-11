@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/eyes.mdl-27c06e209c0a1832c1a678fb6e998515.scn
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

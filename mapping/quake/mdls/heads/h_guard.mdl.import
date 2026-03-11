@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/h_guard.mdl-1ed472328a0488b1424ab120e69d3cc2.
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

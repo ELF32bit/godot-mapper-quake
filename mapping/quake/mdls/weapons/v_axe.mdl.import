@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/v_axe.mdl-fc09eb830bc66d4b48f875934ce21f16.sc
 
 [params]
 
+skin=0
 palette=""
 autoplay="frame"
-skin=0
+options={}

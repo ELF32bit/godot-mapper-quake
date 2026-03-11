@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/hknight.mdl-8de7549fa7df4bda91e7df820e0a7c4b.
 
 [params]
 
+skin=0
 palette=""
 autoplay="stand"
-skin=0
+options={}

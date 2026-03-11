@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/knight.mdl-d23dca737946ea6ba87da31c1cdd0868.s
 
 [params]
 
+skin=0
 palette=""
 autoplay="stand"
-skin=0
+options={}

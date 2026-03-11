@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/lavaball.mdl-919661feddcc8e323594fb3de774bafa
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

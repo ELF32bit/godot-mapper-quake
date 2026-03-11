@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/h_demon.mdl-f3bf7a686b70511044b118aae2919964.
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

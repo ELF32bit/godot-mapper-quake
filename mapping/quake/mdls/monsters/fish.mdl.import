@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/fish.mdl-757ca09ba71a2249f3c05bd8c76278f0.scn
 
 [params]
 
+skin=0
 palette=""
 autoplay="swim"
-skin=0
+options={}

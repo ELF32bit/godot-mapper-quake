@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/quaddama.mdl-07e9879a0bcb4f556c809965f069e100
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

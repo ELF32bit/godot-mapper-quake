@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/end4.mdl-d8be2d5645a6c7f78fc66bb514543f51.scn
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

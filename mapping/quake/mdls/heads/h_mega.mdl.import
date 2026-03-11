@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/h_mega.mdl-6ce32a237849dd87e7779b23019774c6.s
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

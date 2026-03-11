@@ -13,4 +13,5 @@ dest_files=["res://.godot/imported/tim.wad-6d820d9b762961e0f0d660f19b765a72.res"
 [params]
 
 palette=""
+emission_suffix="_emission"
 use_threads=false

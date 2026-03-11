@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/bolt2.mdl-fce9e08b9078d5f6383c613a32fc5ee4.sc
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}

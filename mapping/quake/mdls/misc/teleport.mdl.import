@@ -12,6 +12,7 @@ dest_files=["res://.godot/imported/teleport.mdl-60aab92845c2ccdaada39ecd67a06e47
 
 [params]
 
+skin=0
 palette=""
 autoplay=""
-skin=0
+options={}
