@@ -4,7 +4,7 @@ Collision layers driven Quake entities with generic methods.<br>
 Refer to the entity implementation table for the list of methods.<br>
 Change **layers.gd** file to integrate entities into an existing project.<br>
 
-> This repository needs a lot more polishing, but a solid foundation is established.
+> Game scripts need a lot more polishing, but a solid foundation is established.
 
 ## Features
 * Door linking is implemented.
@@ -14,6 +14,17 @@ Change **layers.gd** file to integrate entities into an existing project.<br>
 * Most spawnflags are supported.
 
 > Requires compiling Godot editor with **`XA_MULTITHREADED 0`** for lightmapping.
+
+## Running the examples
+Maps in the repository are not constructed, so a fresh project can open.<br>
+The **main scene** is a basic game launcher that will construct playable maps at runtime.<br>
+As the maps are constructed, you will see `mapdata` directory getting filled with placeholder files.<br>
+Lightmap and navigation region resources must be baked inside the editor to appear in the game.<br>
+Import map resources as scenes inside the editor and bake the necessary data.<br>
+
+> The most efficient way to develop new maps is to insert them into scenes.<br>
+External animation players will then be able to retain node paths upon reimport.<br>
+Create a dedicated `scenes` directory near the `maps` directory and overlay changes.
 
 ## Entity implementation table
 
@@ -29,7 +40,7 @@ State | Classname | Commentary
 ✅ | ambient_*              |
 ✅ | func_door              | Might have `quake_health: int` property.<br>`_quake_crush(body: Node3D, damage: int)`
 ✅ | func_door_secret       | Has `quake_health: int` property.<br>`_quake_crush(body: Node3D, damage: int)`
-✅ | func_wall              | **Uses extended alternative texture system.**
+✅ | func_wall              | **Implements extended alternative texture system.**
 ✅ | func_button            | Might have `quake_health: int` property.
 ✅ | func_train             | `_quake_crush(body: Node3D, damage: int)`
 ✅ | func_plat              | `_quake_crush(body: Node3D, damage: int)`
@@ -39,7 +50,7 @@ State | Classname | Commentary
 ✅ | trigger_changelevel    | Requires game specific logic to change `map`.
 ✅ | trigger_once           | Might have `quake_health: int` property.
 ✅ | trigger_multiple       | Might have `quake_health: int` property.
-✅ | trigger_onlyregistered | Uses map `game_registered` option.
+✅ | trigger_onlyregistered | Requires map `game_registered` option.
 ✅ | trigger_secret         | Does not award a secret credit.
 ✅ | trigger_teleport       | `_quake_push(velocity: Vector3)`
 ✅ | trigger_setskill       | Does not set skill, use map `game_mode` option instead.
@@ -51,7 +62,7 @@ State | Classname | Commentary
 🟨 | air_bubbles            | Uses placeholder particle system.
 🟨 | event_lightning        | Uses placeholder particle system.
 ✅ | misc_explobox*         | Has `quake_health: int` property.<br>`_quake_explode(damage: int)`
-✅ | misc_fireball          | Does not use exact speed and gravity.<br>`_quake_hurt(damage: int)`
+✅ | misc_fireball          | Does not use the exact speed and gravity.<br>`_quake_hurt(damage: int)`
 ✅ | misc_noisemaker        |
 ✅ | misc_teleporttrain     |
 ✅ | path_corner            |
