@@ -4,7 +4,7 @@ Collision layers driven Quake entities with generic methods.<br>
 Refer to the entity implementation table for the list of methods.<br>
 Change **layers.gd** file to integrate entities into an existing project.<br>
 
-> Game scripts need a lot more polishing, but a solid foundation is established.
+> Game scripts in the repository are very short and need a lot more polishing.
 
 ## Features
 * Door linking is implemented.

@@ -7,7 +7,7 @@ static func build(map: MapperMap) -> void:
 
 	# creating lightmapGI
 	var lightmap_gi := MapperUtilities.create_lightmap_gi(map, map.node)
-	lightmap_gi.set_script(preload("../scripts/editor/lightmap.gd"))
+	lightmap_gi.set_script(preload("../scripts/lightmap.gd"))
 
 	# creating world environment and directional light
 	var first_world_entity := map.get_first_world_entity()

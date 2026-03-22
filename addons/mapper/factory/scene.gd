@@ -11,18 +11,16 @@ var build_time: int = 0
 
 func _init(settings: MapperSettings) -> void:
 	self.settings = settings
-
 	# creating game loader instance
-	var game_loader_instance := settings.game_loader.new()
+	var game_loader_instance = settings.game_loader.new()
 	if game_loader_instance is MapperLoader:
 		game_loader = game_loader_instance
 		game_loader.settings = settings
 	else:
 		push_error("Game loader script must extend MapperLoader.")
 		self.settings = null
-
 	# creating game property converter instance
-	var game_property_converter_instance := settings.game_property_converter.new()
+	var game_property_converter_instance = settings.game_property_converter.new()
 	if game_property_converter_instance is MapperPropertyConverter:
 		game_property_converter = game_property_converter_instance
 		game_property_converter.game_loader = game_loader_instance
@@ -230,7 +228,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				continue
 
 			# skipping certain entities from settings
-			var entity_classname := entity_structure.get_classname_property(null)
+			var entity_classname = entity_structure.get_classname_property(null)
 			var is_skipped_entity := false
 			if entity_classname != null:
 				is_skipped_entity = settings.is_skip_entity_classname(entity_classname)
@@ -305,9 +303,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 						smooth_entity_structures.append(entity_structure)
 
 #2. Generating faces
+	var _texture_suffixes := settings.texture_suffixes.values()
 	var generate_faces := func(thread_index: int) -> void:
 		var face := face_structures[thread_index]
-
 		face.point1 = settings.basis * face.point1
 		face.point2 = settings.basis * face.point2
 		face.point3 = settings.basis * face.point3
@@ -329,7 +327,8 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			face.scale.y = 1.0
 
 		# removing texture suffixes from material names
-		for suffix in settings.texture_suffixes.values():
+		for suffix_index in range(_texture_suffixes.size() - 1, -1, -1):
+			var suffix: String = _texture_suffixes[suffix_index]
 			if face.material_name.ends_with(suffix):
 				face.material_name = face.material_name.trim_suffix(suffix)
 				break
@@ -385,17 +384,20 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				face_vertices[index].y = snappedf(face_vertices[index].y, grid_snap_step)
 				face_vertices[index].z = snappedf(face_vertices[index].z, grid_snap_step)
 
-	var _generate_brush_centers := func(brush: MapperBrush) -> void:
-		brush.center = Vector3.ZERO
-		if not brush.faces.size():
-			return
+	var _generate_brush_bounds := func(brush: MapperBrush) -> void:
+		var has_vertex := false
 		for face in brush.faces:
-			face.center = Vector3.ZERO
 			for vertex in face.vertices:
+				if has_vertex:
+					brush.aabb = brush.aabb.expand(vertex)
+				else:
+					brush.aabb = AABB(vertex, Vector3.ZERO)
+					has_vertex = true
 				face.center += vertex
 			face.center /= face.vertices.size()
 			brush.center += face.center
-		brush.center /= brush.faces.size()
+		if brush.faces.size():
+			brush.center /= brush.faces.size()
 
 	var _sort_clockwise := func(a: Vector4, b: Vector4) -> bool:
 		return a.w > b.w
@@ -426,6 +428,8 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			face.center *= scale
 			face.vertices = transform * face.vertices
 			face.uv_shift *= scale
+		brush.aabb.position *= scale
+		brush.aabb.size *= scale
 		brush.center *= scale
 
 #4. Generating brushes
@@ -462,19 +466,9 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			brush.surfaces[face.material_name].append(face)
 			brush.materials[face.material_name] = face.material
 
-		_generate_brush_centers.call(brush)
+		_generate_brush_bounds.call(brush)
 		_sort_brush_vertices.call(brush, _sort_clockwise)
 		_scale_brush_coordinates.call(brush)
-
-	# obtaining entity faces without skip material
-	var _get_entity_faces := func(entity: MapperEntity) -> Array[MapperFace]:
-		var entity_faces: Array[MapperFace] = []
-		for brush in entity.brushes:
-			for face in brush.faces:
-				if face.skip:
-					continue
-				entity_faces.append(face)
-		return entity_faces
 
 	# obtaining unique (non-coplanar) entity faces for smooth entity normals
 	var _get_unique_entity_faces := func(entity_faces: Array[MapperFace], epsilon: float) -> Array[bool]:
@@ -493,15 +487,12 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				if not unique_entity_faces[index2]:
 					continue
 				var face2 := entity_faces[index2]
-				var face2_vertices_size := face2.vertices.size()
 				# quickly checking non-coplanar faces centers and vertices size
-				if face1_vertices_size != face2_vertices_size:
+				if face1_vertices_size != face2.vertices.size():
 					continue
-				var face_center2 := face2.center
-				if not MapperUtilities.is_equal_approximately(face_center1, face_center2, epsilon):
+				if not MapperUtilities.is_equal_approximately(face_center1, face2.center, epsilon):
 					continue
-				var plane_center2 := face2.plane.get_center()
-				if not MapperUtilities.is_equal_approximately(plane_center1, plane_center2, epsilon):
+				if not MapperUtilities.is_equal_approximately(plane_center1, face2.plane.get_center(), epsilon):
 					continue
 				# slowly checking coplanar faces vertices
 				var is_different_face := false
@@ -530,9 +521,15 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 		var split_angle: float = entity.get_float_property(split_angle_property, 89.0)
 		split_angle = deg_to_rad(clampf(split_angle, 0.0, 180.0))
 
+		# obtaining entity faces without skip material
+		var entity_faces: Array[MapperFace] = []
+		for brush in entity.brushes:
+			for face in brush.faces:
+				if not face.skip:
+					entity_faces.append(face)
+
 		# collecting entity faces, discarding faces in the same plane with the same centers
-		var entity_faces: Array[MapperFace] = _get_entity_faces.call(entity)
-		var unique_entity_faces := _get_unique_entity_faces.call(entity_faces, epsilon)
+		var unique_entity_faces = _get_unique_entity_faces.call(entity_faces, epsilon)
 
 		# collecting unique vertices and face normals
 		var vertices := PackedVector3Array()
@@ -758,12 +755,10 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 	var _inverse_basis := settings.basis.inverse()
 	var generate_brush_geometry := func(thread_index: int) -> void:
 		var brush := brush_structures[thread_index]
+		var triangles: PackedVector3Array = []
+		var points: PackedVector3Array = []
 		var surface_tools: Dictionary = {}
-		var skip_surface_tool: SurfaceTool = null
-		var points := PackedVector3Array()
-		var triangles := PackedVector3Array()
 		var is_concave_mesh := false
-		var skip_aabb := AABB()
 
 		# creating surface tools from brush surfaces
 		for face in brush.faces:
@@ -774,10 +769,6 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			var normals := face.get_normals(true)
 
 			if face.skip:
-				if not skip_surface_tool:
-					skip_surface_tool = SurfaceTool.new()
-					skip_surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-				skip_surface_tool.add_triangle_fan(vertices)
 				is_concave_mesh = true
 				if not settings.skip_material_affects_collision:
 					triangles.append_array(face.get_triangles(brush.center, true))
@@ -845,9 +836,6 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 		for material in surface_tools:
 			surface_tools[material].index()
 			surface_tools[material].generate_tangents()
-		if skip_surface_tool:
-			skip_surface_tool.index()
-			skip_aabb = skip_surface_tool.commit(brush.mesh).get_aabb()
 
 		# creating brush array mesh from surface tools
 		if surface_tools.size() > 0:
@@ -874,22 +862,11 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				if brush.concave_shape and is_concave_mesh:
 					brush.shape = brush.concave_shape
 
-		# setting brush aabb from array mesh
-		if brush.mesh:
-			brush.aabb = brush.mesh.get_aabb()
-			if brush.aabb.has_surface() and skip_aabb.has_surface():
-				brush.aabb = brush.aabb.merge(skip_aabb)
-			elif skip_aabb.has_surface():
-				brush.aabb = skip_aabb
-		elif skip_aabb.has_surface():
-			brush.aabb = skip_aabb
-		brush.aabb.position = brush.center - brush.aabb.size / 2.0
-		brush.aabb.end = brush.center + brush.aabb.size / 2.0
-
 	var _generate_occluder := func(mesh: ArrayMesh) -> ArrayOccluder3D:
 		if not mesh:
 			return null
 		var surface_tool := SurfaceTool.new()
+		surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 		for surface_index in range(mesh.get_surface_count()):
 			surface_tool.append_from(mesh, surface_index, Transform3D.IDENTITY)
 		var arrays := surface_tool.commit_to_arrays()
@@ -920,13 +897,18 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 #11. Generating entity bounds
 	var generate_entity_bounds := func(thread_index: int) -> void:
 		var entity := entity_structures[thread_index]
+		var aabb_is_empty := true
 		for brush in entity.brushes:
 			if not brush.aabb.has_surface():
 				continue
-			elif not entity.aabb.has_surface():
+			if aabb_is_empty:
 				entity.aabb = brush.aabb
+				aabb_is_empty = false
 			else:
 				entity.aabb = entity.aabb.merge(brush.aabb)
+		if aabb_is_empty:
+			var origin: Vector3 = entity.get_origin_property(Vector3.ZERO)
+			entity.aabb = AABB(origin, Vector3.ZERO)
 		entity.center = entity.aabb.get_center()
 
 #12. Generating entity meshes
@@ -943,7 +925,7 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 				continue
 			if brush.get_uniform_property(properties.mesh_disabled, false):
 				continue
-			var cast_shadow := brush.get_uniform_property(properties.cast_shadow, true)
+			var cast_shadow = brush.get_uniform_property(properties.cast_shadow, true)
 			has_shadow_mesh = bool(true if not cast_shadow else has_shadow_mesh)
 
 			var offset := Transform3D.IDENTITY.translated(brush.center - entity.center)
@@ -997,9 +979,8 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 	var generate_entity_shapes := func(thread_index: int) -> void:
 		var properties := settings.override_material_metadata_properties
 		var entity := entity_structures[thread_index]
-		var points := PackedVector3Array()
-		var triangles := PackedVector3Array()
-		var convex_center := Vector3.ZERO
+		var triangles: PackedVector3Array = []
+		var points: PackedVector3Array = []
 		var potentially_convex := false
 		var shapes_amount: int = 0
 
@@ -1012,7 +993,6 @@ func build_map(map: MapperMapResource, wads: Array[MapperWadResource] = []) -> P
 			var offset := Transform3D.IDENTITY.translated(brush.center - entity.center)
 			if shapes_amount == 1 and brush.shape == brush.convex_shape:
 				points = offset * brush.convex_shape.get_points()
-				convex_center = brush.center
 				potentially_convex = true
 			var brush_triangles := brush.concave_shape.get_faces()
 			triangles.append_array(offset * brush_triangles)
