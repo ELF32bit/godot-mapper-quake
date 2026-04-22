@@ -33,7 +33,7 @@ State | Classname | Commentary
 🟨 | worldspawn             | CD tracks 2-11 are not included for the `sounds` property.<br> World environment (sunlight and fog) needs more work.<br>`_quake_submerge(area: Area3D, liquid: int)`
 ✅ | info_*                 |
 ❌ | info_notnull           | Does not implement **progs.dat** hacks.
-✅ | item_*                 | Keys are not registered for opening doors.<br>Some items are loaded as sub-maps.
+✅ | item_*                 | Keys are ignored when opening doors.<br>Some items are loaded as sub-maps.
 ✅ | weapon_*               |
 ✅ | light_*                | Light flickering is visible in Forward+ renderer.
 ✅ | monster_*              | Enemy AI is beyond the scope of this project.
@@ -42,7 +42,7 @@ State | Classname | Commentary
 ✅ | func_door_secret       | Has `quake_health: int` property.<br>`_quake_crush(body: Node3D, damage: int)`
 ✅ | func_wall              | **Implements extended alternative texture system.**
 ✅ | func_button            | Might have `quake_health: int` property.
-✅ | func_train             | `_quake_crush(body: Node3D, damage: int)`
+✅ | func_train             | Uses simpler, incorrect **path_corner** offset.<br>`_quake_crush(body: Node3D, damage: int)`
 ✅ | func_plat              | `_quake_crush(body: Node3D, damage: int)`
 ✅ | func_illusionary       |
 🟨 | func_episodegate       | Unnecessary story entity.
@@ -67,6 +67,6 @@ State | Classname | Commentary
 ✅ | misc_teleporttrain     |
 ✅ | path_corner            |
 ✅ | testplayerstart        |
-✅ |trap_shooter            | `_quake_hurt(damage: int)`
-✅ |trap_spikeshooter       | `_quake_hurt(damage: int)`
+✅ | trap_shooter           | `_quake_hurt(damage: int)`
+✅ | trap_spikeshooter      | `_quake_hurt(damage: int)`
 ✅ | viewthing              |
