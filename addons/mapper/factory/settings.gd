@@ -88,7 +88,6 @@ var options: Dictionary
 @export var grid_snap_step: float = 0.125
 
 ## If false, will not unwrap geometry for lightmaps.
-## Make sure to compile Godot editor with `XA_MULTITHREADED 0` or disable.
 @export var lightmap_unwrap := true
 ## Controls the size of each texel on the baked lightmap.
 @export var lightmap_texel_size: float = 0.5
@@ -101,11 +100,19 @@ var options: Dictionary
 @export var store_barycentric_coordinates := true
 ## If false, will not generate merged brush entities.
 @export var merge_entity_brushes := true
-## If false, entity shadow meshes will not be generated.
-## Currently does not work with Forward+ rendering, recommended to disable.
-@export var shadow_meshes := true # BUG: does not work with Forward+ rendering
+## If false, will not generate shadow meshes.
+@export var shadow_meshes := true
+## If false, will not generate cast shadow meshes for entities.
+@export var cast_shadow_meshes := true
 ## If false, occluder instances will not be generated.
 @export var occlusion_culling := true
+
+## If false, will not unwrap brushes for lightmaps.
+## Make sure to compile Godot editor with `XA_MULTITHREADED 0` or disable.
+@export var brush_lightmap_unwrap := true
+## If false, will not generate brush shadow meshes.
+## Generating shadow meshes for brushes is not thread safe.
+@export var brush_shadow_meshes := true
 
 ## Max surface (^2) and volume (^3) distribution density per axis.
 @export var max_distribution_density: float = 4.0

@@ -2,6 +2,8 @@ extends MapperQuake
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
+	#if map.settings.options.get("_map_is_item", false):
+	#	return null # disabling lights from items
 	var light: Light3D = null
 	var light_prefix: String = "spot_"
 	light = build_spot_light(map, entity)

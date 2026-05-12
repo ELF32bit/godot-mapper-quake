@@ -85,7 +85,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 
 		var static_body := StaticBody3D.new()
 		static_body.position = brush.center
-		MapperUtilities.add_global_child(static_body, area, map.settings)
+		MapperUtilities.add_global_child(static_body, liquids[liquid], map.settings)
 		static_body.add_child(collision_shape, map.settings.readable_node_names)
 		set_collision_layer_mask(static_body,
 			["worldspawn-liquid-StaticBody3D"],

@@ -13,6 +13,27 @@ static func lightmap_unwrap(mesh: ArrayMesh, transform: Transform3D, texel_size:
 			mesh.surface_set_name(surface_index, surface_names[surface_index])
 
 
+static func generate_shadow_mesh(mesh: ArrayMesh) -> void:
+	var shadow_mesh := ArrayMesh.new()
+	for surface_index in range(mesh.get_surface_count()):
+		var arrays := mesh.surface_get_arrays(surface_index)
+		if arrays[Mesh.ARRAY_VERTEX] == null:
+			break
+		if arrays[Mesh.ARRAY_VERTEX].size() == 0:
+			break
+		for index in range(Mesh.ARRAY_MAX):
+			if index == Mesh.ARRAY_VERTEX:
+				continue
+			elif index == Mesh.ARRAY_INDEX:
+				if arrays[index] != null and arrays[index].size() == 0:
+					arrays[index] = null
+			elif arrays[index] != null:
+				arrays[index] = null
+		shadow_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	if shadow_mesh.get_surface_count() == mesh.get_surface_count():
+		mesh.shadow_mesh = shadow_mesh
+
+
 static func is_equal_approximately(a: Vector3, b: Vector3, epsilon: float) -> bool:
 	if not absf(a.x - b.x) < epsilon:
 		return false
@@ -366,7 +387,7 @@ static func create_multimesh_instance(entity: MapperEntity, parent: Node, multim
 	return multimesh_instance
 
 
-static func create_multimesh_mesh_instance(entity: MapperEntity, parent: Node, multimesh: MultiMesh, transform_array: PackedVector3Array, store_instance_id: bool = true, seed: int = 0) -> MeshInstance3D:
+static func create_merged_multimesh_instance(entity: MapperEntity, parent: Node, multimesh: MultiMesh, transform_array: PackedVector3Array, store_instance_id: bool = true, seed: int = 0) -> MeshInstance3D:
 	if transform_array.size() % 4 != 0:
 		return null
 
@@ -520,14 +541,14 @@ static func create_multimesh_mesh_instance(entity: MapperEntity, parent: Node, m
 		return array_mesh
 
 	var array_mesh = create_array_mesh_from_multimesh.call(multimesh_mesh, transforms)
-	if multimesh_mesh.shadow_mesh and entity.factory.settings.shadow_meshes:
-		array_mesh.shadow_mesh = create_array_mesh_from_multimesh.call(multimesh_mesh.shadow_mesh, transforms)
-
 	if entity.factory.settings.lightmap_unwrap and array_mesh.get_blend_shape_count() == 0:
 		var transform := Transform3D.IDENTITY.translated(entity.center)
 		var lightmap_scale: float = entity.get_lightmap_scale_property(1.0)
 		var texel_size := entity.factory.settings.lightmap_texel_size / lightmap_scale
 		lightmap_unwrap(array_mesh, transform, texel_size)
+	if entity.factory.settings.shadow_meshes and array_mesh.get_blend_shape_count() == 0:
+		if multimesh_mesh.shadow_mesh:
+			generate_shadow_mesh(array_mesh)
 
 	mesh_instance.mesh = array_mesh
 	return mesh_instance
@@ -596,7 +617,8 @@ static func create_brush(entity: MapperEntity, brush: MapperBrush, node_class: S
 			node.physics_material_override = brush.get_uniform_physics_material()
 		if is_rigid_body:
 			var mass := brush.get_mass(use_approximate_mass)
-			if mass > 0.0: node.mass = mass
+			if mass > 0.0:
+				node.mass = mass
 		return node
 
 	node.free()
@@ -641,7 +663,8 @@ static func create_brush_entity(entity: MapperEntity, node_class: StringName = "
 	if has_children:
 		if children_are_siblings and is_rigid_body:
 			var mass := entity.get_mass(use_approximate_mass)
-			if mass > 0.0: node.mass = mass
+			if mass > 0.0:
+				node.mass = mass
 		entity.node_properties.erase("position")
 		entity.node_properties.erase("rotation")
 		entity.node_properties.erase("scale")
@@ -687,6 +710,16 @@ static func create_merged_brush_entity(entity: MapperEntity, node_class: StringN
 					instance.set_surface_override_material(surface_index, material.override)
 
 		instance.cast_shadow = int(entity.is_casting_shadow())
+		if entity.factory.settings.cast_shadow_meshes:
+			if entity.cast_shadow_mesh and instance.cast_shadow != 0:
+				var shadow_instance := MeshInstance3D.new()
+				shadow_instance.position = entity.center
+				add_global_child(shadow_instance, instance, entity.factory.settings)
+				shadow_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+				instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				shadow_instance.mesh = entity.cast_shadow_mesh
+			if instance.cast_shadow != 0:
+				instance.cast_shadow = int(entity.metadata.get("_cast_shadow", true))
 
 	if collision_shape and has_collision and entity.shape and not is_lightmap_scene:
 		var instance := CollisionShape3D.new()
@@ -705,7 +738,8 @@ static func create_merged_brush_entity(entity: MapperEntity, node_class: StringN
 	if has_children:
 		if is_rigid_body:
 			var mass := entity.get_mass(use_approximate_mass)
-			if mass > 0.0: node.mass = mass
+			if mass > 0.0:
+				node.mass = mass
 		entity.node_properties.erase("position")
 		entity.node_properties.erase("rotation")
 		entity.node_properties.erase("scale")
@@ -758,27 +792,31 @@ static func create_csg_merged_brush_entity(entity: MapperEntity, brushes: Array[
 				csg_mesh = csg_mesh_combiner.call("bake_static_mesh")
 		csg_mesh_combiner.free()
 
-	var has_shadow_mesh := false
-	var csg_shadow_mesh: ArrayMesh = null
-	if mesh_instance and entity.factory.settings.shadow_meshes:
-		var csg_shadow_mesh_combiner := CSGCombiner3D.new()
-		csg_shadow_mesh_combiner.position = entity.center
+	var cast_shadow := true
+	var has_cast_shadow_mesh := false
+	var csg_cast_shadow_mesh: ArrayMesh = null
+	if mesh_instance and entity.factory.settings.cast_shadow_meshes:
+		var csg_cast_shadow_mesh_combiner := CSGCombiner3D.new()
+		csg_cast_shadow_mesh_combiner.position = entity.center
 		for brush in brushes:
 			if brush.is_degenerate:
 				continue
 			if brush.get_uniform_property(properties.mesh_disabled, false):
 				continue
 			if not brush.get_uniform_property(properties.cast_shadow, true):
-				has_shadow_mesh = true
+				has_cast_shadow_mesh = true
 				continue
 			var csg := CSGMesh3D.new()
 			csg.mesh = brush.mesh
 			csg.position = brush.center
-			add_global_child(csg, csg_shadow_mesh_combiner, entity.factory.settings)
-		if csg_shadow_mesh_combiner.get_child_count() > 0:
-			if csg_shadow_mesh_combiner.has_method("bake_static_mesh"):
-				csg_shadow_mesh = csg_shadow_mesh_combiner.call("bake_static_mesh")
-		csg_shadow_mesh_combiner.free()
+			add_global_child(csg, csg_cast_shadow_mesh_combiner, entity.factory.settings)
+		if has_cast_shadow_mesh:
+			if csg_cast_shadow_mesh_combiner.get_child_count() > 0:
+				if csg_cast_shadow_mesh_combiner.has_method("bake_static_mesh"):
+					csg_cast_shadow_mesh = csg_cast_shadow_mesh_combiner.call("bake_static_mesh")
+			else:
+				cast_shadow = false
+		csg_cast_shadow_mesh_combiner.free()
 
 	var csg_shape: ConcavePolygonShape3D = null
 	if collision_shape and has_collision and not is_lightmap_scene:
@@ -817,55 +855,66 @@ static func create_csg_merged_brush_entity(entity: MapperEntity, brushes: Array[
 				csg_occluder_mesh = csg_occluder_combiner.call("bake_static_mesh")
 		csg_occluder_combiner.free()
 
-	if csg_mesh and entity.factory.settings.lightmap_unwrap:
+	# cleaning up csg cast shadow mesh
+	if csg_cast_shadow_mesh:
+		var is_valid_mesh := false
+		var surface_tool := SurfaceTool.new()
+		surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+		for surface_index in range(csg_cast_shadow_mesh.get_surface_count()):
+			surface_tool.append_from(csg_cast_shadow_mesh, surface_index, Transform3D.IDENTITY)
+		surface_tool.index()
+		surface_tool.optimize_indices_for_cache()
+		var arrays := surface_tool.commit_to_arrays()
+		var required_arrays := [Mesh.ARRAY_VERTEX, Mesh.ARRAY_INDEX]
+		if entity.factory.settings.lightmap_unwrap:
+			required_arrays.insert(1, Mesh.ARRAY_NORMAL)
+		for index in range(Mesh.ARRAY_MAX):
+			if index in required_arrays:
+				if arrays[index] != null:
+					if arrays[index].size() != 0:
+						is_valid_mesh = true
+					else:
+						arrays[index] = null
+			elif arrays[index] != null:
+				arrays[index] = null
+		if is_valid_mesh:
+			csg_cast_shadow_mesh = ArrayMesh.new()
+			csg_cast_shadow_mesh.add_surface_from_arrays(
+				Mesh.PRIMITIVE_TRIANGLES, arrays)
+
+	if entity.factory.settings.lightmap_unwrap:
 		var transform := Transform3D.IDENTITY.translated(entity.center)
 		var lightmap_scale: float = entity.get_lightmap_scale_property(1.0)
 		var texel_size := entity.factory.settings.lightmap_texel_size / lightmap_scale
-		lightmap_unwrap(csg_mesh, transform, texel_size)
+		if csg_mesh:
+			lightmap_unwrap(csg_mesh, transform, texel_size)
+		if csg_cast_shadow_mesh:
+			lightmap_unwrap(csg_cast_shadow_mesh, transform, texel_size)
 
+	# cleaning up csg mesh
 	if csg_mesh:
 		var surfaces: Dictionary = {}
 		for brush in brushes:
 			for material_name in brush.materials:
 				surfaces[brush.materials[material_name].base] = material_name
 				surfaces[brush.materials[material_name].override] = material_name
+		var new_csg_mesh := ArrayMesh.new()
 		for surface_index in range(csg_mesh.get_surface_count()):
+			var surface_tool := SurfaceTool.new()
+			surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+			surface_tool.append_from(csg_mesh, surface_index, Transform3D.IDENTITY)
 			var surface_material := csg_mesh.surface_get_material(surface_index)
 			var surface_name: String = surfaces.get(surface_material, "")
-			csg_mesh.surface_set_name(surface_index, surface_name)
-		if has_shadow_mesh:
-			var surface_tools: Array[SurfaceTool] = []
-			surface_tools.resize(csg_mesh.get_surface_count())
-			surface_tools.fill(null)
-
-			for surface_index in range(csg_mesh.get_surface_count()):
-				var surface_name := csg_mesh.surface_get_name(surface_index)
-				for shadow_surface_index in range(csg_shadow_mesh.get_surface_count() if csg_shadow_mesh else 0):
-					var shadow_surface_material := csg_shadow_mesh.surface_get_material(shadow_surface_index)
-					var shadow_surface_name: String = surfaces.get(shadow_surface_material, "")
-					if surface_name == shadow_surface_name and not surface_name.is_empty():
-						surface_tools[surface_index] = SurfaceTool.new()
-						surface_tools[surface_index].begin(Mesh.PRIMITIVE_TRIANGLES)
-						surface_tools[surface_index].append_from(csg_shadow_mesh, shadow_surface_index, Transform3D.IDENTITY)
-						break
-				if surface_tools[surface_index] == null:
-					surface_tools[surface_index] = SurfaceTool.new()
-					surface_tools[surface_index].begin(Mesh.PRIMITIVE_TRIANGLES)
-					var triangle := PackedVector3Array()
-					triangle.resize(3) # hacking shadow mesh by inserting empty triangle
-					triangle.fill(Vector3.ZERO)
-					surface_tools[surface_index].add_triangle_fan(triangle)
-			for surface_tool in surface_tools:
-				surface_tool.index()
-
-			if not csg_mesh.shadow_mesh:
-				csg_mesh.shadow_mesh = ArrayMesh.new()
-			var flags := Mesh.ARRAY_FORMAT_VERTEX | Mesh.ARRAY_FORMAT_INDEX
-			for surface_index in range(csg_mesh.get_surface_count()):
-				var surface_name := csg_mesh.surface_get_name(surface_index)
-				csg_mesh.shadow_mesh = surface_tools[surface_index].commit(csg_mesh.shadow_mesh, flags)
-				var new_surface_index := csg_mesh.shadow_mesh.get_surface_count() - 1
-				csg_mesh.shadow_mesh.surface_set_name(new_surface_index, surface_name)
+			surface_tool.set_material(surface_material)
+			surface_tool.index()
+			surface_tool.generate_tangents()
+			surface_tool.optimize_indices_for_cache()
+			new_csg_mesh = surface_tool.commit(new_csg_mesh)
+			var new_surface_index := new_csg_mesh.get_surface_count() - 1
+			new_csg_mesh.surface_set_name(new_surface_index, surface_name)
+		if entity.factory.settings.shadow_meshes:
+			generate_shadow_mesh(new_csg_mesh)
+		csg_mesh = new_csg_mesh
 
 	if csg_occluder_mesh:
 		var surface_tool := SurfaceTool.new()
@@ -897,6 +946,16 @@ static func create_csg_merged_brush_entity(entity: MapperEntity, brushes: Array[
 					instance.set_surface_override_material(surface_index, material.override)
 
 		instance.cast_shadow = int(entity.is_casting_shadow())
+		if entity.factory.settings.cast_shadow_meshes:
+			if csg_cast_shadow_mesh and instance.cast_shadow != 0:
+				var shadow_instance := MeshInstance3D.new()
+				shadow_instance.position = entity.center
+				add_global_child(shadow_instance, instance, entity.factory.settings)
+				shadow_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+				instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				shadow_instance.mesh = csg_cast_shadow_mesh
+			if instance.cast_shadow != 0:
+				instance.cast_shadow = int(cast_shadow)
 
 	if csg_shape:
 		var instance := CollisionShape3D.new()
@@ -917,7 +976,8 @@ static func create_csg_merged_brush_entity(entity: MapperEntity, brushes: Array[
 			var mass: float = 0.0
 			for brush in brushes:
 				mass += brush.get_mass(use_approximate_mass)
-			if mass > 0.0: node.mass = mass
+			if mass > 0.0:
+				node.mass = mass
 		entity.node_properties.erase("position")
 		entity.node_properties.erase("rotation")
 		entity.node_properties.erase("scale")
@@ -938,13 +998,21 @@ static func create_decal_entity(entity: MapperEntity) -> Decal:
 	node.extents = (node.basis.inverse() * entity.aabb.size).abs() / 2.0
 
 	var material_name := entity.brushes[0].mesh.surface_get_name(0)
-	var material: BaseMaterial3D = entity.brushes[0].materials[material_name].base
-	node.texture_albedo = material.get_texture(BaseMaterial3D.TEXTURE_ALBEDO)
-	node.texture_normal = material.get_texture(BaseMaterial3D.TEXTURE_NORMAL)
-	node.texture_orm = material.get_texture(BaseMaterial3D.TEXTURE_ORM)
-	node.texture_emission = material.get_texture(BaseMaterial3D.TEXTURE_EMISSION)
-	node.emission_energy = material.emission_intensity # BUG: different property names
-	node.modulate = material.albedo_color
+	var base_material: BaseMaterial3D = entity.brushes[0].materials[material_name].base
+	node.texture_albedo = base_material.get_texture(BaseMaterial3D.TEXTURE_ALBEDO)
+	node.texture_normal = base_material.get_texture(BaseMaterial3D.TEXTURE_NORMAL)
+	node.texture_orm = base_material.get_texture(BaseMaterial3D.TEXTURE_ORM)
+	node.texture_emission = base_material.get_texture(BaseMaterial3D.TEXTURE_EMISSION)
+
+	var override_material: Material = entity.brushes[0].materials[material_name].override
+	if override_material is BaseMaterial3D:
+		node.emission_energy = override_material.emission_energy_multiplier
+		node.modulate = override_material.albedo_color
+	elif override_material is ShaderMaterial:
+		for parameter in ["emission_energy", "modulate"]:
+			var value = override_material.get_shader_parameter(parameter)
+			if value != null:
+				node.set(parameter, value)
 
 	return node
 

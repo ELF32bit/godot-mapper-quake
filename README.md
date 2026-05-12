@@ -4,16 +4,12 @@ Collision layers driven Quake entities with generic methods.<br>
 Refer to the entity implementation table for the list of methods.<br>
 Change **layers.gd** file to integrate entities into an existing project.<br>
 
-> Game scripts in the repository are very short and need a lot more polishing.
-
 ## Features
 * Door linking is implemented.
 * Platforms and doors can crush characters.
 * Liquid areas use high precision camera detection.
 * Animation states are stored inside a map.
 * Most spawnflags are supported.
-
-> Requires compiling Godot editor with **`XA_MULTITHREADED 0`** for lightmapping.
 
 ## Running the examples
 Maps in the repository are not constructed, so a fresh project can open.<br>
@@ -22,7 +18,7 @@ As the maps are constructed, you will see `mapdata` directory getting filled wit
 Lightmap and navigation region resources must be baked inside the editor to appear in the game.<br>
 Import map resources as scenes inside the editor and bake the necessary data.<br>
 
-> The most efficient way to develop new maps is to insert them into scenes.<br>
+> The most efficient way to develop [new maps](https://github.com/ELF32bit/godot-mapper-template) is to insert them into scenes.<br>
 External animation players will then be able to retain node paths upon reimport.<br>
 Create a dedicated `scenes` directory near the `maps` directory and overlay changes.
 

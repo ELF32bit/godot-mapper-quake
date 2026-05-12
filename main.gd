@@ -6,8 +6,10 @@ func _ready() -> void:
 
 
 func load_map(map_name: String) -> void:
-	var map_resource := MapperMapResource.load_from_file("res://mapping/quake/maps/%s.map" % map_name)
-	var animated_wad := MapperWadResource.load_from_file("res://mapping/quake/wads/quake101.wad")
+	var map_resource := MapperMapResource.load_from_file(
+		"res://mapping/quake/maps/%s.map" % map_name)
+	var animated_wad := MapperWadResource.load_from_file(
+		"res://mapping/quake/wads/quake101.wad")
 
 	# required quake map options
 	var map_options := {}
@@ -21,8 +23,8 @@ func load_map(map_name: String) -> void:
 	# runtime constructed map will be using this lightmap
 	# also lightmap_unwrap can freeze if not using custom editor
 	# compile Godot editor with XA_MULTITHREADED 0
-	map_options["lightmap_unwrap"] = true
 	map_options["__lightmap_external"] = true
+	map_options["brush_lightmap_unwrap"] = false
 	map_options["print_progress_verbose"] = false
 	map_options["print_progress"] = true
 
