@@ -120,7 +120,7 @@ static func post_build(map: MapperMap, linking_data: Array) -> void:
 
 	# creating func_door animation player
 	var animation_player := AnimationPlayer.new()
-	animation_player.playback_process_mode = AnimationPlayer.ANIMATION_PROCESS_PHYSICS
+	animation_player.callback_mode_process = AnimationPlayer.ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS
 	animation_player.animation_finished.connect(Callable(root_node, "_on_animation_finished"), CONNECT_PERSIST)
 	root_node.add_child(animation_player, map.settings.readable_node_names)
 	root_node.set("_animation_player", root_node.get_path_to(animation_player))
